@@ -1,13 +1,13 @@
 import Sidebar from "@/components/layouts/sidebar";
 
-const DashboardPage = () => {
+const UnitTestPage = () => {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <Sidebar />
-      This is Dashboard
+      This is UnitTest
     </div>
   );
 };
 
-export default DashboardPage;
+export default UnitTestPage;

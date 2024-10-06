@@ -3,3 +3,8 @@ export { default as PasswordShow } from "./pw_show.svg?react";
 export { default as PasswordHide } from "./pw_hide.svg?react";
 export { default as Google } from "./google.svg?react";
 export { default as Github } from "./github.svg?react";
+export { default as DashboardIcon } from "./dashboard.svg?react";
+export { default as BlackBoxTestIcon } from "./blackboxtest_icon.svg?react";
+export { default as UnitTestIcon } from "./unittest_icon.svg?react";
+export { default as SettingIcon } from "./setting.svg?react";
+export { default as ReportIcon } from "./report.svg?react";

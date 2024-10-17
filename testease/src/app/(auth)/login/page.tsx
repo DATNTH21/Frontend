@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { PasswordShow, PasswordHide, Google, Github } from '@/assets/svg';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const Login = () => {
@@ -54,9 +54,9 @@ const Login = () => {
               className='absolute right-2 top-14 transform -translate-y-1/2'
             >
               {passwordVisible ? (
-                <PasswordShow className='h-6 w-6 text-gray-500' />
+                <Image src={"/assets/svg/pw_hide.svg"} alt={"Password Hidden"} width={24} height={24}/>
               ) : (
-                <PasswordHide className='h-6 w-6 text-gray-500' />
+                <Image src={"/assets/svg/pw_show.svg"} alt={"Password Visible"} width={24} height={24}/>
               )}
             </button>
           </div>
@@ -83,10 +83,10 @@ const Login = () => {
         </div>
         <div className='flex justify-center space-x-4 mt-6'>
           <button className='p-2 rounded-full bg-gray-100 hover:bg-gray-200'>
-            <Google className='h-6 w-6' />
+            <Image src={"/assets/svg/google.svg"} alt={"Google"} width={24} height={24}/>
           </button>
           <button className='p-2 rounded-full bg-gray-100 hover:bg-gray-200'>
-            <Github className='h-6 w-6' />
+            <Image src={"/assets/svg/github.svg"} alt={"Github"} width={24} height={24}/>
           </button>
         </div>
       </div>

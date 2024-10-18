@@ -6,9 +6,9 @@ const AllProjectPage = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className='grid grid-cols-2'>
-      <div className='col-span-1 p-40'>
-        <Image src={"/assets/svg/login.svg"} width={400} height={400} alt="login picture"/>
+    <div className='tablet:grid tablet:grid-cols-2'>
+      <div className='tablet:col-span-1 p-16 tablet:p-24 laptop:p-40 desktop:p-80'>
+        <Image src={"/assets/svg/login.svg"} width={800} height={800} alt="login picture"/>
       </div>
       {children}
     </div>

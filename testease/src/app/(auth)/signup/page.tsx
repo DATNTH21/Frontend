@@ -7,9 +7,9 @@ import Link from 'next/link';
 const Signup = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-  const [password, setPassword] = useState('Password');
-  const [confirmPassword, setConfirmPassword] = useState('Password');
-  const [email, setEmail] = useState('user@email.com');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -34,6 +34,7 @@ const Signup = () => {
               type='email'
               id='email'
               name='email'
+              placeholder='Enter your email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
@@ -48,6 +49,7 @@ const Signup = () => {
               type={passwordVisible ? 'text' : 'password'}
               id='password'
               name='password'
+              placeholder='Enter your password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
@@ -73,6 +75,7 @@ const Signup = () => {
               type={confirmPasswordVisible ? 'text' : 'password'}
               id='cf_password'
               name='cf_password'
+              placeholder='Confirm your password'
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
@@ -105,8 +108,14 @@ const Signup = () => {
         </form>
         <div className='text-center mt-6'>
           <p className='text-gray-600'>
+            Already have an account?{' '}
+            <Link href='/login' className='text-blue-500'>
+              Sign in
+            </Link>
+          </p>
+          <p className='text-gray-600'>
             Or{' '}
-            <Link href='/signup' className='text-blue-500'>
+            <Link href='#' className='text-blue-500'>
               Sign up with
             </Link>
           </p>

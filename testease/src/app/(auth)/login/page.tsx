@@ -6,8 +6,8 @@ import Link from 'next/link';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [password, setPassword] = useState('Password');
-  const [email, setEmail] = useState('user@email.com');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -30,6 +30,7 @@ const Login = () => {
               id='email'
               name='email'
               value={email}
+              placeholder='Enter your email'
               onChange={(e) => setEmail(e.target.value)}
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
               required
@@ -44,6 +45,7 @@ const Login = () => {
               id='password'
               name='password'
               value={password}
+              placeholder='Enter your password'
               onChange={(e) => setPassword(e.target.value)}
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
               required
@@ -75,7 +77,7 @@ const Login = () => {
         </form>
         <div className='text-center mt-6'>
           <p className='text-gray-600'>
-            Don`&apos;`t have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link href='/signup' className='text-blue-500'>
               Sign up here
             </Link>

@@ -14,7 +14,7 @@ export async function loginUser(email: string, password: string): Promise<LoginR
   try {
     const response = await customAxios.post<LoginResponse>('login', {
       email,
-      password,
+      password
     } as LoginRequest);
 
     return response.data;

@@ -1,4 +1,5 @@
-import { FileIcon, FolderIcon } from '@/assets/svg';
+import FileIcon from '@/public/assets/svg/file.svg';
+import FolderIcon from '@/public/assets/svg/folder.svg';
 
 const FileStructure = () => {
   return (

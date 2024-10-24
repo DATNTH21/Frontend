@@ -1,17 +1,18 @@
-import {LoginPicture} from "@/assets/svg"
+import Image from 'next/image';
 
 const AllProjectPage = ({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
+  children
+}: Readonly<{
+  children: React.ReactNode;
 }>) => {
   return (
-    <div className="grid grid-cols-2">
-      <LoginPicture className="col-span-1 p-40"/>
+    <div className='tablet:grid tablet:grid-cols-2'>
+      <div className='tablet:col-span-1 p-16 tablet:p-24 laptop:p-40 desktop:p-80'>
+        <Image src={"/assets/svg/login.svg"} width={800} height={800} alt="login picture"/>
+      </div>
       {children}
     </div>
   );
 };
-  
+
 export default AllProjectPage;
-  

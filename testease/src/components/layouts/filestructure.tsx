@@ -1,5 +1,4 @@
-import FileIcon from '@/public/assets/svg/file.svg';
-import FolderIcon from '@/public/assets/svg/folder.svg';
+import Image from 'next/image';
 
 const FileStructure = () => {
   return (
@@ -8,24 +7,24 @@ const FileStructure = () => {
       <div>
         <div>
           <button className='flex items-center space-x-2'>
-            <FolderIcon className='w-6' />
+            <Image src={'/assets/svg/folder.svg'} alt='Folder' width={24} height={24} />
             <span>Description</span>
           </button>
           <button className='flex items-center space-x-2'>
-            <FolderIcon className='w-6' />
+            <Image src={'/assets/svg/folder.svg'} alt='Folder' width={24} height={24} />
             <span>Test cases</span>
           </button>
           <button className='flex items-center space-x-2'>
-            <FolderIcon className='w-6' />
+            <Image src={'/assets/svg/folder.svg'} alt='Folder' width={24} height={24} />
             <span>Use cases</span>
           </button>
           <div className='ml-4 mt-2'>
             <div className='flex items-center space-x-2'>
-              <FileIcon className='w-6' />
+              <Image src={'/assets/svg/file.svg'} alt='File' width={24} height={24} />
               <span>File 1</span>
             </div>
             <div className='flex items-center space-x-2'>
-              <FileIcon className='w-6' />
+              <Image src={'/assets/svg/file.svg'} alt='File' width={24} height={24} />
               <span>File 2</span>
             </div>
           </div>

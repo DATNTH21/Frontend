@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { registerUser } from '@/app/api/registerAPI';
 
 const Signup = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -10,12 +11,57 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
   const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    // Basic validation
+    if (!email || !password || !confirmPassword) {
+      setError('All fields are required.');
+      return;
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    // Optional: Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Call the register API
+      const response = await registerUser(email, password);
+
+      if (response && response.success) {
+        // Handle successful registration (e.g., navigate to login, show success message)
+        console.log('Registration successful:', response);
+      } else {
+        setError('Registration failed.');
+      }
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError('An error occurred during registration. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -25,7 +71,7 @@ const Signup = () => {
         <p className='text-gray-500 text-center mb-8'>
           If you are already a member you can login with your email address and password.
         </p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label className='block text-gray-700 mb-2' htmlFor='email'>
               Email address
@@ -93,6 +139,7 @@ const Signup = () => {
               )}
             </button>
           </div>
+          {error && <p className='text-red-500 mb-4'>{error}</p>}
           <div className='mb-6 flex items-center'>
             <input type='checkbox' id='remember-me' className='mr-2' />
             <label htmlFor='remember-me' className='text-gray-700'>
@@ -103,7 +150,7 @@ const Signup = () => {
             type='submit'
             className='w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300'
           >
-            Register Account
+            {loading ? 'Registering...' : 'Register Account'}
           </button>
         </form>
         <div className='text-center mt-6'>

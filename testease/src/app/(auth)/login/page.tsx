@@ -3,14 +3,55 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { loginUser } from '@/app/api/loginAPI';
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    // Basic validation
+    if (!email || !password) {
+      setError('Email and password are required.');
+      return;
+    }
+
+    // Optional: Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Call the login API
+      const response = await loginUser(email, password);
+
+      if (response && response.token) {
+        // Handle successful login (store token, redirect, etc.)
+        console.log('Login successful:', response.token);
+        // You could save the token to localStorage or handle navigation here.
+      } else {
+        setError('Invalid email or password.');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('An error occurred during login. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -20,7 +61,7 @@ const Login = () => {
         <p className='text-gray-500 text-center mb-8'>
           If you are already a member you can login with your email address and password.
         </p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label className='block text-card-foreground mb-2' htmlFor='email'>
               Email address
@@ -62,6 +103,7 @@ const Login = () => {
               )}
             </button>
           </div>
+          {error && <p className='text-red-500 mb-4'>{error}</p>}
           <div className='mb-6 flex items-center'>
             <input type='checkbox' id='remember-me' className='mr-2' />
             <label htmlFor='remember-me' className='text-card-foreground'>
@@ -72,7 +114,7 @@ const Login = () => {
             type='submit'
             className='w-full bg-primary text-primary-foreground py-2 rounded-lg transition duration-300'
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
         <div className='text-center mt-6'>

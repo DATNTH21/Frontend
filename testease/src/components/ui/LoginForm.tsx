@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { loginUser } from '@/app/_api/loginAPI';
 
 function LoginForm() {
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -37,10 +39,8 @@ function LoginForm() {
       // Call the login API
       const response = await loginUser(email, password);
 
-      if (response && response.token) {
-        // Handle successful login (store token, redirect, etc.)
-        console.log('Login successful:', response.token);
-        // You could save the token to localStorage or handle navigation here.
+      if (response && response.status === 'success') {
+        router.replace('/all-project');
       } else {
         setError('Invalid email or password.');
       }

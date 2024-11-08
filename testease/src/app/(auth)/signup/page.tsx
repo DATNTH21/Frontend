@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { registerUser } from '@/app/_api/registerAPI';
 
 const Signup = () => {
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
@@ -50,9 +52,8 @@ const Signup = () => {
       // Call the register API
       const response = await registerUser(email, password);
 
-      if (response && response.success) {
-        // Handle successful registration (e.g., navigate to login, show success message)
-        console.log('Registration successful:', response);
+      if (response && response.status === 'success') {
+        router.replace('/verify');
       } else {
         setError('Registration failed.');
       }

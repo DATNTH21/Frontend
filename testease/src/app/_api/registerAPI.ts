@@ -4,7 +4,7 @@ export const registerUser = async (email: string, password: string) => {
   try {
     const response = await customAxios.post('/register', {
       email,
-      password,
+      password
     });
 
     return response.data;

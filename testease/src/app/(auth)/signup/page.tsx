@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { registerUser } from '@/app/api/registerAPI';
+import { useRouter } from 'next/navigation';
+import { registerUser } from '@/app/_api/registerAPI';
 
 const Signup = () => {
+  const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
@@ -50,9 +52,8 @@ const Signup = () => {
       // Call the register API
       const response = await registerUser(email, password);
 
-      if (response && response.success) {
-        // Handle successful registration (e.g., navigate to login, show success message)
-        console.log('Registration successful:', response);
+      if (response && response.status === 'success') {
+        router.replace('/verify');
       } else {
         setError('Registration failed.');
       }
@@ -107,9 +108,9 @@ const Signup = () => {
               className='absolute right-2 top-14 transform -translate-y-1/2'
             >
               {passwordVisible ? (
-                <Image src={"/assets/svg/pw_hide.svg"} alt={"Password Hidden"} width={24} height={24}/>
+                <Image src={'/assets/svg/pw_hide.svg'} alt={'Password Hidden'} width={24} height={24} />
               ) : (
-                <Image src={"/assets/svg/pw_show.svg"} alt={"Password Visible"} width={24} height={24}/>
+                <Image src={'/assets/svg/pw_show.svg'} alt={'Password Visible'} width={24} height={24} />
               )}
             </button>
           </div>
@@ -133,9 +134,9 @@ const Signup = () => {
               className='absolute right-2 top-14 transform -translate-y-1/2'
             >
               {confirmPasswordVisible ? (
-                <Image src={"/assets/svg/pw_hide.svg"} alt={"Password Hidden"} width={24} height={24}/>
+                <Image src={'/assets/svg/pw_hide.svg'} alt={'Password Hidden'} width={24} height={24} />
               ) : (
-                <Image src={"/assets/svg/pw_show.svg"} alt={"Password Visible"} width={24} height={24}/>
+                <Image src={'/assets/svg/pw_show.svg'} alt={'Password Visible'} width={24} height={24} />
               )}
             </button>
           </div>
@@ -169,10 +170,10 @@ const Signup = () => {
         </div>
         <div className='flex justify-center space-x-4 mt-6'>
           <button className='p-2 rounded-full bg-gray-100 hover:bg-gray-200'>
-            <Image src={"/assets/svg/google.svg"} alt={"Google"} width={24} height={24}/>
+            <Image src={'/assets/svg/google.svg'} alt={'Google'} width={24} height={24} />
           </button>
           <button className='p-2 rounded-full bg-gray-100 hover:bg-gray-200'>
-            <Image src={"/assets/svg/github.svg"} alt={"Github"} width={24} height={24}/>
+            <Image src={'/assets/svg/github.svg'} alt={'Github'} width={24} height={24} />
           </button>
         </div>
       </div>

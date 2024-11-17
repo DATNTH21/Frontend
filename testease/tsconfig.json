@@ -21,6 +21,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/__mocks__/nextLinkMock.js", "src/src/__tests__/index.test.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/__mocks__/nextLinkMock.js",
+    "src/src/__tests__/index.test.js"
+  ],
   "exclude": ["node_modules"]
 }

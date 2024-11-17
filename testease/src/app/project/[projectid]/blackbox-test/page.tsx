@@ -1,24 +1,25 @@
+import { promises as fs } from 'fs';
+import path from 'path';
+import { z } from 'zod';
+
 import Sidebar from '@/components/layouts/sidebar';
 import FileStructure from '@/components/layouts/filestructure';
-import { Payment, columns } from './columns';
-import { DataTable } from './data-table';
+import { columns } from './components/columns';
+import { DataTable } from './components/data-table';
+import { taskSchema } from './data/schema';
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
+async function getTasks() {
+  const data = await fs.readFile(path.join(process.cwd(), 'src/app/project/[projectid]/blackbox-test/data/tasks.json'));
 
-  return Array.from({ length: 100 }, (_, i) => ({
-    id: String(i + 1),
-    amount: Math.round(Math.random() * 1000),
-    status: Math.random() > 0.5 ? 'pending' : 'processing',
-    email: `user${i + 1}@example.com`
-  }));
+  const tasks = JSON.parse(data.toString());
+
+  return z.array(taskSchema).parse(tasks);
 }
 
 const BlackBoxTestPage = async () => {
   // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   // const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-
-  const data = await getData();
+  const data = await getTasks();
 
   return (
     <div className='flex min-h-screen'>
@@ -54,6 +55,7 @@ const BlackBoxTestPage = async () => {
           {/* Test Cases Table */}
 
           <div className='container mx-auto py-10'>
+            {/*  */}
             <DataTable columns={columns} data={data} />
           </div>
         </div>

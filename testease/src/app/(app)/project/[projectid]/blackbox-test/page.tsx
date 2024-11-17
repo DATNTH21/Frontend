@@ -2,9 +2,11 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { z } from 'zod';
 
-import { columns } from './components/columns';
-import { DataTable } from './components/data-table';
-import { testCaseSchema } from './data/schema';
+import FileStructure from '@/components/ui/FileStructure';
+
+import { columns } from './_components/columns';
+import { DataTable } from './_components/data-table';
+import { testCaseSchema } from './_data/schema';
 
 export const metadata = {
   title: 'Black-box testing'
@@ -12,7 +14,7 @@ export const metadata = {
 
 async function getData() {
   const data = await fs.readFile(
-    path.join(process.cwd(), 'src/app/project/[projectid]/blackbox-test/data/test-case.json')
+    path.join(process.cwd(), 'src/app/(app)/project/[projectid]/blackbox-test/_data/test-case.json')
   );
 
   const tasks = JSON.parse(data.toString());
@@ -26,9 +28,15 @@ const BlackBoxTestPage = async () => {
   const data = await getData();
 
   return (
-    <div className='container mx-auto py-10'>
-      <DataTable columns={columns} data={data} />
-    </div>
+    <>
+      {/* Folder/File Structure */}
+      <FileStructure />
+
+      {/* Test Cases Table */}
+      <div className='container mx-auto py-10'>
+        <DataTable columns={columns} data={data} />
+      </div>
+    </>
   );
 };
 

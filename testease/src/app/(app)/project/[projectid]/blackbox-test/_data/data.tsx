@@ -4,16 +4,19 @@ export const statuses = [
   {
     value: 'in progress',
     label: 'In Progress',
+    color: '#09090b',
     icon: Timer
   },
   {
     value: 'passed',
     label: 'Passed',
+    color: '#37b24d',
     icon: CheckCircle
   },
   {
     value: 'failed',
     label: 'Failed',
+    color: '#f03e3e',
     icon: CircleOff
   }
 ];

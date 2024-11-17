@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
-import { priorities, statuses } from '../data/data';
+import { priorities, statuses } from '../_data/data';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 
 interface DataTableToolbarProps<TData> {
@@ -31,7 +31,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           placeholder='Filter test cases...'
           value={value}
           onChange={handleChangeInputFilter}
-          className='h-8 w-[170px] lg:w-[250px]'
+          className='h-8 w-[170px] lg:w-[250px] text-sm'
         />
         {table.getColumn('status') && (
           <DataTableFacetedFilter column={table.getColumn('status')} title='Status' options={statuses} />

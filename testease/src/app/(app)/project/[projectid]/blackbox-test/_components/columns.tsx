@@ -4,8 +4,8 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { priorities, statuses } from '../data/data';
-import { Testcase } from '../data/schema';
+import { priorities, statuses } from '../_data/data';
+import { Testcase } from '../_data/schema';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 
@@ -82,8 +82,8 @@ export const columns: ColumnDef<Testcase>[] = [
 
       return (
         <div className='flex w-[100px] items-center'>
-          {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
-          <span>{status.label}</span>
+          {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' color={status.color} />}
+          <span style={{ color: status.color }}>{status.label}</span>
         </div>
       );
     },

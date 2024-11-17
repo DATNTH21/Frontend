@@ -1,5 +1,3 @@
-import FileStructure from '@/components/layouts/filestructure';
-
 export default function Layout({
   children
 }: Readonly<{
@@ -9,7 +7,7 @@ export default function Layout({
     <div className='flex-1 bg-white'>
       {/* Header */}
       <div className='flex justify-between items-center p-4 border-b'>
-        <h2 className='text-2xl font-semibold'>Black Box Testing</h2>
+        <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
         <div>
           <button className='bg-blue-500 text-white px-4 py-2 rounded-lg mr-2'>Generate Test Case</button>
           <button className='bg-gray-200 p-2 rounded-lg'>
@@ -27,13 +25,7 @@ export default function Layout({
       </div>
 
       {/* Content Area */}
-      <div className='flex h-full'>
-        {/* Folder/File Structure */}
-        <FileStructure />
-
-        {/* Test Cases Table */}
-        {children}
-      </div>
+      <div className='flex h-full'>{children}</div>
     </div>
   );
 }

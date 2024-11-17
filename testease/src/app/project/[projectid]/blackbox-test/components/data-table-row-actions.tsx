@@ -18,15 +18,20 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
-import { labels } from '../data/data';
-import { taskSchema } from '../data/schema';
+import { statuses } from '../data/data';
+import { priorities } from '../data/data';
+
+import { testCaseSchema } from '../data/schema';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original);
+  const testCase = testCaseSchema.parse(row.original);
+  // console.log(testCase, '💥');
+  const statusesToMark = statuses.filter((status) => status.value !== testCase.status);
+  const prioritiesToMark = priorities.filter((priority) => priority.value !== testCase.priority);
 
   return (
     <DropdownMenu>
@@ -38,21 +43,52 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem>Edit</DropdownMenuItem>
-        <DropdownMenuItem>Make a copy</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
+
         <DropdownMenuSeparator />
+
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Priority</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.label}>
-              {labels.map((label) => (
-                <DropdownMenuRadioItem key={label.value} value={label.value}>
-                  {label.label}
+            <DropdownMenuRadioGroup value={testCase.id}>
+              {prioritiesToMark.map((priority) => (
+                <DropdownMenuRadioItem key={priority.value} value={priority.value}>
+                  Mark as {priority.label}
                 </DropdownMenuRadioItem>
               ))}
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup value={testCase.id}>
+              {statusesToMark.map((status) => (
+                <DropdownMenuRadioItem key={status.value} value={status.value}>
+                  Mark as {status.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>Export as</DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup value={testCase.id}>
+              {['PDF', 'Excel'].map((format) => (
+                <DropdownMenuRadioItem key={format} value={format}>
+                  {format}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           Delete

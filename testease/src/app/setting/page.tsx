@@ -1,13 +1,8 @@
-import Sidebar from '@/components/layouts/sidebar';
-
+export const metadata = {
+  title: 'Setting'
+};
 const SettingPage = () => {
-  return (
-    <div className='flex min-h-screen'>
-      {/* Sidebar */}
-      <Sidebar />
-      This is Setting
-    </div>
-  );
+  return <div>This is Setting</div>;
 };
 
 export default SettingPage;

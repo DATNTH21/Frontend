@@ -1,13 +1,8 @@
-import Sidebar from '@/components/layouts/sidebar';
-
+export const metadata = {
+  title: 'Unit testing'
+};
 const UnitTestPage = () => {
-  return (
-    <div className='flex min-h-screen'>
-      {/* Sidebar */}
-      <Sidebar />
-      This is UnitTest
-    </div>
-  );
+  return <div>This is UnitTest</div>;
 };
 
 export default UnitTestPage;

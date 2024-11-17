@@ -31,7 +31,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           placeholder='Filter test cases...'
           value={value}
           onChange={handleChangeInputFilter}
-          className='h-8 w-[150px] lg:w-[250px]'
+          className='h-8 w-[170px] lg:w-[250px]'
         />
         {table.getColumn('status') && (
           <DataTableFacetedFilter column={table.getColumn('status')} title='Status' options={statuses} />

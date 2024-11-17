@@ -1,13 +1,9 @@
-import Sidebar from '@/components/layouts/sidebar';
+export const metadata = {
+  title: 'Dashboard'
+};
 
 const DashboardPage = () => {
-  return (
-    <div className='flex min-h-screen'>
-      {/* Sidebar */}
-      <Sidebar />
-      This is Dashboard
-    </div>
-  );
+  return <div>This is Dashboard</div>;
 };
 
 export default DashboardPage;

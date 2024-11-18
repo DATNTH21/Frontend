@@ -10,6 +10,12 @@ import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 import { Badge } from '@/components/ui/badge';
 
+const priorityToInt = {
+  low: 1,
+  medium: 2,
+  high: 3
+} as const;
+
 export const columns: ColumnDef<Testcase>[] = [
   {
     id: 'select',
@@ -71,6 +77,12 @@ export const columns: ColumnDef<Testcase>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      const { priority: priority1 } = rowA.original;
+      const { priority: priority2 } = rowB.original;
+
+      return priorityToInt[priority1] - priorityToInt[priority2];
     }
   },
   {

@@ -8,6 +8,7 @@ import { priorities, statuses } from '../_data/data';
 import { Testcase } from '../_data/schema';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
+import { Badge } from '@/components/ui/badge';
 
 export const columns: ColumnDef<Testcase>[] = [
   {
@@ -61,8 +62,10 @@ export const columns: ColumnDef<Testcase>[] = [
 
       return (
         <div className='flex items-center'>
-          {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
-          <span>{priority.label}</span>
+          <Badge variant='outline'>
+            {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
+            <span>{priority.label}</span>
+          </Badge>
         </div>
       );
     },

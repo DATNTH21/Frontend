@@ -17,9 +17,9 @@ async function getData() {
     path.join(process.cwd(), 'src/app/(app)/project/[projectid]/blackbox-test/_data/test-case.json')
   );
 
-  const tasks = JSON.parse(data.toString());
+  const testCases = JSON.parse(data.toString());
 
-  return z.array(testCaseSchema).parse(tasks);
+  return z.array(testCaseSchema).parse(testCases);
 }
 
 const BlackBoxTestPage = async () => {

@@ -3,7 +3,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
+import { FileText, FolderIcon, FolderOpenIcon } from 'lucide-react';
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -202,8 +202,8 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           onClick={() => handleExpand(value)}
         >
           {expendedItems?.includes(value)
-            ? (openIcon ?? <FolderOpenIcon className='h-4 w-4' color='#22b8cf' />)
-            : (closeIcon ?? <FolderIcon className='h-4 w-4' color='#22b8cf' />)}
+            ? (openIcon ?? <FolderOpenIcon className='h-4 w-4' color='#22b8cf' fill='#e3fafc' />)
+            : (closeIcon ?? <FolderIcon className='h-4 w-4' color='#22b8cf' fill='#e3fafc' />)}
           <span>{element}</span>
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className='text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative overflow-hidden h-full'>
@@ -258,7 +258,7 @@ const File = forwardRef<
         )}
         onClick={() => selectItem(value)}
       >
-        {fileIcon ?? <FileIcon className='h-4 w-4' color={isSelected && isSelectable ? '#155e75' : '#66d9e8'} />}
+        {fileIcon ?? <FileText className='h-4 w-4' color={isSelected && isSelectable ? '#155e75' : '#66d9e8'} />}
         {children}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Item>

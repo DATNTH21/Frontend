@@ -3,7 +3,7 @@
 import { Row } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
-import { Button } from '@/components/ui/button/button';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,7 +16,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
-} from '@/components/ui/dropdown/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 
 import { statuses, priorities } from '../_data/data';
 

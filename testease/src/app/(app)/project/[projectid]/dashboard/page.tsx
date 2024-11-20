@@ -1,13 +1,9 @@
-import Sidebar from '@/components/layouts/sidebar';
+type Params = Promise<{ slug: string }>;
 
-const DashboardPage = () => {
-  return (
-    <div className='flex min-h-screen'>
-      {/* Sidebar */}
-      <Sidebar />
-      This is Dashboard
-    </div>
-  );
+const DashboardPage = async (props: { params: Params }) => {
+  const params = await props.params;
+  const slug = params.slug;
+  return <div>This is Dashboard</div>;
 };
 
 export default DashboardPage;

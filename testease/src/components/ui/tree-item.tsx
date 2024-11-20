@@ -1,4 +1,4 @@
-import { File, Folder, TreeViewElement } from '@/components/ui/tree/tree-view-api';
+import { File, Folder, TreeViewElement } from '@/components/ui/tree-view-api';
 
 type TreeItemProps = {
   elements: TreeViewElement[];

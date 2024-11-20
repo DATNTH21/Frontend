@@ -1,4 +1,4 @@
-import Input, { InputProps } from '@/components/ui/input/input';
+import Input, { InputProps } from '@/components/ui/input';
 import useDisclosure from '@/hooks/use-disclosure';
 import { cn } from '@/utils/cn';
 import { forwardRef } from 'react';

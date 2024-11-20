@@ -1,4 +1,4 @@
-import { Tree, TreeViewElement, CollapseButton } from '@/components/ui/tree/tree-view-api';
+import { Tree, TreeViewElement, CollapseButton } from '@/components/ui/tree-view-api';
 import { TreeItem } from './tree-item';
 
 type TOCProps = {

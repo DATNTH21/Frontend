@@ -2,14 +2,14 @@
 import { TLoginSchema, loginSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Input from '@/components/ui/input';
+import Input from '@/components/ui/input/input';
+import { Button } from '@/components/ui/button/button';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import { PasswordInput } from './password-input';
 import { paths } from '../../../lib/routes';
 import { useLogin, useLogout } from '@/api/auth/auth';
 import { useRouter } from 'next/navigation';
-import LoginGoogleButton from './google-login-button';
 const LoginForm = () => {
   const {
     register,
@@ -79,13 +79,10 @@ const LoginForm = () => {
               Remember me?
             </label>
           </div>
-          <Button className='w-full' size='lg' type='submit'>
+          <Button className='w-full' size='lg' type='submit' isLoading={isSubmitting}>
             Login
           </Button>
-          <div className='flex justify-center mt-4 space-x-6'>
-            <LoginGoogleButton />
-          </div>
-          <div className='text-center mt-4'>
+          <div className='text-center mt-6'>
             <p className='text-card-foreground'>
               Don&apos;t have an account?{' '}
               <Link href={paths.auth.register.getHref()} className='text-primary font-semibold'>
@@ -94,6 +91,12 @@ const LoginForm = () => {
             </p>
           </div>
         </form>
+        <div className='flex justify-center mt-6 space-x-6'>
+          <Button variant='outline' className='flex justify-center items-center gap-3 flex-1' onClick={handleLogout}>
+            <Image src={'/svg/google.svg'} alt={'Google'} width={24} height={24} />
+            <p>Log in with Google</p>
+          </Button>
+        </div>
       </div>
     </div>
   );

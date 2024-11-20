@@ -1,5 +1,13 @@
+import Sidebar from '@/components/layouts/sidebar';
+
 const UnitTestPage = () => {
-  return <div>This is UnitTest</div>;
+  return (
+    <div className='flex min-h-screen'>
+      {/* Sidebar */}
+      <Sidebar />
+      This is UnitTest
+    </div>
+  );
 };
 
 export default UnitTestPage;

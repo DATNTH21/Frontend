@@ -1,53 +1,47 @@
-import { paths } from '@/lib/routes';
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image"; 
 
-interface SidebarMenuItem {
-  icon: string;
-  href: string;
-  label: string;
-}
-
-const Sidebar = ({ projectId }: { projectId: string }) => {
-  const sidebarMenu: SidebarMenuItem[] = [
-    {
-      icon: '/svg/dashboard.svg',
-      href: paths.projectDetail.dashboard.getHref(projectId),
-      label: 'Dashboard'
-    },
-    {
-      icon: '/svg/blackboxtest_icon.svg',
-      href: paths.projectDetail.blackboxTest.getHref(projectId),
-      label: 'Blackbox test'
-    },
-    {
-      icon: '/svg/unittest_icon.svg',
-      href: paths.projectDetail.unitTest.getHref(projectId),
-      label: 'Unit test'
-    },
-    {
-      icon: '/svg/report.svg',
-      href: paths.projectDetail.report.getHref(projectId),
-      label: 'Report'
-    }
-  ];
+const Sidebar = () => {
   return (
-    <div className={`bg-gray-100 'w-64' transition-all duration-300`}>
-      <div className='p-4'>
-        <h2 className='text-xl font-bold'>Demo Project</h2>
-      </div>
-      <nav className='flex flex-col space-y-4 p-4'>
-        {sidebarMenu.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
+    <div>
+      <div className={`bg-gray-100 'w-64' transition-all duration-300`}>
+        <div className='p-4'>
+          <h2 className='text-xl font-bold'>Demo Project</h2>
+        </div>
+        <nav className='flex flex-col space-y-4 p-4'>
+          <a
+            href='/project/[projectid]/dashboard'
             className='align-middle text-gray-700 hover:bg-blue-100 p-2 rounded flex flex-row'
           >
-            <Image src={item.icon} alt={item.label} width={24} height={24} />
-            <span className='ml-2'>{item.label}</span>
-          </Link>
-        ))}
-      </nav>
+            <Image src={"/assets/svg/dashboard.svg"} alt="Dashboard" width={24} height={24} />
+            Dashboard
+          </a>
+          <a
+            href='/project/[projectid]/blackbox-test'
+            className='align-middle text-gray-700 hover:bg-blue-100 p-2 rounded flex flex-row'
+          >
+            <Image src={"/assets/svg/blackboxtest_icon.svg"} alt="BlackboxTest" width={24} height={24} />
+            Black Box Testing
+          </a>
+          <a
+            href='/project/[projectid]/unit-test'
+            className='align-middle text-gray-700 hover:bg-blue-100 p-2 rounded flex flex-row'
+          >
+            <Image src={"/assets/svg/unittest_icon.svg"} alt="UnitTest" width={24} height={24} />
+            Unit Testing
+          </a>
+          <a
+            href='/project/[projectid]/report'
+            className='align-middle text-gray-700 hover:bg-blue-100 p-2 rounded flex flex-row'
+          >
+            <Image src={"/assets/svg/report.svg"} alt="Report" width={24} height={24} />
+            Report
+          </a>
+          <a href='/setting' className='align-middle text-gray-700 hover:bg-blue-100 p-2 rounded flex flex-row'>
+            <Image src={"/assets/svg/setting.svg"} alt="Setting" width={24} height={24} />
+            Setting
+          </a>
+        </nav>
+      </div>
     </div>
   );
 };

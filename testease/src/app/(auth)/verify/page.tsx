@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import mailIcon from '@/../public/assets/mail-icon.png';
+import mailIcon from '@/../public/img/mail-icon.png';
 
 const Verify = () => {
   return (

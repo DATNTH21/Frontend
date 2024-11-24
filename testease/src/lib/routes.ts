@@ -8,9 +8,6 @@ export const paths = {
     },
     register: {
       getHref: () => '/signup'
-    },
-    verify: {
-      getHref: () => '/verify'
     }
   },
   projectAll: {

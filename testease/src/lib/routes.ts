@@ -28,6 +28,9 @@ export const paths = {
     },
     unitTest: {
       getHref: (id: string) => `/project/${id}/unit-test`
+    },
+    setting: {
+      getHref: (id: string) => `/project/${id}/setting`
     }
   },
   setting: {

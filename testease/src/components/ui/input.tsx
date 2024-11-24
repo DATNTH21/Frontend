@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
 import { forwardRef } from 'react';
 
-export type InputProps = {
+type InputProps = {
   type?: string;
   placeholder?: string;
   value?: string;
@@ -29,4 +29,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 );
 
-export default Input;
+export { Input, type InputProps };

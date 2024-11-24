@@ -1,50 +1,33 @@
-import { paths } from '@/lib/routes';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
   SidebarHeader,
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger
+  SidebarRail
 } from '@/components/ui/sidebar';
 import AppSidebarHeader from './sidebar-header';
-interface SidebarMenuItem {
-  icon: string;
-  href: string;
-  label: string;
-}
+import AppSidebarMenu from './sidebar-menu';
+import AppSidebarFooter from './sidebar-footer';
+import { type SidebarItem } from '@/app/(app)/project/[projectId]/layout';
 
-const AppSidebar = ({ projectId }: { projectId: string }) => {
-  const sidebarMenu: SidebarMenuItem[] = [
-    {
-      icon: '/svg/dashboard.svg',
-      href: paths.projectDetail.dashboard.getHref(projectId),
-      label: 'Dashboard'
-    },
-    {
-      icon: '/svg/blackboxtest_icon.svg',
-      href: paths.projectDetail.blackboxTest.getHref(projectId),
-      label: 'Blackbox test'
-    },
-    {
-      icon: '/svg/unittest_icon.svg',
-      href: paths.projectDetail.unitTest.getHref(projectId),
-      label: 'Unit test'
-    },
-    {
-      icon: '/svg/report.svg',
-      href: paths.projectDetail.report.getHref(projectId),
-      label: 'Report'
-    }
-  ];
+const AppSidebar = ({ projectId, menu }: { projectId?: string; menu?: SidebarItem[] }) => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <AppSidebarHeader />
+        <AppSidebarHeader projectId={projectId} />
       </SidebarHeader>
-      <SidebarContent></SidebarContent>
-      <SidebarFooter />
+      <SidebarContent>
+        {menu && (
+          <SidebarGroup>
+            <AppSidebarMenu sidebarItems={menu} />
+          </SidebarGroup>
+        )}
+      </SidebarContent>
+      <SidebarFooter>
+        <AppSidebarFooter />
+      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   );
 };

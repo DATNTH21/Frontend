@@ -8,10 +8,10 @@ import { PanelLeft } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
-import Input from './input';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Skeleton } from './skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state';

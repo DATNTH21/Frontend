@@ -2,7 +2,7 @@
 import { TLoginSchema, loginSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Input from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from './password-input';

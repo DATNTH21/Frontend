@@ -10,8 +10,8 @@ const AuthLayout = ({
   return (
     <Suspense fallback={<Spinner />}>
       <ErrorBoundary fallback={<div>Something went wrong!</div>}>
-        <div className='tablet:grid tablet:grid-cols-2'>
-          <div className='tablet:col-span-1 p-16 tablet:p-24 laptop:p-40 desktop:p-80'>
+        <div className='md:grid md:grid-cols-2'>
+          <div className='md:col-span-1 p-16 md:p-24 xl:p-40 2xl:p-80'>
             <Image src='/svg/login.svg' width={800} height={800} alt='login picture' />
           </div>
           {children}

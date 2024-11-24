@@ -2,15 +2,14 @@
 import { TRegisterSchema, registerSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button/button';
-import Input from '@/components/ui/input/input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { PasswordInput } from './password-input';
 import { paths } from '../../../lib/routes';
 import { useRouter } from 'next/navigation';
 import { useRegister } from '@/api/auth/auth';
-import customAxios from '@/lib/api-client';
+import LoginGoogleButton from './google-login-button';
 const SignupForm = () => {
   const {
     register,
@@ -21,7 +20,8 @@ const SignupForm = () => {
   const router = useRouter();
   const registerMutation = useRegister({
     onSuccess: () => {
-      // Navigate to all-project on successful login
+      // Navigate to verify page
+      router.push(paths.auth.verify.getHref());
     },
     onError: () => {
       console.log('Error register');
@@ -68,10 +68,13 @@ const SignupForm = () => {
               Remember me?
             </label>
           </div>
-          <Button className='w-full' size='lg' type='submit' isLoading={isSubmitting}>
-            Register Account
+          <Button className='w-full' size='lg' type='submit'>
+            Sign up
           </Button>
-          <div className='text-center mt-6'>
+          <div className='flex justify-center mt-4 space-x-6'>
+            <LoginGoogleButton />
+          </div>
+          <div className='text-center mt-4'>
             <p className='text-card-foreground'>
               Already have an account?{' '}
               <Link href={paths.auth.login.getHref()} className='text-primary font-semibold'>
@@ -80,16 +83,6 @@ const SignupForm = () => {
             </p>
           </div>
         </form>
-        <div className='flex justify-center mt-6 space-x-6'>
-          <Button variant='outline' className='flex justify-center items-center gap-3 flex-1'>
-            <Image src={'/svg/google.svg'} alt={'Google'} width={24} height={24} />
-            <p>Google</p>
-          </Button>
-          <Button variant='outline' className='flex justify-center items-center gap-3 flex-1'>
-            <Image src={'/svg/github.svg'} alt={'Github'} width={24} height={24} />
-            <p>Github</p>
-          </Button>
-        </div>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import AppSidebar from '@/components/layouts/Sidebar/sidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { paths } from '@/lib/routes';
-import { headers } from 'next/headers';
 export interface SidebarItem {
   icon: string;
   href: string;

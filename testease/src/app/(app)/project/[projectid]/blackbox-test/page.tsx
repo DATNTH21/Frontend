@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { z } from 'zod';
-import FileStructure from '@/components/ui/tree/FileStructure';
+import FileStructure from '@/components/ui/file-structure';
 import { columns } from './_components/columns';
 import { DataTable } from './_components/data-table';
 import { testCaseSchema } from './_data/schema';

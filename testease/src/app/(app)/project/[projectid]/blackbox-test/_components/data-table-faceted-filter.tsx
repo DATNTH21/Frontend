@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Column } from '@tanstack/react-table';
 import { Check, LucideProps, PlusCircle } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { Badge } from '@/components/ui/badge/badge';
-import { Button } from '@/components/ui/button/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -12,9 +12,9 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator
-} from '@/components/ui/command/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover/popover';
-import { Separator } from '@/components/ui/separator/separator';
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
 
 interface Option {
   label: string;

@@ -1,7 +1,13 @@
 import Sidebar from '@/components/layouts/sidebar';
 
-export default function AppLayout({ children, params }: { children: React.ReactNode; params: { projectId: string } }) {
-  const projectId = params.projectId;
+export default async function AppLayout({
+  children,
+  params
+}: {
+  children: React.ReactNode;
+  params: Promise<{ projectId: string }>;
+}) {
+  const projectId = (await params).projectId;
 
   return (
     <div className='flex min-h-screen'>

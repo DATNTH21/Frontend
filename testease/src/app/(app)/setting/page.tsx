@@ -8,7 +8,7 @@ const SettingPage = () => {
   return (
     <div className='flex min-h-screen'>
       {/* Sidebar */}
-      <Sidebar />
+      {/* <Sidebar /> */}
       This is Setting
     </div>
   );

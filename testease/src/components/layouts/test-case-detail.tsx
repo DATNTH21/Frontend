@@ -35,7 +35,7 @@ const TestCaseDetail = () => {
         </p>
       </div>
       <div className='mt-4'>
-        <button onClick={openEdit} className='bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700'>
+        <button onClick={() => {}} className='bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-700'>
           Edit
         </button>
       </div>

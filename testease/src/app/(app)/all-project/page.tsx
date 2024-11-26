@@ -6,6 +6,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFoo
 import { SearchIcon} from 'lucide-react';
 import ActionCell from './_components/actionCell';
 import EditProjectForm from './_components/editForm';
+import CreateProjectButton from './_components/createProjectButton';
 
 interface Project {
   id: string;
@@ -125,18 +126,23 @@ const AllProjectPage = () => {
   return (
     <div className='w-full'>
       {/* Search Bar */}
-      <div className="mb-4 relative w-full">
-        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Search projects..."
-          className="w-full pl-10 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      <div className="w-full mb-4 flex items-center justify-between gap-4">
+        {/* Search Input */}
+        <div className="relative flex-1">
+          <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Search projects..."
+            className="w-full pl-10 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
+        {/* Create Project Button */}
+        <CreateProjectButton />
+      </div>
       {/* Table */}
       <Table>
         <TableHeader>

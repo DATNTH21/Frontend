@@ -1,44 +1,54 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter } from '@/components/ui/table';
-import { SearchIcon } from 'lucide-react';
+import { SearchIcon} from 'lucide-react';
+import ActionCell from './_components/actionCell';
+import EditProjectForm from './_components/editForm';
 
 interface Project {
   id: string;
   title: string;
   link: string;
   description: string;
+  status?: 'Generating' | 'Done' | 'Seen';
 }
 
 const AllProjectPage = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([
     {
       id: 'PR-1',
-      title: 'Demo project',
+      title: 'Demo project 1',
       link: '98 test cases',
-      description: 'This projecttttttttttttttttttttttttttttttttttt ahdioahdioabsnsafks',
+      description: 'This is a test project description.',
+      status: 'Generating',
     },
     {
       id: 'PR-2',
-      title: 'Demo project',
-      link: '98 test cases',
-      description: 'This projecttttttttttttttttttttttttttttttttttt ahdioahdioabsnsafks',
+      title: 'Demo project 2',
+      link: '65 test cases',
+      description: 'Another example of a project description.',
+      status: 'Done',
     },
     {
       id: 'PR-3',
-      title: 'Demo project',
-      link: '98 test cases',
-      description: 'This projecttttttttttttttttttttttttttttttttttt ahdioahdioabsnsafks',
+      title: 'Demo project 3',
+      link: '23 test cases',
+      description: 'Yet another example description.',
+      status: 'Seen',
     },
     {
       id: 'PR-4',
-      title: 'Demo project',
-      link: '98 test cases',
-      description: 'This projecttttttttttttttttttttttttttttttttttt ahdioahdioabsnsafks',
+      title: 'Demo project 4',
+      link: '45 test cases',
+      description: 'More details about the project go here.',
+      status: 'Generating',
     },
   ]);
 
@@ -52,13 +62,12 @@ const AllProjectPage = () => {
     setProjects(results);
   };
 
-  // Handle Enter key press
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
   };
-
+  
   const navigateDashboard = (projectId: string) => {
     router.push(`/project/${projectId}/dashboard`);
   };
@@ -66,6 +75,52 @@ const AllProjectPage = () => {
   const navigateBlackboxTesting = (projectId: string) => {
     router.push(`/project/${projectId}/blackbox-test`);
   };
+
+  const getRowStyle = (status: Project['status']) => {
+    if (status === 'Generating') {
+      return 'bg-gray-100 text-gray-500 cursor-not-allowed';
+    }
+    return 'cursor-pointer hover:bg-gray-100';
+  };
+  
+  const getStatusStyle = (status: Project['status']) => {
+    switch (status) {
+      case 'Generating':
+        return 'text-gray-500';
+      case 'Done':
+        return 'text-green-500';
+      case 'Seen':
+        return 'text-blue-500';
+      default:
+        return '';
+    }
+  };
+
+  const handleEdit = (projectId: string) => {
+    const project = projects.find((p) => p.id === projectId);
+    if (project) {
+      setSelectedProject(project);
+      setDialogOpen(true);
+    }
+  };
+
+  const handleSave = (updatedProject: Project) => {
+    setProjects((prevProjects) =>
+      prevProjects.map((p) => (p.id === updatedProject.id ? updatedProject : p))
+    );
+    closeDialog();
+  };
+
+  const handleDelete = (projectId: string) => {
+    console.log(`Delete project ${projectId}`);
+    // Add delete logic here
+  };
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+    setSelectedProject(null);
+  };
+
 
   return (
     <div className='w-full'>
@@ -89,6 +144,7 @@ const AllProjectPage = () => {
             <TableHead className="w-[100px]">ID</TableHead>
             <TableHead>PROJECT TITLE</TableHead>
             <TableHead>QUICK LINK</TableHead>
+            <TableHead>STATUS</TableHead>
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>
@@ -97,28 +153,40 @@ const AllProjectPage = () => {
             projects.map((project) => (
               <TableRow key={project.id}>
                 <TableCell
-                  className="font-medium cursor-pointer hover:bg-gray-100"
+                  className={getRowStyle(project.status)}
                   onClick={() => navigateDashboard(project.id)}
-                >{project.id}</TableCell>
-                <TableCell 
-                  className="cursor-pointer hover:bg-gray-100"
+                >
+                  {project.id}
+                </TableCell>
+                <TableCell
+                  className={getRowStyle(project.status)}
                   onClick={() => navigateDashboard(project.id)}
                 >
                   <div>{project.title}</div>
                   <div>{project.description}</div>
                 </TableCell>
-                <TableCell 
-                  className="cursor-pointer hover:bg-gray-100"
+                <TableCell
+                  className={getRowStyle(project.status)}
                   onClick={() => navigateBlackboxTesting(project.id)}
                 >
                   {project.link}
                 </TableCell>
-                <TableCell className="text-right">ACTION</TableCell>
+                <TableCell 
+                  className={`${getRowStyle(project.status)} ${getStatusStyle(project.status)}`}>
+                  {project.status}
+                </TableCell>
+                <TableCell className="text-right">
+                  <ActionCell
+                    projectId={project.id}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={4} className="text-center">
+              <TableCell colSpan={5} className="text-center">
                 No projects found.
               </TableCell>
             </TableRow>
@@ -126,11 +194,20 @@ const AllProjectPage = () => {
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell colSpan={3}>Total projects</TableCell>
+            <TableCell colSpan={4}>Total projects</TableCell>
             <TableCell className="text-right">{projects.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
+
+      {/* Dialog */}
+      {dialogOpen && selectedProject && (
+        <EditProjectForm
+          project={selectedProject}
+          onClose={closeDialog}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 };

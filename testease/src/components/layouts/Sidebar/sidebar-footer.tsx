@@ -16,6 +16,13 @@ import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function AppSidebarFooter() {
+  //   const user: User = {
+  //     _id: '1',
+  //     name: 'Phung Le Hoang Ngoc',
+  //     email: 'phungngoctqk@gmail.com',
+  //     photo: 'https://i.pinimg.com/736x/be/d5/f5/bed5f543cb7e62ec6c12c971432c6fa7.jpg',
+  //     isVerified: true
+  //   };
   const router = useRouter();
   const logoutMutation = useLogout({
     onSuccess: () => {

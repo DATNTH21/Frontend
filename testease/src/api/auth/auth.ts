@@ -1,5 +1,4 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { User } from '@/types/api';
 import { customFetch } from '@/lib/api-client';
 import { TLoginSchema, TRegisterSchema } from '@/app/(auth)/_data/auth-schema';
 

@@ -1,5 +1,6 @@
 import AppSidebar from '@/components/layouts/Sidebar/sidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import ThemeToggle from '@/components/ui/theme-toggle';
 import { paths } from '@/lib/routes';
 export interface SidebarItem {
   icon: string;
@@ -48,8 +49,9 @@ export default async function AppLayout({
     <SidebarProvider>
       <AppSidebar projectId={projectId} menu={sidebarMenu} />
       <SidebarInset>
-        <header className='flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4'>
+        <header className='flex sticky top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4 justify-between'>
           <SidebarTrigger className='-ml-1' />
+          <ThemeToggle />
         </header>
         <div>{children}</div>
       </SidebarInset>

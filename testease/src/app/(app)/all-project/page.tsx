@@ -1,79 +1,198 @@
-import Image from 'next/image';
-const AllProjectPage = async () => {
-  return (
-    <div className='grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]'>
-      <main className='flex flex-col gap-8 row-start-2 items-center sm:items-start'>
-        <Image
-          className='dark:invert'
-          src='https://nextjs.org/icons/next.svg'
-          alt='Next.js logo'
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className='list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]'>
-          <li className='mb-2'>
-            Get started by editing{' '}
-            <code className='bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold'>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+'use client';
 
-        <div className='flex gap-4 items-center flex-col sm:flex-row'>
-          <a
-            className='rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5'
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Image
-              className='dark:invert'
-              src='https://nextjs.org/icons/vercel.svg'
-              alt='Vercel logomark'
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className='rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44'
-            href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Read our docs
-          </a>
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter } from '@/components/ui/table';
+import { SearchIcon } from 'lucide-react';
+import ActionCell from './_components/actionCell';
+import EditProjectForm from './_components/editForm';
+import CreateProjectButton from './_components/createProjectButton';
+
+interface Project {
+  id: string;
+  title: string;
+  link: string;
+  description: string;
+  status?: 'Generating' | 'Done' | 'Seen';
+}
+
+const AllProjectPage = () => {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([
+    {
+      id: 'PR-1',
+      title: 'Demo project 1',
+      link: '98 test cases',
+      description: 'This is a test project description.',
+      status: 'Generating'
+    },
+    {
+      id: 'PR-2',
+      title: 'Demo project 2',
+      link: '65 test cases',
+      description: 'Another example of a project description.',
+      status: 'Done'
+    },
+    {
+      id: 'PR-3',
+      title: 'Demo project 3',
+      link: '23 test cases',
+      description: 'Yet another example description.',
+      status: 'Seen'
+    },
+    {
+      id: 'PR-4',
+      title: 'Demo project 4',
+      link: '45 test cases',
+      description: 'More details about the project go here.',
+      status: 'Generating'
+    }
+  ]);
+
+  const handleSearch = () => {
+    const results = projects.filter(
+      (project) =>
+        project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setProjects(results);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const navigateDashboard = (projectId: string) => {
+    router.push(`/project/${projectId}/dashboard`);
+  };
+
+  const navigateBlackboxTesting = (projectId: string) => {
+    router.push(`/project/${projectId}/blackbox-test`);
+  };
+
+  const getRowStyle = (status: Project['status']) => {
+    if (status === 'Generating') {
+      return 'bg-gray-100 text-gray-500 cursor-not-allowed';
+    }
+    return 'cursor-pointer hover:bg-gray-100';
+  };
+
+  const getStatusStyle = (status: Project['status']) => {
+    switch (status) {
+      case 'Generating':
+        return 'text-gray-500';
+      case 'Done':
+        return 'text-green-500';
+      case 'Seen':
+        return 'text-blue-500';
+      default:
+        return '';
+    }
+  };
+
+  const handleEdit = (projectId: string) => {
+    const project = projects.find((p) => p.id === projectId);
+    if (project) {
+      setSelectedProject(project);
+      setDialogOpen(true);
+    }
+  };
+
+  const handleSave = (updatedProject: Project) => {
+    setProjects((prevProjects) => prevProjects.map((p) => (p.id === updatedProject.id ? updatedProject : p)));
+    closeDialog();
+  };
+
+  const handleDelete = (projectId: string) => {
+    console.log(`Delete project ${projectId}`);
+    // Add delete logic here
+  };
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+    setSelectedProject(null);
+  };
+
+  return (
+    <div className='w-full'>
+      {/* Search Bar */}
+      <div className='w-full mb-4 flex items-center justify-between gap-4'>
+        {/* Search Input */}
+        <div className='relative flex-1'>
+          <SearchIcon className='absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500' />
+          <input
+            type='text'
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder='Search projects...'
+            className='w-full pl-10 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
+          />
         </div>
-      </main>
-      <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center'>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image aria-hidden src='https://nextjs.org/icons/file.svg' alt='File icon' width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image aria-hidden src='https://nextjs.org/icons/window.svg' alt='Window icon' width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image aria-hidden src='https://nextjs.org/icons/globe.svg' alt='Globe icon' width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Create Project Button */}
+        <CreateProjectButton />
+      </div>
+      {/* Table */}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className='w-[100px]'>ID</TableHead>
+            <TableHead>PROJECT TITLE</TableHead>
+            <TableHead>QUICK LINK</TableHead>
+            <TableHead>STATUS</TableHead>
+            <TableHead className='text-right'></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {projects.length > 0 ? (
+            projects.map((project) => (
+              <TableRow key={project.id}>
+                <TableCell className={getRowStyle(project.status)} onClick={() => navigateDashboard(project.id)}>
+                  {project.id}
+                </TableCell>
+                <TableCell className={getRowStyle(project.status)} onClick={() => navigateDashboard(project.id)}>
+                  <div>{project.title}</div>
+                  <div>{project.description}</div>
+                </TableCell>
+                <TableCell className={getRowStyle(project.status)} onClick={() => navigateBlackboxTesting(project.id)}>
+                  {project.link}
+                </TableCell>
+                <TableCell className={`${getRowStyle(project.status)} ${getStatusStyle(project.status)}`}>
+                  {project.status}
+                </TableCell>
+                <TableCell className='text-right'>
+                  <ActionCell projectId={project.id} onEdit={handleEdit} onDelete={handleDelete} />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className='text-center'>
+                No projects found.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={4}>Total projects</TableCell>
+            <TableCell className='text-right'>{projects.length}</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+
+      {/* Dialog */}
+      {dialogOpen && selectedProject && (
+        <EditProjectForm project={selectedProject} onClose={closeDialog} onSave={handleSave} />
+      )}
     </div>
   );
 };

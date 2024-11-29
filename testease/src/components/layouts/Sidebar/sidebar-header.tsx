@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from '@/api/auth/auth';
-import { DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { ChevronsDownUp, Folder } from 'lucide-react';
@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
 export default function AppSidebarHeader({ projectId }: { projectId?: string }) {
   const router = useRouter();
-  const { isMobile } = useSidebar();
   const { data: user, status: userStatus } = useUser();
   const projects: Project[] = [
     {
@@ -57,7 +56,7 @@ export default function AppSidebarHeader({ projectId }: { projectId?: string }) 
             {/* A button for dropdown that also display current project name */}
             <SidebarMenuButton
               size='lg'
-              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground border border-border'
             >
               <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
                 <Folder className='size-4' />
@@ -69,7 +68,7 @@ export default function AppSidebarHeader({ projectId }: { projectId?: string }) 
           <DropdownMenuContent
             className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
             align='start'
-            side={isMobile ? 'bottom' : 'right'}
+            side='bottom'
             sideOffset={4}
           >
             {filteredProjects.map((project, index) => (
@@ -82,13 +81,16 @@ export default function AppSidebarHeader({ projectId }: { projectId?: string }) 
               </DropdownMenuItem>
             ))}
             {projectId && (
-              <DropdownMenuItem
-                key='all-project'
-                onClick={() => handleOnClickProject()}
-                className='gap-2 p-2 hover:bg-primary hover:text-primary-foreground cursor-pointer'
-              >
-                All project
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  key='all-project'
+                  onClick={() => handleOnClickProject()}
+                  className='gap-2 p-2 hover:bg-primary hover:text-primary-foreground cursor-pointer'
+                >
+                  View all projects
+                </DropdownMenuItem>
+              </>
             )}
           </DropdownMenuContent>
         </DropdownMenu>

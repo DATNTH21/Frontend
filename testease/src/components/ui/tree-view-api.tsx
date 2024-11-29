@@ -3,7 +3,7 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/utils/cn';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { FileText, FolderIcon, FolderOpenIcon } from 'lucide-react';
+import { FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
 import React, { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -202,8 +202,8 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
           onClick={() => handleExpand(value)}
         >
           {expendedItems?.includes(value)
-            ? (openIcon ?? <FolderOpenIcon className='h-4 w-4' color='#22b8cf' fill='#e3fafc' />)
-            : (closeIcon ?? <FolderIcon className='h-4 w-4' color='#22b8cf' fill='#e3fafc' />)}
+            ? (openIcon ?? <FolderOpenIcon className='h-4 w-4' />)
+            : (closeIcon ?? <FolderIcon className='h-4 w-4' />)}
           <span>{element}</span>
         </AccordionPrimitive.Trigger>
         <AccordionPrimitive.Content className='text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down relative overflow-hidden h-full'>
@@ -249,16 +249,16 @@ const File = forwardRef<
         disabled={!isSelectable}
         aria-label='File'
         className={cn(
-          'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 rounded-md  duration-200 ease-in-out',
+          'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 w-full duration-200 ease-in-out border border-transparent hover:bg-sidebar-accent',
           {
-            'bg-cyan-100 text-cyan-800': isSelected && isSelectable
+            'bg-sidebar-accent font-semibold text-sidebar-accent-foreground': isSelected && isSelectable
           },
           isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
           className
         )}
         onClick={() => selectItem(value)}
       >
-        {fileIcon ?? <FileText className='h-4 w-4' color={isSelected && isSelectable ? '#155e75' : '#66d9e8'} />}
+        {fileIcon ?? <FileIcon className='h-4 w-4' />}
         {children}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Item>

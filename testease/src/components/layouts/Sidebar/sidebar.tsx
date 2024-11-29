@@ -9,18 +9,17 @@ import {
 import AppSidebarHeader from './sidebar-header';
 import AppSidebarMenu from './sidebar-menu';
 import AppSidebarFooter from './sidebar-footer';
-import { type SidebarItem } from '@/app/(app)/project/[projectId]/layout';
 
-const AppSidebar = ({ projectId, menu }: { projectId?: string; menu?: SidebarItem[] }) => {
+const AppSidebar = ({ projectId }: { projectId?: string }) => {
   return (
     <Sidebar>
       <SidebarHeader>
         <AppSidebarHeader projectId={projectId} />
       </SidebarHeader>
       <SidebarContent>
-        {menu && (
+        {projectId && (
           <SidebarGroup>
-            <AppSidebarMenu sidebarItems={menu} />
+            <AppSidebarMenu projectId={projectId} />
           </SidebarGroup>
         )}
       </SidebarContent>

@@ -1,25 +1,57 @@
 'use client';
 import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import Image from 'next/image';
-import { type SidebarItem } from '@/app/(app)/project/[projectId]/layout';
+import { paths } from '@/lib/routes';
 import { usePathname } from 'next/navigation';
+import { Box, LayoutDashboard, type LucideIcon, Puzzle, ScrollText, Settings } from 'lucide-react';
 
-export default function AppSidebarMenu({ sidebarItems }: { sidebarItems: SidebarItem[] }) {
+export type SidebarItem = {
+  icon: LucideIcon;
+  href: string;
+  label: string;
+};
+export default function AppSidebarMenu({ projectId }: { projectId: string }) {
   const pathName = usePathname();
+  const sidebarMenu: SidebarItem[] = [
+    {
+      icon: LayoutDashboard,
+      href: paths.projectDetail.dashboard.getHref(projectId),
+      label: 'Dashboard'
+    },
+    {
+      icon: Box,
+      href: paths.projectDetail.blackboxTest.getHref(projectId),
+      label: 'Blackbox test'
+    },
+    {
+      icon: Puzzle,
+      href: paths.projectDetail.unitTest.getHref(projectId),
+      label: 'Unit test'
+    },
+    {
+      icon: ScrollText,
+      href: paths.projectDetail.report.getHref(projectId),
+      label: 'Report'
+    },
+    {
+      icon: Settings,
+      href: paths.projectDetail.setting.getHref(projectId),
+      label: 'Setting'
+    }
+  ];
   return (
     <SidebarMenu>
       <SidebarGroup>
-        {sidebarItems.map((item, index) => {
+        {sidebarMenu.map((item, index) => {
           return (
             <SidebarMenuItem key={index}>
               <SidebarMenuButton
                 asChild
                 isActive={pathName == item.href}
-                className='data-[active=true]:text-primary data-[active=true]:font-semibold'
+                className='data-[active=true]:text-sidebar-active data-[active=true]:font-semibold'
               >
                 <Link href={item.href} className='flex items-center'>
-                  <Image src={item.icon} alt={item.label} width={14} height={14} />
+                  <item.icon className='w-12 h-14' />
                   {item.label}
                 </Link>
               </SidebarMenuButton>

@@ -32,6 +32,7 @@
     --input: 220 13% 91%;
     --ring: 262.1 83.3% 57.8%;
     --radius: 0.5rem;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 262.1 83.3% 57.8%;
@@ -40,7 +41,16 @@
     --sidebar-accent-foreground: 220.9 39.3% 11%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 262.1 83.3% 57.8%;
-    --sidebar-button-active-foreground: 262.1 83.3% 57.8%
+    --sidebar-button-active-foreground: 262.1 83.3% 57.8%;
+
+    --status-generating: 220 14.3% 95.9%;
+    /* --status-generating-foreground: 220 8.9% 46.1%; */
+    --status-done: 116 100% 90%;
+    /* --status-done-foreground: 0 0% 0%; */
+    --status-seen: 187 100% 90%;
+    /* --status-seen-foreground: 210 80% 90%; */
+    --status-error: 322 100% 90%;
+    /* --status-error-foreground: 210 20% 98%; */
   }
 
   .dark {
@@ -65,12 +75,13 @@
     --accent: 215 27.9% 16.9%;
     --accent-foreground: 210 20% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
 
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 263.4 70% 50.4%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 263.4 70% 50.4%;
@@ -79,7 +90,16 @@
     --sidebar-accent-foreground: 210 20% 98%;
     --sidebar-border: 215 27.9% 16.9%;
     --sidebar-ring: 263.4 70% 50.4%;
-    --sidebar-button-active-foreground: 263.4 100% 80%
+    --sidebar-button-active-foreground: 263.4 100% 80%;
+
+    --status-generating: 215 27.9% 16.9%;
+    /* --status-generating-foreground: 220 8.9% 46.1%; */
+    --status-done: 116 100% 90%;
+    /* --status-done-foreground: 0 0% 0%; */
+    --status-seen: 187 100% 90%;
+    /* --status-seen-foreground: 210 80% 90%; */
+    --status-error: 322 100% 90%;
+    /* --status-error-foreground: 210 20% 98%; */
   }
 
   * {

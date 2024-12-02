@@ -1,16 +1,11 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarHeader,
-  SidebarRail
-} from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } from '@/components/ui/sidebar';
 import AppSidebarHeader from './sidebar-header';
 import AppSidebarMenu from './sidebar-menu';
 import AppSidebarFooter from './sidebar-footer';
+import { getUser } from '@/app/api/auth/actions';
 
-const AppSidebar = ({ projectId }: { projectId?: string }) => {
+const AppSidebar = async ({ projectId }: { projectId?: string }) => {
+  const userData = await getUser();
   return (
     <Sidebar>
       <SidebarHeader>
@@ -24,9 +19,8 @@ const AppSidebar = ({ projectId }: { projectId?: string }) => {
         )}
       </SidebarContent>
       <SidebarFooter>
-        <AppSidebarFooter />
+        <AppSidebarFooter user={userData.data.user} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 };

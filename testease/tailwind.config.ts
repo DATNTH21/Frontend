@@ -60,6 +60,16 @@ const config: Config = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
           active: 'hsl(var(--sidebar-button-active-foreground))'
+        },
+        status: {
+          generating: 'hsl(var(--status-generating))',
+          // 'generating-foreground': 'hsl(var(--status-generating-foreground))',
+          done: 'hsl(var(--status-done))',
+          //'done-foreground': 'hsl(var(--status-done-foreground))',
+          seen: 'hsl(var(--status-seen))',
+          //'seen-foreground': 'hsl(var(--status-seen-foreground))',
+          error: 'hsl(var(--status-error))'
+          //'error-foreground': 'hsl(var(--status-error-foreground))'
         }
       },
       borderRadius: {

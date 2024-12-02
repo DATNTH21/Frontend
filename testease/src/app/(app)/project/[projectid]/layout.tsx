@@ -1,6 +1,7 @@
 import AppSidebar from '@/components/layouts/Sidebar/sidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { ModeToggle } from '@/components/ui/mode-toggle';
+import { redirect } from 'next/navigation';
 
 export default async function AppLayout({
   children,
@@ -12,6 +13,9 @@ export default async function AppLayout({
   const projectId = (await params).projectId;
   console.log('Project layout: Get current project ID: ', projectId);
 
+  if (!projectId) {
+    redirect('/all-project');
+  }
   return (
     <SidebarProvider>
       <AppSidebar projectId={projectId} />

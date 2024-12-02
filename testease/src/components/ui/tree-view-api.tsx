@@ -249,9 +249,9 @@ const File = forwardRef<
         disabled={!isSelectable}
         aria-label='File'
         className={cn(
-          'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 w-full duration-200 ease-in-out border border-transparent hover:bg-sidebar-accent',
+          'flex items-center gap-1 cursor-pointer text-sm pr-1 rtl:pl-1 rtl:pr-0 w-full duration-200 ease-in-out border border-transparent hover:bg-sidebar-accent rounded-md',
           {
-            'bg-sidebar-accent font-semibold text-sidebar-accent-foreground': isSelected && isSelectable
+            'font-semibold text-sidebar-active bg-sidebar-accent': isSelected && isSelectable
           },
           isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
           className

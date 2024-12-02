@@ -12,13 +12,13 @@ const variants = {
   primary: 'text-primary'
 };
 
-export type SpinnerProps = {
+type SpinnerProps = {
   size?: keyof typeof sizes;
   variant?: keyof typeof variants;
   className?: string;
 };
 
-export const Spinner = ({ size = 'md', variant = 'primary', className = '' }: SpinnerProps) => {
+const Spinner = ({ size = 'md', variant = 'primary', className = '' }: SpinnerProps) => {
   return (
     <>
       <svg
@@ -39,3 +39,5 @@ export const Spinner = ({ size = 'md', variant = 'primary', className = '' }: Sp
     </>
   );
 };
+
+export { Spinner };

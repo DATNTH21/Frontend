@@ -26,9 +26,6 @@
         "./src/*"
       ],
     },
-    "types": [
-      "next-auth"
-    ],
     "target": "ES2017"
   },
   "include": [

@@ -1,18 +1,23 @@
-export default function Layout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <div className='flex-1 bg-white'>
-      {/* Header */}
-      <div className='flex justify-between items-center p-4 border-b'>
-        <h2 className='text-2xl font-bold tracking-tight'>ALL PROJECTS</h2>
-      </div>
+import AppSidebar from '@/components/layouts/Sidebar/sidebar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
-      {/* Content Area */}
-      <div className='flex h-full p-6'>{children}</div>
-    </div>
+export default async function AllProjectLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className='flex sticky top-0 bg-background h-16 shrink-0 items-center border-b px-4 justify-between'>
+          <div className='flex gap-2 items-center'>
+            <SidebarTrigger className='-ml-1' />
+            <div className='font-bold tracking-tight text-xl'>All Projects</div>
+          </div>
+          <div className='flex gap-2 items-center'>
+            <ModeToggle />
+          </div>
+        </header>
+        <div className='w-full'>{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
-  

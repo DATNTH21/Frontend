@@ -1,5 +1,5 @@
-import { TreeViewElement } from './tree-view-api';
-import { TOC } from './tree';
+import { TreeViewElement } from '@/components/ui/tree-view-api';
+import { TOC } from '@/components/ui/tree';
 
 const elements: TreeViewElement[] = [
   {
@@ -58,8 +58,8 @@ const elements: TreeViewElement[] = [
 
 const FileStructure = () => {
   return (
-    <div className='w-1/4 p-4 border-r'>
-      <h3 className='font-bold mt-6 mb-4'>Files</h3>
+    <div className='flex flex-col gap-2 bg-background p-2'>
+      <h3 className='font-bold px-2'>Files</h3>
       <div>
         <TOC toc={elements} />
       </div>

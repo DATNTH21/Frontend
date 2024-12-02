@@ -1,31 +1,35 @@
-export default function Layout({
+'use client';
+import { Button } from '@/components/ui/button';
+import { Menu } from 'lucide-react';
+
+export default function BlackBoxLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const handleGenerateTestCase = () => {};
+  const handleMenuButtonClick = () => {};
   return (
-    <div className='flex-1 bg-white'>
+    <div className='flex-1 bg-background'>
       {/* Header */}
-      <div className='flex justify-between items-center p-4 border-b'>
+      <div className='sticky top-0 z-50 flex justify-between items-center p-4 border-b bg-background'>
         <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
-        <div>
-          <button className='bg-blue-500 text-white px-4 py-2 rounded-lg mr-2'>Generate Test Case</button>
-          <button className='bg-gray-200 p-2 rounded-lg'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6 text-gray-700'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M4 6h16M4 12h16m-7 6h7' />
-            </svg>
-          </button>
+        <div className='flex justify-center items-center gap-2'>
+          <Button onClick={() => handleGenerateTestCase()} className='cursor-pointer'>
+            Generate Test Case
+          </Button>
+          <Button
+            variant='outline'
+            className='bg-accent p-2 rounded-lg cursor-pointer'
+            onClick={() => handleMenuButtonClick()}
+          >
+            <Menu />
+          </Button>
         </div>
       </div>
 
       {/* Content Area */}
-      <div className='flex h-full'>{children}</div>
+      <div className='w-full'>{children}</div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { TRegisterSchema, registerSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
-import Input from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { PasswordInput } from './password-input';
 import { paths } from '../../../lib/routes';

@@ -25,7 +25,7 @@ const BlackBoxTestPage = async () => {
   const data = await getData();
 
   return (
-    <ResizablePanelGroup direction='horizontal' className='max-w-screen border'>
+    <ResizablePanelGroup direction='horizontal' className='max-w-screen'>
       <ResizablePanel defaultSize={15} minSize={0} maxSize={40}>
         {/* Folder/File Structure */}
         <FileStructure />

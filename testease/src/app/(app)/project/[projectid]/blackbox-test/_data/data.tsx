@@ -4,7 +4,7 @@ export const statuses = [
   {
     value: 'in progress',
     label: 'In Progress',
-    color: '#09090b',
+    color: '#1E90FF',
     icon: Timer
   },
   {

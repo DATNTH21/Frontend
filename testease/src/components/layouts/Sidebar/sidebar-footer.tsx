@@ -1,5 +1,5 @@
 'use client';
-import { useLogout, useUser } from '@/api/auth/auth';
+import { useLogout } from '@/api/auth/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -9,20 +9,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
 import { paths } from '@/lib/routes';
+import { User } from '@/types/api';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function AppSidebarFooter() {
-  //   const user: User = {
-  //     _id: '1',
-  //     name: 'Phung Le Hoang Ngoc',
-  //     email: 'phungngoctqk@gmail.com',
-  //     photo: 'https://i.pinimg.com/736x/be/d5/f5/bed5f543cb7e62ec6c12c971432c6fa7.jpg',
-  //     isVerified: true
-  //   };
+export default function AppSidebarFooter({ user }: { user: User }) {
   const router = useRouter();
   const logoutMutation = useLogout({
     onSuccess: () => {
@@ -37,8 +32,7 @@ export default function AppSidebarFooter() {
     logoutMutation.mutate();
   };
 
-  const { data, status } = useUser();
-  return status == 'success' ? (
+  return user ? (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
@@ -48,12 +42,12 @@ export default function AppSidebarFooter() {
               className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
             >
               <Avatar className='h-8 w-8 rounded-lg'>
-                <AvatarImage src={data.data.user.photo} alt={data.data.user.name} />
+                <AvatarImage src={user.photo} alt={user.name} />
                 <AvatarFallback className='rounded-lg bg-primary text-primary-foreground'>PH</AvatarFallback>
               </Avatar>
               <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>{data.data.user.name}</span>
-                <span className='truncate text-xs'>{data.data.user.email}</span>
+                <span className='truncate font-semibold'>{user.name}</span>
+                <span className='truncate text-xs'>{user.email}</span>
               </div>
               <ChevronsUpDown className='ml-auto size-4' />
             </SidebarMenuButton>
@@ -81,6 +75,12 @@ export default function AppSidebarFooter() {
       </SidebarMenuItem>
     </SidebarMenu>
   ) : (
-    <Spinner />
+    <div className='flex'>
+      <Skeleton className='h-8 w-8 rounded-lg'></Skeleton>
+      <div className='grid flex-1 text-left text-sm leading-tight'>
+        <Skeleton></Skeleton>
+        <Skeleton></Skeleton>
+      </div>
+    </div>
   );
 }

@@ -1,17 +1,10 @@
 import React from "react";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
-import ActionCell from "./actionCell";
-
-interface Field {
-  id: string,
-  field: string;
-  values: string[];
-  project: string;
-  type: string;
-}
+import ActionCell from "./action-cell";
+import { TFieldSchema } from '../_data/schemas';
 
 interface FieldTableProps {
-  fields: Field[];
+  fields: TFieldSchema[];
 }
 
 const FieldTable: React.FC<FieldTableProps> = ({ fields }) => {
@@ -28,7 +21,7 @@ const FieldTable: React.FC<FieldTableProps> = ({ fields }) => {
       <TableBody>
         {fields.length > 0 ? (
           fields.map((field) => (
-            <TableRow key={field.id}>
+            <TableRow key={field._id}>
               <TableCell className="pl-4">
                 <div>{field.field}</div>
                 <div className="flex">

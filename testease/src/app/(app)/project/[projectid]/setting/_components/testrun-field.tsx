@@ -1,12 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import FieldTable from "./field-table";
-import CreateFieldForm from "./createForm";
+import CreateFieldForm from "./create-field-dialog";
 
 const TestRunField: React.FC = () => {
   //Fetch value there
   const testRunFields = [
-    { id: "TR-1", field: "Test Status", values: ["Blocked", "Failed", "In Progress", "Passed", "Retest", "Skipped", "Untested"], project: "Project 1", type: "System" },
+    { _id: "TR-1", field: "Test Status", values: ["Blocked", "Failed", "In Progress", "Passed", "Retest", "Skipped", "Untested"], project: "Project 1", type: "System" },
   ];
 
   const handleCreateField = (newField: { field: string; values: string[]; project: string; type: string }) => {

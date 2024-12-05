@@ -1,13 +1,12 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
 import FieldTable from "./field-table";
-import CreateFieldForm from "./createForm";
+import CreateFieldForm from "./create-field-dialog";
 
 const TestCaseField: React.FC = () => {
   //Fetch value there
   const testCaseFields = [
-    { id: "TC-1", field: "Priority", project: "All Projects", type: "System", values: ["Critical", "High", "Low", "Medium"] },
-    { id: "TC-2", field: "Severity", project: "All Projects", type: "System", values: ["Fatal", "Serious", "Medium"] },
+    { _id: "TC-1", field: "Priority", project: "All Projects", type: "System", values: ["Critical", "High", "Low", "Medium"] },
+    { _id: "TC-2", field: "Severity", project: "All Projects", type: "System", values: ["Fatal", "Serious", "Medium"] },
   ];
 
   return (

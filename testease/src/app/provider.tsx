@@ -5,7 +5,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { MainErrorFallback } from '@/components/errors/main';
-//import ReactQueryConfig from '@/lib/react-query';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { getQueryClient } from '@/lib/react-query';
 
@@ -18,7 +17,6 @@ const ThemeProvider = ({ children, ...props }: React.ComponentProps<typeof NextT
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  //const [queryClient] = React.useState(() => new QueryClient({ defaultOptions: ReactQueryConfig }));
   const queryClient = getQueryClient();
   return (
     <ErrorBoundary FallbackComponent={MainErrorFallback}>

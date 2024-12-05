@@ -1,5 +1,4 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { User } from '@/types/api';
 import { customFetch } from '@/lib/api-client';
 import { TLoginSchema, TRegisterSchema } from '@/app/(auth)/_data/auth-schema';
 
@@ -32,7 +31,7 @@ export const getUserQueryOptions = () => {
 
 export const useUser = () => useQuery(getUserQueryOptions());
 
-export const useLogin = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: () => void }) => {
+export const useLogin = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: Error) => void }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: ['login'],
@@ -41,15 +40,15 @@ export const useLogin = ({ onSuccess, onError }: { onSuccess?: () => void; onErr
       queryClient.setQueryData(userQueryKey, data.user);
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error) => {
+      onError?.(error);
     }
   });
 
   return mutation;
 };
 
-export const useRegister = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: () => void }) => {
+export const useRegister = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: Error) => void }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['register'],
@@ -58,13 +57,13 @@ export const useRegister = ({ onSuccess, onError }: { onSuccess?: () => void; on
       queryClient.setQueryData(userQueryKey, data.user);
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error) => {
+      onError?.(error);
     }
   });
 };
 
-export const useLogout = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: () => void }) => {
+export const useLogout = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: Error) => void }) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['logout'],
@@ -73,8 +72,8 @@ export const useLogout = ({ onSuccess, onError }: { onSuccess?: () => void; onEr
       queryClient.removeQueries({ queryKey: userQueryKey });
       onSuccess?.();
     },
-    onError: () => {
-      onError?.();
+    onError: (error) => {
+      onError?.(error);
     }
   });
 };

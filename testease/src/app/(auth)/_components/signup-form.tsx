@@ -10,6 +10,7 @@ import { paths } from '../../../lib/routes';
 import { useRouter } from 'next/navigation';
 import { useRegister } from '@/api/auth/auth';
 import LoginGoogleButton from './google-login-button';
+import { toast } from '@/hooks/use-toast';
 const SignupForm = () => {
   const {
     register,
@@ -23,8 +24,12 @@ const SignupForm = () => {
       // Navigate to verify page
       router.push(paths.auth.verify.getHref());
     },
-    onError: () => {
-      console.log('Error register');
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: error.message
+      });
     }
   });
 

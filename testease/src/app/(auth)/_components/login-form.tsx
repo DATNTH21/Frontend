@@ -7,14 +7,15 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from './password-input';
 import { paths } from '../../../lib/routes';
-import { useLogin, useLogout } from '@/api/auth/auth';
+import { useLogin } from '@/api/auth/auth';
 import { useRouter } from 'next/navigation';
 import LoginGoogleButton from './google-login-button';
+import { toast } from '@/hooks/use-toast';
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TLoginSchema>({ resolver: zodResolver(loginSchema) });
 
   const router = useRouter();
@@ -23,16 +24,16 @@ const LoginForm = () => {
     onSuccess: () => {
       router.push(paths.projectAll.getHref());
     },
-    onError: () => {
-      //do sth
+    onError: (error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: error.message
+      });
     }
   });
 
   const onSubmit = (data: TLoginSchema) => {
-    // const response = await loginWithEmailAndPassword(data);
-    // console.log(response);
-    // router.push(paths.projectAll.getHref());
-
     loginMutation.mutate(data);
   };
 

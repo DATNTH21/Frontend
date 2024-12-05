@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Spinner } from '@/components/ui/spinner';
+import { toast } from '@/hooks/use-toast';
 import { paths } from '@/lib/routes';
 import { User } from '@/types/api';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
@@ -23,8 +23,8 @@ export default function AppSidebarFooter({ user }: { user: User }) {
     onSuccess: () => {
       router.push(paths.auth.login.getHref());
     },
-    onError: () => {
-      //dosth
+    onError: (error) => {
+      toast({ variant: 'destructive', title: 'Uh oh! Something went wrong.', description: error.message });
     }
   });
 

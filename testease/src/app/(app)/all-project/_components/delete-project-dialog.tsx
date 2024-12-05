@@ -26,8 +26,8 @@ export default function DeleteProjectDialog({
   };
   return (
     <AlertDialogContent
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={(event) => {
+        console.log('You clicked delete dialog: ', event.target);
       }}
     >
       <AlertDialogHeader>

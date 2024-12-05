@@ -34,11 +34,7 @@ export default function EditProjectDialog({
   };
 
   return (
-    <DialogContent
-      onClick={(e) => {
-        e.stopPropagation();
-      }}
-    >
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>EDIT PROJECT</DialogTitle>
         <DialogDescription>Make changes to your project here. Click save when you're done.</DialogDescription>

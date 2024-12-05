@@ -41,7 +41,17 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-50'>
           <DropdownMenuGroup>
-            <DropdownMenuItem className='cursor-pointer' onSelect={() => setIsEditOpen(true)}>
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onSelect={(event) => {
+                event.stopPropagation();
+                console.log('From data table row action, on select target: ', event.target);
+                setIsEditOpen(true);
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
+            >
               <Edit /> Edit
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -49,7 +59,13 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           <DropdownMenuGroup>
             <DropdownMenuItem
               className='text-destructive focus:text-destructive cursor-pointer'
-              onSelect={() => setIsDeleteOpen(true)}
+              onSelect={(event) => {
+                event.stopPropagation();
+                setIsDeleteOpen(true);
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+              }}
             >
               <Trash /> Delete
             </DropdownMenuItem>

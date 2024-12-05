@@ -9,7 +9,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
-import { Project } from '@/types/api';
 import { Dispatch, SetStateAction } from 'react';
 import { TProjectSchema } from '../_data/schemas';
 
@@ -26,7 +25,11 @@ export default function DeleteProjectDialog({
     setIsOpen(false);
   };
   return (
-    <AlertDialogContent>
+    <AlertDialogContent
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <AlertDialogHeader>
         <AlertDialogTitle>DELETE PROJECT</AlertDialogTitle>
         <AlertDialogDescription>

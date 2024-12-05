@@ -41,7 +41,12 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         </DropdownMenuTrigger>
         <DropdownMenuContent className='w-50'>
           <DropdownMenuGroup>
-            <DropdownMenuItem className='cursor-pointer' onSelect={() => setIsEditOpen(true)}>
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onSelect={() => {
+                setIsEditOpen(true);
+              }}
+            >
               <Edit /> Edit
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -49,7 +54,9 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           <DropdownMenuGroup>
             <DropdownMenuItem
               className='text-destructive focus:text-destructive cursor-pointer'
-              onSelect={() => setIsDeleteOpen(true)}
+              onSelect={() => {
+                setIsDeleteOpen(true);
+              }}
             >
               <Trash /> Delete
             </DropdownMenuItem>

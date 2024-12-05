@@ -30,7 +30,6 @@ export const columns: ColumnDef<TProjectSchema>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title='STATUS' />,
     cell: ({ row }) => {
       const status = projectStatus.find((status) => status.value === row.getValue('status'));
-      console.log(status);
       if (!status) {
         return null;
       }

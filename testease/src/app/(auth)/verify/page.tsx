@@ -1,12 +1,11 @@
-import Image from 'next/image';
-import mailIcon from '@/../public/img/mail-icon.png';
+import { Mail } from 'lucide-react';
 
 const Verify = () => {
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='bg-white p-10 rounded-lg shadow-lg w-full max-w-md'>
         <div className='flex justify-center items-center'>
-          <Image src={mailIcon} placeholder='blur' alt='mail icon' width={100} height={100} />
+          <Mail width={100} height={100}></Mail>
         </div>
         <h2 className='text-2xl font-semibold mt-6 mb-4 text-center'>Check your email</h2>
         <p className='text-gray-500 mb-8 text-center'>

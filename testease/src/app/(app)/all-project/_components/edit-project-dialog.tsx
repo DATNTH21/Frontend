@@ -5,7 +5,6 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { EditProjectSchema, TEditProjectSchema, TProjectSchema } from '../_data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Project } from '@/types/api';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';

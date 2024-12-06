@@ -2,7 +2,7 @@ import { Mail } from 'lucide-react';
 
 const Verify = () => {
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gray-50'>
+    <div className='flex justify-center items-center min-h-screen'>
       <div className='bg-white p-10 rounded-lg shadow-lg w-full max-w-md'>
         <div className='flex justify-center items-center'>
           <Mail width={100} height={100}></Mail>

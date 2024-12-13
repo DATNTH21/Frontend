@@ -30,7 +30,7 @@ const BlackBoxTestPage = async () => {
         {/* Folder/File Structure */}
         <FileStructure />
       </ResizablePanel>
-      <ResizableHandle withHandle />
+      <ResizableHandle withHandle className='' />
       <ResizablePanel defaultSize={85} minSize={60}>
         {/* Data table */}
         <div className='mx-auto p-2'>

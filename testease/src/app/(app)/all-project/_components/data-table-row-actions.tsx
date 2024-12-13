@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog } from '@/components/ui/dialog';
 import EditProjectDialog from './edit-project-dialog';
 import DeleteProjectDialog from './delete-project-dialog';
 import { AlertDialog } from '@/components/ui/alert-dialog';

@@ -23,11 +23,16 @@ const LoginForm = () => {
   const loginMutation = useLogin({
     onSuccess: () => {
       router.push(paths.projectAll.getHref());
+      toast({
+        variant: 'success',
+        title: 'LOGIN SUCCESS.',
+        description: 'Redirecting to home page'
+      });
     },
     onError: (error) => {
       toast({
         variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
+        title: 'LOGIN FAILED',
         description: error.message
       });
     }

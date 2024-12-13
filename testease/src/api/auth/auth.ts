@@ -1,9 +1,11 @@
-import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { customFetch } from '@/lib/api-client';
 import { TLoginSchema, TRegisterSchema } from '@/app/(auth)/_data/auth-schema';
 
 export const getUser = async (): Promise<any> => {
-  return customFetch.get('/authenticate');
+  await new Promise((resolve) => setTimeout(resolve, 8000));
+  const response = await customFetch.get('/authenticate', { cache: 'force-cache', next: { revalidate: 60 } });
+  return response;
 };
 
 export const logout = (): Promise<any> => {
@@ -22,14 +24,12 @@ export const registerWithEmailAndPassword = (data: TRegisterDTO): Promise<any> =
 
 const userQueryKey = ['user'];
 
-export const getUserQueryOptions = () => {
-  return queryOptions({
+export const useUser = () => {
+  return useQuery({
     queryKey: userQueryKey,
     queryFn: getUser
   });
 };
-
-export const useUser = () => useQuery(getUserQueryOptions());
 
 export const useLogin = ({ onSuccess, onError }: { onSuccess?: () => void; onError?: (error: Error) => void }) => {
   const queryClient = useQueryClient();

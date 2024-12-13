@@ -12,7 +12,7 @@ export default function BlackBoxLayout({
   return (
     <div className='flex-1 bg-background'>
       {/* Header */}
-      <div className='sticky top-0 z-50 flex justify-between items-center p-4 border-b bg-background'>
+      <div className='sticky top-0 z-10 flex justify-between items-center p-4 border-b bg-background'>
         <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
         <div className='flex justify-center items-center gap-2'>
           <Button onClick={() => handleGenerateTestCase()} className='cursor-pointer'>

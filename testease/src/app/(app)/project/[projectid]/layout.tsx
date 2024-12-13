@@ -24,7 +24,7 @@ export default async function AppLayout({
           <SidebarTrigger className='-ml-1' />
           <ModeToggle />
         </header>
-        <div>{children}</div>
+        <main>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

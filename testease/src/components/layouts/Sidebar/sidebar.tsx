@@ -2,10 +2,13 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } f
 import AppSidebarHeader from './sidebar-header';
 import AppSidebarMenu from './sidebar-menu';
 import AppSidebarFooter from './sidebar-footer';
-import { getUser } from '@/app/api/auth/actions';
+import { getUser } from '@/api/auth/auth';
+import { Suspense } from 'react';
+import SidebarFooterSkeleton from './sidebar-footer-skeleton';
 
 const AppSidebar = async ({ projectId }: { projectId?: string }) => {
-  const userData = await getUser();
+  const userData = getUser();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -19,7 +22,9 @@ const AppSidebar = async ({ projectId }: { projectId?: string }) => {
         )}
       </SidebarContent>
       <SidebarFooter>
-        <AppSidebarFooter user={userData.data.user} />
+        <Suspense fallback={<SidebarFooterSkeleton />}>
+          <AppSidebarFooter userPromise={userData} />
+        </Suspense>
       </SidebarFooter>
     </Sidebar>
   );

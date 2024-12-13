@@ -12,12 +12,15 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
 import { paths } from '@/lib/routes';
-import { User } from '@/types/api';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { use } from 'react';
 
-export default function AppSidebarFooter({ user }: { user: User }) {
+export default function AppSidebarFooter({ userPromise }: { userPromise: Promise<any> }) {
+  const userResponse = use(userPromise);
+  const user = userResponse.data.user;
+
   const router = useRouter();
   const logoutMutation = useLogout({
     onSuccess: () => {

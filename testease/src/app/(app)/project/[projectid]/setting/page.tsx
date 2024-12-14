@@ -8,7 +8,7 @@ import TestCaseField from "./_components/testcase-field"
 import TestRunField from "./_components/testrun-field"
 import { FolderCode, SquareCode } from "lucide-react";
 
-const SettingPage = () => {
+export default function SettingPage() {
   return (
     <Tabs defaultValue="testcase" className="p-4 w-full">
       <TabsList className="grid w-[380px] grid-cols-2">
@@ -30,5 +30,3 @@ const SettingPage = () => {
     </Tabs>
   )
 };
-
-export default SettingPage;

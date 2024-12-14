@@ -1,5 +1,5 @@
 'use client';
-//import { deleteField } from '@/app/api/field/actions';
+//import { deleteBugReport } from '@/app/api/field/actions';
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -9,29 +9,29 @@ import {
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
-//import { Field } from '@/types/api';
+//import { BugReport } from '@/types/api';
 import { Dispatch, SetStateAction } from 'react';
-import { TFieldSchema } from '../_data/schemas';
+import { TBugReportSchema } from '../_data/schemas';
 
-export default function DeleteFieldDialog({
+export default function DeleteBugReportDialog({
   field,
   setIsOpen
 }: {
-  field: TFieldSchema;
+  field: TBugReportSchema;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   //Add field id as additional argument to server action
   const handleDelete = () => {
-    //deleteField.bind(null, field._id);
+    //deleteBugReport.bind(null, field._id);
     console.log("delete ", field._id);
     setIsOpen(false);
   };
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>DELETE FIELD</AlertDialogTitle>
+        <AlertDialogTitle>DELETE REPORT</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. Are you sure you want to permanently delete this field?
+          This action cannot be undone. Are you sure you want to permanently delete this report?
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

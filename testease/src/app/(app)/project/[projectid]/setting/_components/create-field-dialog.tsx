@@ -43,7 +43,7 @@ export default function CreateProjectDialog({ type } : FieldFormProps) {
   ) : (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Create project</Button>
+        <Button>Create field</Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>

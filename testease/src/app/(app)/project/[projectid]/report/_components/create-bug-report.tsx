@@ -6,7 +6,6 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { DatePicker } from "@/components/ui/datepicker";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +43,19 @@ export default function CreateBugReport() {
         <DialogHeader>
           <DialogTitle>Create Bug/Defect Report</DialogTitle>
         </DialogHeader>
-        <form id="create-bug-report-form" onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-5 gap-6 max-w-[800px] min-w-[600px]">
+        <form id="create-bug-report-form" onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-5 gap-4 max-w-[800px] min-w-[600px]">
+          <div className="col-span-5">
+            <Label htmlFor="title">Report Title</Label>
+            <Controller
+              control={control}
+              name="title"
+              render={({ field }) => (
+                <Input {...field} placeholder="Report Title" />
+              )}
+            />
+            {errors.title && <p className="text-destructive">{errors.title.message}</p>}
+          </div>
+          
           {/* Left Section */}
           <div className="col-span-2 grid gap-4">
             <div>
@@ -161,32 +172,46 @@ export default function CreateBugReport() {
             </div>
             
             <div className="col-span-1">
-              <Label className="block text-sm font-medium mb-1">Severity</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Medium" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="severity">Severity</Label>
+              <Controller
+                control={control}
+                name="severity"
+                render={({ field }) => (
+                  <Select {...field}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Medium" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.severity && <p className="text-destructive">{errors.severity.message}</p>}
             </div>
             
             <div className="col-span-1">
-                <Label className="block text-sm font-medium mb-1">Priority</Label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Medium" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Label htmlFor="priority">Priority</Label>
+              <Controller
+                control={control}
+                name="priority"
+                render={({ field }) => (
+                  <Select {...field}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Medium" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.priority && <p className="text-destructive">{errors.priority.message}</p>}
+            </div>
           </div>
         </form>
 

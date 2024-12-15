@@ -1,6 +1,8 @@
 import { z } from "zod";
 
 export const BugReportSchema = z.object({
+  _id: z.string(),
+  type: z.literal("Bug Report"),
   title: z.string(),
   project: z.string(),
   bugId: z.string(),
@@ -73,7 +75,10 @@ export const EditBugReportSchema = z.object({
 export type TEditBugReportSchema = z.infer<typeof EditBugReportSchema>;
 
 export const TestReportSchema = z.object({
+  _id: z.string(),
+  type: z.literal("Test Report"),
   title: z.string(),
+  reportedBy: z.string(),
   project: z.string(),
   functionName: z.string(),
   testSummary: z.string(),
@@ -102,26 +107,9 @@ export const EditTestReportSchema = z.object({
 
 export type TEditTestReportSchema = z.infer<typeof EditTestReportSchema>;
 
-const ReportTypeEnum = z.enum(["Bug Report", "Test Report"]);
-
-export const ReportSchema = z.object({
-  _id: z.string(),
-  title: z.string(),
-  type: ReportTypeEnum,
-  project: z.string(),
-  reportedBy: z.string(),
-  functionName: z.string(),
-  // Bug-specific fields
-  bugId: z.string().optional(),
-  assignTo: z.string().optional(),
-  status: z.enum(["open", "in-progress", "closed"]).optional(),
-  problemSummary: z.string().optional(),
-  stepsToReproduce: z.string().optional(),
-  severity: z.enum(["low", "medium", "high"]).optional(),
-  priority: z.enum(["low", "medium", "high"]).optional(),
-  // Test-specific fields
-  testSummary: z.string().optional(),
-  testResults: z.string().optional(),
-});
+export const ReportSchema = z.discriminatedUnion("type", [
+  BugReportSchema,
+  TestReportSchema,
+]);
 
 export type TReportSchema = z.infer<typeof ReportSchema>;

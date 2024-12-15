@@ -28,7 +28,7 @@ const ReportTable: React.FC<ReportTableProps> = ({ reports }) => {
               <TableCell>{report.type}</TableCell>
               <TableCell>{report.reportedBy}</TableCell>
               <TableCell className="text-right pr-4">
-                huhu
+                <ActionCell report={report}/>
               </TableCell>
             </TableRow>
           ))

@@ -92,7 +92,7 @@ export default function ReportPage() {
         <CreateBugReport />
         <CreateTestReport />
       </div>
-      <div>
+      <div className="p-4">
         <ReportTable reports={data}/>
       </div>
     </div>

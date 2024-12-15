@@ -4,23 +4,29 @@ import { useState } from 'react';
 import { MoreVertical, Edit, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import DeleteBugReportDialog from './delete-report-dialog';
-import EditBugReportDialog from './edit-field-dialog';
+import DeleteReportDialog from './delete-report-dialog';
+import EditBugReportDialog from './edit-bug-report';
+import EditTestReportDialog from './edit-test-report';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Dialog } from '@/components/ui/dialog';
-import { TBugReportSchema } from '../_data/schemas';
+import { TReportSchema } from '../_data/schemas';
 
-const ActionCell: React.FC<{ field: TBugReportSchema }> = ({ field }) => {
+const ActionCell: React.FC<{ report: TReportSchema }> = ({ report }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
     <>
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <EditBugReportDialog field={field} setIsOpen={setIsEditOpen} />
+        {report.type == "Bug Report" ? (
+          <EditBugReportDialog report={report} setIsOpen={setIsEditOpen} />
+        ) : (
+          <EditTestReportDialog report={report} setIsOpen={setIsEditOpen} />
+        )}
+        
       </Dialog>
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
-        <DeleteBugReportDialog field={field} setIsOpen={setIsDeleteOpen} />
+        <DeleteReportDialog report={report} setIsOpen={setIsDeleteOpen} />
       </AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

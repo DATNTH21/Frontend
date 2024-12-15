@@ -11,19 +11,19 @@ import {
 } from '@/components/ui/alert-dialog';
 //import { BugReport } from '@/types/api';
 import { Dispatch, SetStateAction } from 'react';
-import { TBugReportSchema } from '../_data/schemas';
+import { TReportSchema } from '../_data/schemas';
 
-export default function DeleteBugReportDialog({
-  field,
+export default function DeleteReportDialog({
+  report,
   setIsOpen
 }: {
-  field: TBugReportSchema;
+  report: TReportSchema;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   //Add field id as additional argument to server action
   const handleDelete = () => {
     //deleteBugReport.bind(null, field._id);
-    console.log("delete ", field._id);
+    console.log("delete ", report._id);
     setIsOpen(false);
   };
   return (

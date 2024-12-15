@@ -1,3 +1,4 @@
+import { columns } from "./_components/columns";
 import CreateBugReport from "./_components/create-bug-report"
 import CreateTestReport from "./_components/create-test-report"
 import ReportTable from "./_components/report-table";
@@ -11,7 +12,7 @@ export default function ReportPage() {
       type: "Bug Report",
       project: "Authentication Module",
       bugId: "BUG-001",
-      reportedBy: "Alice",
+      reportedBy: "Alice In The Wonderland",
       assignTo: "John",
       status: "open",
       functionName: "handleLoginClick",
@@ -93,7 +94,7 @@ export default function ReportPage() {
         <CreateTestReport />
       </div>
       <div className="p-4">
-        <ReportTable reports={data}/>
+        <ReportTable columns={columns} data={data} />
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 'use client';
 
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState } from 'react';
 import {
   ColumnDef,
@@ -29,7 +29,7 @@ interface DataTableProps<TData, TValue> {
 export default function AllProjectTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const [rowSelection, setRowSelection] = useState({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -52,7 +52,12 @@ export default function AllProjectTable<TData, TValue>({ columns, data }: DataTa
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues()
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    enableMultiRowSelection: false,
+    enableHiding: true,
+    initialState: {
+      columnVisibility: { _id: false }
+    }
   });
 
   return (
@@ -79,7 +84,7 @@ export default function AllProjectTable<TData, TValue>({ columns, data }: DataTa
                 <TableRow
                   key={row.id}
                   data-state={row.getValue('status')}
-                  className={`cursor-pointer ${row.getValue('status') === 'GENERATING' ? 'pointer-events-none bg-muted !text-muted-foreground' : ''}`}
+                  className={`cursor-pointer ${row.getValue('status') === 'Generating' ? 'pointer-events-none bg-muted !text-muted-foreground' : ''}`}
                   onClick={() => {
                     router.push(paths.projectDetail.dashboard.getHref(row.getValue('_id')));
                   }}

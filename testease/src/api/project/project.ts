@@ -7,7 +7,7 @@ import {
   GetProjectByUserResponse,
   UpdateProjectDTO,
   UpdateProjectResponse
-} from '@/types/project';
+} from '@/types/project.d';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const deleteProject = async (projectId: string): Promise<DeleteProjectResponse> => {
@@ -27,7 +27,10 @@ export const getProjectsByUser = async (userId: string): Promise<GetProjectByUse
 };
 
 export const getProjectById = async (projectId: string): Promise<GetProjectByIdResponse> => {
-  return customFetch.get<GetProjectByIdResponse>(`/projects/${projectId}`);
+  return customFetch.get<GetProjectByIdResponse>(`/projects/${projectId}`, {
+    cache: 'force-cache',
+    next: { revalidate: 60 }
+  });
 };
 
 const projectQueryKey = ['project'];

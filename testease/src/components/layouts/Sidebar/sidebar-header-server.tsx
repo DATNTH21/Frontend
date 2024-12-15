@@ -1,7 +1,7 @@
 import { getUser } from '@/api/auth/auth';
 import AppSidebarHeader from './sidebar-header';
 import { getProjectById, getProjectsByUser } from '@/api/project/project';
-import { Project } from '@/types/project';
+import { Project } from '@/types/project.d';
 import { redirect } from 'next/navigation';
 
 export default async function SidebarHeaderServer({ projectId }: { projectId?: string }) {

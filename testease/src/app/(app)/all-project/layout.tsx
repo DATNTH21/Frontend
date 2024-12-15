@@ -16,7 +16,7 @@ export default async function AllProjectLayout({ children }: { children: React.R
             <ModeToggle />
           </div>
         </header>
-        <div className='w-full'>{children}</div>
+        <div className='w-full h-full'>{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

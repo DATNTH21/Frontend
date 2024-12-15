@@ -9,15 +9,15 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { Dispatch, SetStateAction } from 'react';
-import { TProjectSchema } from '../_data/schemas';
 import { useDeleteProject } from '@/api/project/project';
 import { toast } from '@/hooks/use-toast';
+import { Project } from '@/types/project.d';
 
 export default function DeleteProjectDialog({
   project,
   setIsOpen
 }: {
-  project: TProjectSchema;
+  project: Project;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const deleteProjectMutation = useDeleteProject({

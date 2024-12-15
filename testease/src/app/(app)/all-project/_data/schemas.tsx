@@ -2,35 +2,31 @@ import { z } from 'zod';
 
 export const projectStatus = [
   {
-    label: 'Generating',
+    label: 'GENERATING',
     value: 'Generating',
     color: 'hsl(var(--primary))'
   },
   {
-    label: 'Done',
+    label: 'DONE',
     value: 'Done',
     color: '#37b24d'
   },
   {
-    label: 'Failed',
+    label: 'FAILED',
     value: 'Failed',
     color: '#f03e3e'
   },
   {
-    label: 'Seen',
+    label: 'SEEN',
     value: 'Seen',
+    color: '#1E90FF'
+  },
+  {
+    label: 'DEFAULT',
+    value: 'Default',
     color: '#1E90FF'
   }
 ];
-export const projectSchema = z.object({
-  _id: z.string(),
-  title: z.string(),
-  link: z.string(),
-  description: z.instanceof(File).nullable().optional(),
-  status: z.string()
-});
-
-export type TProjectSchema = z.infer<typeof projectSchema>;
 
 const checkFileType = (file: File) => {
   const supportedTypes = ['application/msword', 'application/pdf', 'text/plain'];

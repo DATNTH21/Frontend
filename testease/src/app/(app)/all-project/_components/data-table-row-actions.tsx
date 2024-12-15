@@ -13,15 +13,16 @@ import { Dialog } from '@/components/ui/dialog';
 import EditProjectDialog from './edit-project-dialog';
 import DeleteProjectDialog from './delete-project-dialog';
 import { AlertDialog } from '@/components/ui/alert-dialog';
-import { projectSchema } from '../_data/schemas';
+
 import { Row } from '@tanstack/react-table';
+import { ProjectSchema } from '@/types/project.d';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const project = projectSchema.parse(row.original);
+  const project = ProjectSchema.parse(row.original);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 

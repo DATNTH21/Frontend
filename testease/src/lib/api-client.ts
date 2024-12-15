@@ -65,7 +65,6 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
   if (!response.ok) {
     const message = (await response.json()).message || response.statusText;
     if (typeof window !== 'undefined') {
-      //throw notification box
     }
     throw new Error(message);
   }

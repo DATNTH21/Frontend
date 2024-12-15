@@ -2,23 +2,23 @@ import { z } from 'zod';
 
 export const projectStatus = [
   {
-    label: 'generating',
-    value: 'GENERATING',
+    label: 'Generating',
+    value: 'Generating',
     color: 'hsl(var(--primary))'
   },
   {
-    label: 'complete',
-    value: 'COMPLETE',
+    label: 'Done',
+    value: 'Done',
     color: '#37b24d'
   },
   {
-    label: 'failed',
-    value: 'FAILED',
+    label: 'Failed',
+    value: 'Failed',
     color: '#f03e3e'
   },
   {
-    label: 'seen',
-    value: 'SEEN',
+    label: 'Seen',
+    value: 'Seen',
     color: '#1E90FF'
   }
 ];

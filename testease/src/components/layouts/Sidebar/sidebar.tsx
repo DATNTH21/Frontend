@@ -1,18 +1,17 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } from '@/components/ui/sidebar';
-import AppSidebarHeader from './sidebar-header';
 import AppSidebarMenu from './sidebar-menu';
-import AppSidebarFooter from './sidebar-footer';
-import { getUser } from '@/api/auth/auth';
 import { Suspense } from 'react';
 import SidebarFooterSkeleton from './sidebar-footer-skeleton';
+import SidebarFooterServer from './sidebar-footer-server';
+import SidebarHeaderServer from './sidebar-header-server';
 
 const AppSidebar = async ({ projectId }: { projectId?: string }) => {
-  const userData = getUser();
-
   return (
     <Sidebar>
       <SidebarHeader>
-        <AppSidebarHeader projectId={projectId} />
+        <Suspense fallback={<SidebarFooterSkeleton />}>
+          <SidebarHeaderServer projectId={projectId} />
+        </Suspense>
       </SidebarHeader>
       <SidebarContent>
         {projectId && (
@@ -23,7 +22,7 @@ const AppSidebar = async ({ projectId }: { projectId?: string }) => {
       </SidebarContent>
       <SidebarFooter>
         <Suspense fallback={<SidebarFooterSkeleton />}>
-          <AppSidebarFooter userPromise={userData} />
+          <SidebarFooterServer />
         </Suspense>
       </SidebarFooter>
     </Sidebar>

@@ -1,25 +1,36 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { customFetch } from '@/lib/api-client';
 import { TLoginSchema, TRegisterSchema } from '@/app/(auth)/_data/auth-schema';
+import { GetUserResponse, LoginResponse, LogoutResponse, RegisterResponse } from '@/types/auth';
 
-export const getUser = async (): Promise<any> => {
-  await new Promise((resolve) => setTimeout(resolve, 8000));
-  const response = await customFetch.get('/authenticate', { cache: 'force-cache', next: { revalidate: 60 } });
-  return response;
+export const getUser = async (): Promise<GetUserResponse> => {
+  return customFetch.get<GetUserResponse>('/authenticate', {
+    cache: 'force-cache',
+    next: { revalidate: 60 }
+  });
+  // return new Promise((resolve) => {
+  //   setTimeout(async () => {
+  //     const response = await customFetch.get<GetUserResponse>('/authenticate', {
+  //       cache: 'force-cache',
+  //       next: { revalidate: 60 }
+  //     });
+  //     resolve(response);
+  //   }, 8000); // 8-second delay
+  // });
 };
 
-export const logout = (): Promise<any> => {
-  return customFetch.post('/api/v1/logout');
+export const logout = (): Promise<LogoutResponse> => {
+  return customFetch.post<LogoutResponse>('/api/v1/logout');
 };
 
-export const loginWithEmailAndPassword = (data: TLoginSchema): Promise<any> => {
-  return customFetch.post('/api/v1/login', data);
+export const loginWithEmailAndPassword = (data: TLoginSchema): Promise<LoginResponse> => {
+  return customFetch.post<LoginResponse>('/api/v1/login', data);
 };
 
 export type TRegisterDTO = Omit<TRegisterSchema, 'confirmPassword'>;
 
-export const registerWithEmailAndPassword = (data: TRegisterDTO): Promise<any> => {
-  return customFetch.post('/api/v1/register', data);
+export const registerWithEmailAndPassword = (data: TRegisterDTO): Promise<RegisterResponse> => {
+  return customFetch.post<RegisterResponse>('/api/v1/register', data);
 };
 
 const userQueryKey = ['user'];
@@ -37,7 +48,7 @@ export const useLogin = ({ onSuccess, onError }: { onSuccess?: () => void; onErr
     mutationKey: ['login'],
     mutationFn: loginWithEmailAndPassword,
     onSuccess: (data) => {
-      queryClient.setQueryData(userQueryKey, data.user);
+      queryClient.setQueryData(userQueryKey, data);
       onSuccess?.();
     },
     onError: (error) => {
@@ -54,7 +65,7 @@ export const useRegister = ({ onSuccess, onError }: { onSuccess?: () => void; on
     mutationKey: ['register'],
     mutationFn: registerWithEmailAndPassword,
     onSuccess: (data) => {
-      queryClient.setQueryData(userQueryKey, data.user);
+      queryClient.setQueryData(userQueryKey, data);
       onSuccess?.();
     },
     onError: (error) => {

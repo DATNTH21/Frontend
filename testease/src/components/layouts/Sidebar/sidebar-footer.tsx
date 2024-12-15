@@ -9,18 +9,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
 import { paths } from '@/lib/routes';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { use } from 'react';
+import SidebarFooterSkeleton from './sidebar-footer-skeleton';
+import { User } from '@/types/auth';
 
-export default function AppSidebarFooter({ userPromise }: { userPromise: Promise<any> }) {
-  const userResponse = use(userPromise);
-  const user = userResponse.data.user;
-
+export default function AppSidebarFooter({ user }: { user: User }) {
   const router = useRouter();
   const logoutMutation = useLogout({
     onSuccess: () => {
@@ -78,12 +75,6 @@ export default function AppSidebarFooter({ userPromise }: { userPromise: Promise
       </SidebarMenuItem>
     </SidebarMenu>
   ) : (
-    <div className='flex'>
-      <Skeleton className='h-8 w-8 rounded-lg'></Skeleton>
-      <div className='grid flex-1 text-left text-sm leading-tight'>
-        <Skeleton></Skeleton>
-        <Skeleton></Skeleton>
-      </div>
-    </div>
+    <SidebarFooterSkeleton />
   );
 }

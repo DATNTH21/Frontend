@@ -11,28 +11,28 @@ const AllProjectPage = () => {
       title: 'Demo project 1',
       link: '98 test cases',
       description: null,
-      status: 'GENERATING'
+      status: 'Generating'
     },
     {
       _id: 'PR-2',
       title: 'Demo project 2',
       link: '65 test cases',
       description: null,
-      status: 'COMPLETE'
+      status: 'Done'
     },
     {
       _id: 'PR-3',
       title: 'Demo project 3',
       link: '23 test cases',
       description: null,
-      status: 'SEEN'
+      status: 'Seen'
     },
     {
       _id: 'PR-4',
       title: 'Demo project 4',
       link: '45 test cases',
       description: null,
-      status: 'FAILED'
+      status: 'Failed'
     }
   ];
 

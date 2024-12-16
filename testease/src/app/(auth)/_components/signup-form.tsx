@@ -1,4 +1,4 @@
-'use-client';
+'use client';
 import { TRegisterSchema, registerSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

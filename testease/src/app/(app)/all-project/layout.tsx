@@ -7,7 +7,7 @@ export default async function AllProjectLayout({ children }: { children: React.R
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className='flex sticky top-0 bg-background h-16 shrink-0 items-center border-b px-4 justify-between'>
+        <header className='flex sticky top-0 bg-background h-16 shrink-0 items-center border-b px-4 justify-between z-10'>
           <div className='flex gap-2 items-center'>
             <SidebarTrigger className='-ml-1' />
             <div className='font-bold tracking-tight text-xl'>All Projects</div>
@@ -16,7 +16,7 @@ export default async function AllProjectLayout({ children }: { children: React.R
             <ModeToggle />
           </div>
         </header>
-        <div className='w-full h-full'>{children}</div>
+        <div className='w-full h-full flex flex-col bg-background'>{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

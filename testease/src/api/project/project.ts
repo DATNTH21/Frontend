@@ -22,8 +22,12 @@ export const createProject = async (data: CreateProjectDTO): Promise<CreateProje
   return customFetch.post<CreateProjectResponse>('/projects', data);
 };
 
-export const getProjectsByUser = async (userId: string): Promise<GetProjectByUserResponse> => {
-  return customFetch.get<GetProjectByUserResponse>(`/projects/user/${userId}`);
+export const getProjectsByUser = async (userId: string, searchParam?: string): Promise<GetProjectByUserResponse> => {
+  const url = searchParam
+    ? `/projects/user/${userId}?search=${encodeURIComponent(searchParam)}`
+    : `/projects/user/${userId}`;
+  //console.log(url);
+  return customFetch.get<GetProjectByUserResponse>(url);
 };
 
 export const getProjectById = async (projectId: string): Promise<GetProjectByIdResponse> => {

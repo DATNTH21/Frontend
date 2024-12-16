@@ -8,7 +8,7 @@ const AllProjectPage = async (props: { searchParams?: Promise<{ search?: string 
   const keyword = searchParams?.search || '';
 
   return (
-    <div className='flex-1 mx-auto w-full p-2'>
+    <div className='flex-1 mx-auto w-full'>
       {/* Search Bar */}
       <div className='w-full mb-4 flex items-center justify-between gap-4'>
         <SearchBar />

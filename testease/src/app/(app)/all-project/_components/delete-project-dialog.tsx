@@ -1,5 +1,5 @@
 'use client';
-import { deleteProject } from '@/app/api/project/actions';
+import { deleteProject } from '@/app/_api/project/actions';
 import {
   AlertDialogAction,
   AlertDialogCancel,

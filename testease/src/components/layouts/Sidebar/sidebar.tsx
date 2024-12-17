@@ -2,7 +2,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } f
 import AppSidebarHeader from './sidebar-header';
 import AppSidebarMenu from './sidebar-menu';
 import AppSidebarFooter from './sidebar-footer';
-import { getUser } from '@/app/api/auth/actions';
+import { getUser } from '@/app/_api/auth/actions';
 
 const AppSidebar = async ({ projectId }: { projectId?: string }) => {
   const userData = await getUser();

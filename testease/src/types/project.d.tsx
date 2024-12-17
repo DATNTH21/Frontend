@@ -6,7 +6,7 @@ export const ProjectSchema = z.object({
   _id: z.string(),
   project_id: z.string(),
   name: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   status: z.enum(['Generating', 'Done', 'Seen', 'Failed', 'Default']),
   created_at: z
     .string()
@@ -24,7 +24,7 @@ export type Project = {
   _id: string;
   project_id: string;
   name: string;
-  description: string;
+  description?: string;
   status: 'Generating' | 'Done' | 'Seen' | 'Failed' | 'Default';
   created_at?: Date;
   updated_at?: Date;

@@ -24,7 +24,7 @@ export const projectStatus = [
   {
     label: 'DEFAULT',
     value: 'Default',
-    color: '#1E90FF'
+    color: ''
   }
 ];
 

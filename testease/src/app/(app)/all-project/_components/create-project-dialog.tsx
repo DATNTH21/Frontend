@@ -15,36 +15,73 @@ import { CreateProjectSchema, TCreateProjectSchema } from '../_data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useCreateProject } from '@/api/project/project';
+import { toast } from '@/hooks/use-toast';
+import { useUser } from '@/api/auth/auth';
 
 export default function CreateProjectDialog() {
   const [open, setOpen] = useState(false);
+  const createProjectMutation = useCreateProject({
+    onSuccess: () => {
+      toast({
+        variant: 'success',
+        title: 'Create project successfully'
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Create project failed',
+        description: error.message
+      });
+      setOpen(false);
+    }
+  });
+
+  const { data: userResponse } = useUser();
+
   const {
     handleSubmit,
     register,
     control,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
+    reset
   } = useForm<TCreateProjectSchema>({ resolver: zodResolver(CreateProjectSchema) });
 
   const submit = (data: TCreateProjectSchema) => {
     console.log('All-project - Create project button: ', data);
+
+    if (!userResponse?.data?._id) {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to create project',
+        description: 'User ID is not available. Please try again.'
+      });
+      return; // Stop form submission if user ID is not available
+    }
+
+    const userId = userResponse.data._id;
+    console.log(userId);
+
     const formData = new FormData();
     formData.append('name', data.name);
     if (data.description) {
       formData.append('description', data.description);
-    } else {
-      formData.append('description', '');
     }
+    formData.append('users', JSON.stringify([userId]));
 
     //Send form data to server
+    createProjectMutation.mutate({ data: formData });
 
+    //Clear the input on Submit
+    reset();
+
+    //Close the dialog
     setOpen(false);
   };
-  return isSubmitting ? (
-    <Spinner></Spinner>
-  ) : (
+  return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Create project</Button>

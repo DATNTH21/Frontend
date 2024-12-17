@@ -14,11 +14,11 @@ export const deleteProject = async (projectId: string): Promise<DeleteProjectRes
   return customFetch.delete<DeleteProjectResponse>(`/projects/${projectId}`);
 };
 
-export const updateProject = async (projectId: string, data: UpdateProjectDTO): Promise<UpdateProjectResponse> => {
+export const updateProject = async (projectId: string, data: FormData): Promise<UpdateProjectResponse> => {
   return customFetch.patch<UpdateProjectResponse>(`/projects/${projectId}`, data);
 };
 
-export const createProject = async (data: CreateProjectDTO): Promise<CreateProjectResponse> => {
+export const createProject = async (data: FormData): Promise<CreateProjectResponse> => {
   return customFetch.post<CreateProjectResponse>('/projects', data);
 };
 
@@ -48,7 +48,7 @@ export const useDeleteProject = ({
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['deleteProject'],
+    mutationKey: ['delete-project'],
     mutationFn: (projectId: string) => deleteProject(projectId),
     onSuccess: () => {
       // Revidate
@@ -70,8 +70,8 @@ export const useUpdateProject = ({
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['updateProject'],
-    mutationFn: ({ projectId, data }: { projectId: string; data: UpdateProjectDTO }) => updateProject(projectId, data),
+    mutationKey: ['update-project'],
+    mutationFn: ({ projectId, data }: { projectId: string; data: FormData }) => updateProject(projectId, data),
     onSuccess: () => {
       // Revidate
       queryClient.invalidateQueries({ queryKey: projectQueryKey });
@@ -92,8 +92,8 @@ export const useCreateProject = ({
 }) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ['updateProject'],
-    mutationFn: ({ projectId, data }: { projectId: string; data: CreateProjectDTO }) => updateProject(projectId, data),
+    mutationKey: ['create-project'],
+    mutationFn: ({ data }: { data: FormData }) => createProject(data),
     onSuccess: () => {
       // Revidate
       queryClient.invalidateQueries({ queryKey: projectQueryKey });
@@ -105,9 +105,10 @@ export const useCreateProject = ({
   });
 };
 
-export const useProject = (userId: string) => {
+export const useProject = (userId: string, searchParam?: string) => {
   return useQuery({
-    queryKey: ['user-project', userId],
-    queryFn: () => getProjectsByUser(userId)
+    queryKey: [...projectQueryKey, userId, searchParam],
+    queryFn: () => getProjectsByUser(userId, searchParam),
+    enabled: !!userId
   });
 };

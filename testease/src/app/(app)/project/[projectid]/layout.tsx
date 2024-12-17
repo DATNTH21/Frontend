@@ -24,7 +24,7 @@ export default async function AppLayout({
           <SidebarTrigger className='-ml-1' />
           <ModeToggle />
         </header>
-        <main>{children}</main>
+        <main className='w-full h-full bg-background'>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

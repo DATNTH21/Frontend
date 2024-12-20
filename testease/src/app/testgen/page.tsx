@@ -8,7 +8,7 @@ let socket: any;
 export default function Home() {
   const [input, setInput] = useState('');
   const [result, setResult] = useState('');
-  const [progress, setProgress] = useState(null);
+  const [progress, setProgress] = useState<Number>(-1);
 
   useEffect(() => {
     socket = io('http://localhost:8080');
@@ -63,8 +63,8 @@ export default function Home() {
         </form>
         <div className='ml-4'>
           <div className='flex items-center gap-4'>
-            <h2>Progress: {progress != null ? `${progress}%` : 'not started'}</h2>
-            {progress != null && progress != 100 && (
+            <h2>Progress: {progress != -1 ? `${progress}%` : 'not started'}</h2>
+            {progress != -1 && progress != 100 && (
               <div className='w-[24px] h-[24px] border-4 border-blue-500 border-t-transparent rounded-full animate-spin'></div>
             )}
           </div>

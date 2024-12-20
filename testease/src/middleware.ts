@@ -10,7 +10,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/authenticate`, {
   const response = await fetch(`${process.env.NEXT_CLIENT_URL}/api/auth/user`, {
     method: 'GET',
     headers: {

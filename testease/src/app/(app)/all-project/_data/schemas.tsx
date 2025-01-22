@@ -12,6 +12,11 @@ export const projectStatus = [
     color: '#37b24d'
   },
   {
+    label: 'default',
+    value: 'Default',
+    color: '#7c3aed'
+  },
+  {
     label: 'failed',
     value: 'FAILED',
     color: '#f03e3e'
@@ -24,9 +29,8 @@ export const projectStatus = [
 ];
 export const projectSchema = z.object({
   _id: z.string(),
-  title: z.string(),
-  link: z.string(),
-  description: z.instanceof(File).nullable().optional(),
+  name: z.string(),
+  description: z.string(),
   status: z.string()
 });
 

@@ -1,34 +1,22 @@
 'use client';
 
 import { useUser } from '@/api/auth/auth';
+import { use } from 'react';
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
 import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { ChevronsDownUp, Folder } from 'lucide-react';
-import { type Project } from '@/types/api';
+import { GetProjectsResponse, type Project } from '@/types/api';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
-export default function AppSidebarHeader({ projectId }: { projectId?: string }) {
+export default function AppSidebarHeader({ 
+  projectId, data 
+}: { 
+  projectId?: string, data: Promise<GetProjectsResponse> 
+}) {
   const router = useRouter();
   const { data: user, status: userStatus } = useUser();
-  const projects: Project[] = [
-    {
-      _id: '1',
-      name: 'A simple website'
-    },
-    {
-      _id: '2',
-      name: 'Chess play'
-    },
-    {
-      _id: '3',
-      name: 'E-commerce for clothes'
-    },
-    {
-      _id: '4',
-      name: 'Novel scraping service'
-    }
-  ];
+  const projects = use(data).data;
   const handleOnClickProject = (chosenProjectId?: string) => {
     //This means chosen project is not all-project page
     if (chosenProjectId) {

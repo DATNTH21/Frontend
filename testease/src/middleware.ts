@@ -1,56 +1,66 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { auth } from "@/auth";
+
+const allowedOrigins = [process.env.NEXT_PUBLIC_ORIGIN];
 
 export async function middleware(request: NextRequest) {
-  console.log('middleware trigger');
-  const accessToken = request.cookies.get('accessToken')?.value;
-  const refreshToken = request.cookies.get('refreshToken')?.value;
+  const url = request.nextUrl;
+  const { pathname, origin } = url;
+  const isAllowedOrigin = allowedOrigins.includes(origin);
+  const session = await auth();
+  console.log("MIDDLEWARE");
 
-  if (!accessToken || !refreshToken) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Prevent API access from different origins (CORS check)
+  if (pathname.startsWith("/api") && !isAllowedOrigin) {
+    return NextResponse.redirect(new URL("/unauthorized", url));
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/authenticate`, {
-    method: 'GET',
-    headers: {
-      cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`
-    }
-  });
-
-  if (!response.ok) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  // Allow access to all APIs under `/api/access`
+  if (pathname.startsWith("/api/access")) {
+    return NextResponse.next();
   }
 
-  const setCookieHeader = response.headers.get('set-cookie');
-
-  const accessTokenMatch = setCookieHeader?.match(/accessToken=([^;]*)/);
-  if (!accessTokenMatch) return;
-
-  const refreshTokenMatch = setCookieHeader?.match(/refreshToken=([^;]*)/);
-
-  const newAccessToken = accessTokenMatch[1];
-  const newRefreshToken = refreshTokenMatch ? refreshTokenMatch[1] : null;
-
-  console.log({ newAccessToken: newAccessToken, newRefreshToken });
-
-  const nextResponse = NextResponse.next();
-  if (newAccessToken) {
-    nextResponse.cookies.set('accessToken', String(newAccessToken), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production'
-    });
-  }
-  if (newRefreshToken) {
-    nextResponse.cookies.set('refreshToken', String(newRefreshToken), {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production'
-    });
+  // Allow all authentication-related APIs except for `/api/auth/session`
+  if (pathname.startsWith("/api/auth") && pathname !== "/api/auth/session") {
+    return NextResponse.next();
   }
 
-  return nextResponse;
+  // Block access to `/api/auth/session`
+  if (pathname === "/api/auth/session") {
+    return NextResponse.redirect(new URL("/unauthorized", url));
+  }
+
+  // If the request is for login or sign-up and the user is logged in, redirect to home
+  if ((pathname === "/login" || pathname === "/signup") && session) {
+    return NextResponse.redirect(new URL("/", url));
+  }
+
+  // If the user is not logged in, only allow access to login and sign-up
+  if (!session && !["/login", "/signup"].includes(pathname)) {
+    return NextResponse.redirect(new URL("/login", url));
+  }
+
+  // If the user does not have an error and is trying to log out, redirect to home
+  if (!session?.error && pathname === "/logout") {
+    return NextResponse.redirect(new URL("/", url));
+  }
+
+  // Prevent loop during logout
+  if (session?.error === "RefreshTokenError" && pathname === "/logout") {
+    return NextResponse.next(); // Allow logout to proceed
+  }
+
+  // If refresh token error, redirect to logout
+  if (session?.error === "RefreshTokenError" && pathname !== "/logout") {
+    return NextResponse.redirect(new URL("/logout", url));
+  }
+
+  return NextResponse.next();
 }
+
 export const config = {
   matcher: [
-    '/((?!signup|verify|login|assets|api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\..*|$).*)'
-  ]
+    "/((?!unauthorized|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api).*)",
+  ],
 };

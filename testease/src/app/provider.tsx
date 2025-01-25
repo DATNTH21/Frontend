@@ -7,24 +7,30 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { MainErrorFallback } from '@/components/errors/main';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { getQueryClient } from '@/lib/react-query';
-
-type AppProviderProps = {
-  children: React.ReactNode;
-};
+import { SessionProvider } from "next-auth/react"
+import { Session } from "next-auth";
 
 const ThemeProvider = ({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) => {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 };
 
-export const AppProvider = ({ children }: AppProviderProps) => {
+export const AppProvider = ({
+  children,
+  session,
+}: {
+  children: React.ReactNode;
+  session?: Session;
+}) => {
   const queryClient = getQueryClient();
   return (
     <ErrorBoundary FallbackComponent={MainErrorFallback}>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <SessionProvider session={session}>
+          <ReactQueryDevtools />
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );

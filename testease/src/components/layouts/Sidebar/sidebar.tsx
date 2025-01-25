@@ -3,12 +3,14 @@ import { Suspense } from "react";
 import AppSidebarHeader from './sidebar-header';
 import AppSidebarMenu from './sidebar-menu';
 import AppSidebarFooter from './sidebar-footer';
-import { getUser } from '@/app/api/auth/actions';
+import { auth } from "@/auth";
 import { getProjects } from '@/api/project/project';
 
 const AppSidebar = async ({ projectId }: { projectId?: string }) => {
-  const userData = await getUser();
-  const data = getProjects("673f2e9bedec8e80219667a3");
+  
+  const session = await auth();
+  const user = session?.user;
+  const data = getProjects(user?.id as string);
   return (
     <Sidebar>
       <SidebarHeader>
@@ -28,7 +30,7 @@ const AppSidebar = async ({ projectId }: { projectId?: string }) => {
         )}
       </SidebarContent>
       <SidebarFooter>
-        <AppSidebarFooter user={userData.data.user} />
+        <AppSidebarFooter />
       </SidebarFooter>
     </Sidebar>
   );

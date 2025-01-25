@@ -1,6 +1,5 @@
 'use client';
 
-import { useUser } from '@/api/auth/auth';
 import { use } from 'react';
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
@@ -15,7 +14,6 @@ export default function AppSidebarHeader({
   projectId?: string, data: Promise<GetProjectsResponse> 
 }) {
   const router = useRouter();
-  const { data: user, status: userStatus } = useUser();
   const projects = use(data).data;
   const handleOnClickProject = (chosenProjectId?: string) => {
     //This means chosen project is not all-project page

@@ -17,7 +17,7 @@ export const ProjectSchema = z.object({
     .transform((val) => new Date(val))
     .optional(),
   use_cases: z.array(UsecaseSchema).nullable().optional(),
-  users: z.array(z.string())
+  user: z.string()
 });
 
 export type Project = {
@@ -29,13 +29,17 @@ export type Project = {
   created_at?: Date;
   updated_at?: Date;
   use_cases?: Usecase[] | null;
-  users: string[];
+  user: string;
 };
 
-export type CreateProjectDTO = Pick<Project, 'name' | 'description' | 'users'>;
+export type CreateProjectDTO = Pick<Project, 'name' | 'description' | 'user'>;
 export type UpdateProjectDTO = Partial<Omit<Project, 'project_id'>>;
 export type CreateProjectResponse = ApiResponse<Project>;
-export type GetProjectByUserResponse = ApiResponse<Project[] | []>;
+export type GetProjectByUserResponse = {
+  status: string;
+  message: string;
+  data: Project[] | [];
+};
 export type GetProjectByIdResponse = ApiResponse<Project>;
 export type UpdateProjectResponse = ApiResponse<Project>;
 export type DeleteProjectResponse = ApiResponse<undefined>;

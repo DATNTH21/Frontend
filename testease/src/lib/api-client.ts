@@ -1,3 +1,5 @@
+import { getSessionData } from './getSession';
+
 type RequestOptions = {
   method?: string;
   headers?: Record<string, string>;
@@ -6,7 +8,6 @@ type RequestOptions = {
   params?: Record<string, string | number | boolean | undefined | null>;
   cache?: RequestCache;
   next?: NextFetchRequestConfig;
-  useNextApi?: boolean;
 };
 
 function buildUrlWithParams(url: string, params?: RequestOptions['params']): string {
@@ -19,49 +20,37 @@ function buildUrlWithParams(url: string, params?: RequestOptions['params']): str
   return `${url}?${queryString}`;
 }
 
-// Create a separate function for getting server-side cookies that can be imported where needed
-export function getServerCookies() {
-  if (typeof window !== 'undefined') return '';
-
-  // Dynamic import next/headers only on server-side
-  return import('next/headers').then(async ({ cookies }) => {
-    try {
-      const cookieStore = await cookies();
-      return cookieStore
-        .getAll()
-        .map((c) => `${c.name}=${c.value}`)
-        .join('; ');
-    } catch (error) {
-      console.error('Failed to access cookies:', error);
-      return '';
-    }
-  });
-}
-
 async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T> {
-  const { method = 'GET', headers = {}, body, cookie, params, cache = 'no-store', next, useNextApi = false } = options;
+  const { method = 'GET', headers = {}, body, params, cache = 'no-store', next, ...otherOptions } = options;
 
-  // Get cookies from the request when running on server
-  let cookieHeader = cookie;
-  if (typeof window === 'undefined' && !cookie) {
-    cookieHeader = await getServerCookies();
-  }
+  const fullUrl = buildUrlWithParams(`${process.env.NEXT_PUBLIC_API_URL}${url}`, params);
 
-  // Decide which base URL to use
-  const baseUrl = useNextApi
-    ? process.env.NEXT_PUBLIC_NEXT_API_URL // Next.js API Route base URL
-    : process.env.NEXT_PUBLIC_API_URL || '';
+  console.log('Api called: ', fullUrl);
 
-  const fullUrl = buildUrlWithParams(`${baseUrl}${url}`, params);
+  // Try to retrieve the session
+  const session = await getSessionData().catch(() => null);
 
-  const response = await fetch(fullUrl, {
-    method,
-    headers: {
+  // Construct headers, attaching authentication info only if the session exists
+  const authHeaders = session?.accessToken
+    ? {
+        'x-client-id': session.user.id,
+        Authorization: `Bearer ${session.accessToken}`
+      }
+    : {};
+
+  const finalHeaders = Object.fromEntries(
+    Object.entries({
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      ...headers,
-      ...(cookieHeader ? { Cookie: cookieHeader } : {})
-    },
+      ...authHeaders,
+      ...headers
+    }).filter(([_, value]) => value !== undefined && value !== null)
+  );
+
+  const response = await fetch(fullUrl, {
+    ...otherOptions,
+    method,
+    headers: finalHeaders,
     body: body ? JSON.stringify(body) : undefined,
     credentials: 'include',
     cache,
@@ -69,10 +58,12 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
   });
 
   if (!response.ok) {
-    const message = (await response.json()).message || response.statusText;
-    if (typeof window !== 'undefined') {
-    }
-    throw new Error(message);
+    const errorBody = await response.json();
+    console.log('ErrorBody: ', errorBody);
+    const error = new Error(errorBody.message || 'An error occurred');
+    (error as any).status = errorBody.status;
+    (error as any).code = errorBody.code;
+    throw error;
   }
 
   return response.json();

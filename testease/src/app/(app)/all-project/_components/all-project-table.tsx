@@ -1,7 +1,7 @@
 'use client';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,23 +20,27 @@ import { DataTableToolbar } from './data-table-toolbar';
 import { DataTablePagination } from './data-table-pagination';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
-import { GetProjectsResponse } from '@/types/api';
-import { TProjectSchema } from '../_data/schemas';
+import { Project } from '@/types/project.d';
+import { useProject } from '@/api/project/project';
+import LoadingOverlay from '@/components/ui/loading/loading-overlay';
+import { SolarSystem } from '@/components/ui/loading/solar-system';
 
 interface DataTableProps<TValue> {
-  columns: ColumnDef<TProjectSchema, TValue>[];
-  data: Promise<GetProjectsResponse>;
+  columns: ColumnDef<Project, TValue>[];
+  searchParam: string;
 }
 
-export default function AllProjectTable<TValue>({ columns, data }: DataTableProps<TValue>) {
-  const projects = use(data).data as TProjectSchema[];
+export default function AllProjectTable<TValue>({ columns, searchParam }: DataTableProps<TValue>) {
   const router = useRouter();
+  const { data: projectResponse, status } = useProject(searchParam);
+  const projects = projectResponse ? projectResponse.data : [];
+
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable<TProjectSchema>({
+  const table = useReactTable<Project>({
     data: projects,
     columns,
     state: {
@@ -108,6 +112,7 @@ export default function AllProjectTable<TValue>({ columns, data }: DataTableProp
         </Table>
       </div>
       <DataTablePagination table={table} />
+      {status == 'pending' && <LoadingOverlay spinner={<SolarSystem />} />}
     </div>
   );
 }

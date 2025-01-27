@@ -1,6 +1,4 @@
 import { z } from 'zod';
-import { ApiResponse } from './response';
-import { TUsecaseUpload } from '@/app/(app)/project/[projectId]/blackbox-test/_data/schema';
 
 export type Usecase = {
   use_case_id: string;

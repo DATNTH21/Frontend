@@ -1,3 +1,4 @@
+import { TCreateProjectSchema } from '@/app/(app)/all-project/_data/schemas';
 import { customFetch } from '@/lib/api-client';
 import {
   CreateProjectDTO,
@@ -18,14 +19,12 @@ export const updateProject = async (projectId: string, data: FormData): Promise<
   return customFetch.patch<UpdateProjectResponse>(`/projects/${projectId}`, data);
 };
 
-export const createProject = async (data: FormData): Promise<CreateProjectResponse> => {
+export const createProject = async (data: TCreateProjectSchema): Promise<CreateProjectResponse> => {
   return customFetch.post<CreateProjectResponse>('/projects', data);
 };
 
-export const getProjectsByUser = async (userId: string, searchParam?: string): Promise<GetProjectByUserResponse> => {
-  const url = searchParam
-    ? `/projects/user/${userId}?search=${encodeURIComponent(searchParam)}`
-    : `/projects/user/${userId}`;
+export const getProjectsByUser = async (searchParam?: string): Promise<GetProjectByUserResponse> => {
+  const url = searchParam ? `/projects?search=${encodeURIComponent(searchParam)}` : `/projects`;
   //console.log(url);
   return customFetch.get<GetProjectByUserResponse>(url);
 };
@@ -93,7 +92,7 @@ export const useCreateProject = ({
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['create-project'],
-    mutationFn: ({ data }: { data: FormData }) => createProject(data),
+    mutationFn: ({ data }: { data: TCreateProjectSchema }) => createProject(data),
     onSuccess: () => {
       // Revidate
       queryClient.invalidateQueries({ queryKey: projectQueryKey });
@@ -105,10 +104,9 @@ export const useCreateProject = ({
   });
 };
 
-export const useProject = (userId: string, searchParam?: string) => {
+export const useProject = (searchParam?: string) => {
   return useQuery({
-    queryKey: [...projectQueryKey, userId, searchParam],
-    queryFn: () => getProjectsByUser(userId, searchParam),
-    enabled: !!userId
+    queryKey: [...projectQueryKey, searchParam],
+    queryFn: () => getProjectsByUser(searchParam)
   });
 };

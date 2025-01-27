@@ -9,8 +9,7 @@ export async function middleware(request: NextRequest) {
   const { pathname, origin } = url;
   const isAllowedOrigin = allowedOrigins.includes(origin);
   const session = await auth();
-  console.log('MIDDLEWARE');
-
+  console.log(session);
   // Prevent API access from different origins (CORS check)
   if (pathname.startsWith('/api') && !isAllowedOrigin) {
     return NextResponse.redirect(new URL('/unauthorized', url));
@@ -37,12 +36,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // If the user is not logged in, only allow access to login and sign-up
-  if (
-    !session &&
-    !['/login', '/signup'].includes(pathname) &&
-    !pathname.startsWith('/svg') &&
-    !pathname.startsWith('/assets')
-  ) {
+  if (!session && !['/login', '/signup'].includes(pathname)) {
     return NextResponse.redirect(new URL('/login', url));
   }
 
@@ -65,5 +59,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!unauthorized|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api).*)']
+  matcher: ['/((?!unauthorized|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api|svg|assets|public).*)']
 };

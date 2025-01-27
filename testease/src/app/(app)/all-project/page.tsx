@@ -1,7 +1,8 @@
 import SearchBar from './_components/search-bar';
 import CreateProjectDialog from './_components/create-project-dialog';
 import { Suspense } from 'react';
-import AllProjectTableServer from './_components/all-project-table-server';
+import AllProjectTable from './_components/all-project-table';
+import { columns } from './_components/columns';
 
 const AllProjectPage = async (props: { searchParams?: Promise<{ search?: string }> }) => {
   const searchParams = await props.searchParams;
@@ -16,7 +17,7 @@ const AllProjectPage = async (props: { searchParams?: Promise<{ search?: string 
       </div>
       {/* Table */}
       <Suspense fallback={<div>Loading...</div>}>
-        <AllProjectTableServer searchParam={keyword} />
+        <AllProjectTable columns={columns} searchParam={keyword} />
       </Suspense>
     </div>
   );

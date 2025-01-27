@@ -1,5 +1,4 @@
 'use client';
-import { deleteProject } from '@/app/api/project/actions';
 import {
   AlertDialogAction,
   AlertDialogCancel,
@@ -10,18 +9,36 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { Dispatch, SetStateAction } from 'react';
-import { TProjectSchema } from '../_data/schemas';
+import { useDeleteProject } from '@/api/project/project';
+import { toast } from '@/hooks/use-toast';
+import { Project } from '@/types/project.d';
 
 export default function DeleteProjectDialog({
   project,
   setIsOpen
 }: {
-  project: TProjectSchema;
+  project: Project;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  //Add project id as additional argument to server action
+  //console.log('Delete dialog project: ', project);
+  const deleteProjectMutation = useDeleteProject({
+    onSuccess: () => {
+      toast({
+        variant: 'success',
+        title: 'DELETE PROJECT SUCCESSFULLY'
+      });
+      window.location.reload(); //forcefully refresh the whole page to update, we need to find a better solution
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: 'DELETE PROJECT FAILED',
+        description: error.message
+      });
+    }
+  });
   const handleDelete = () => {
-    deleteProject.bind(null, project._id);
+    deleteProjectMutation.mutate(project._id);
     setIsOpen(false);
   };
   return (

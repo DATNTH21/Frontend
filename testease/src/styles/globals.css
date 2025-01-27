@@ -44,13 +44,9 @@
     --sidebar-button-active-foreground: 262.1 83.3% 57.8%;
 
     --status-generating: 220 14.3% 95.9%;
-    /* --status-generating-foreground: 220 8.9% 46.1%; */
     --status-done: 116 100% 90%;
-    /* --status-done-foreground: 0 0% 0%; */
     --status-seen: 187 100% 90%;
-    /* --status-seen-foreground: 210 80% 90%; */
     --status-error: 322 100% 90%;
-    /* --status-error-foreground: 210 20% 98%; */
   }
 
   .dark {
@@ -93,13 +89,9 @@
     --sidebar-button-active-foreground: 263.4 100% 80%;
 
     --status-generating: 215 27.9% 16.9%;
-    /* --status-generating-foreground: 220 8.9% 46.1%; */
     --status-done: 116 100% 90%;
-    /* --status-done-foreground: 0 0% 0%; */
     --status-seen: 187 100% 90%;
-    /* --status-seen-foreground: 210 80% 90%; */
     --status-error: 322 100% 90%;
-    /* --status-error-foreground: 210 20% 98%; */
   }
 
   * {
@@ -139,4 +131,32 @@ input[type='search']::-ms-clear {
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
+}
+
+/* Tiptap editor classes */
+/* Tasklist styles */
+.prose ul[data-type="taskList"] li {
+  @apply flex items-center gap-x-4 list-disc;
+}
+
+.prose ul[data-type="taskList"] {
+  @apply pl-0;
+}
+
+.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  background-color: #0d0d0d;
+}
+pre code {
+  font-weight: 400 !important;
+}
+
+div.tippy-content {
+  padding: 0px;
+}
+
+.tippy-box {
+  background-color: #ffffff !important;
+}
+.tippy-arrow {
+  display: none !important;
 }

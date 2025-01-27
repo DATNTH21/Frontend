@@ -3,14 +3,20 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from './data-table-column-header';
 import DataTableRowActions from './data-table-row-actions';
-import { projectStatus, type TProjectSchema } from '../_data/schemas';
+import { projectStatus } from '../_data/schemas';
 import { Spinner } from '@/components/ui/spinner';
+import { Project } from '@/types/project.d';
 
-export const columns: ColumnDef<TProjectSchema>[] = [
+export const columns: ColumnDef<Project>[] = [
   {
     accessorKey: '_id',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='ORIGINAL_ID' />,
+    cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('_id')}</div>
+  },
+  {
+    accessorKey: 'project_id',
     header: ({ column }) => <DataTableColumnHeader column={column} title='ID' />,
-    cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('_id')}</div>,
+    cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('project_id')}</div>,
     enableSorting: false,
     enableHiding: false
   },
@@ -30,15 +36,15 @@ export const columns: ColumnDef<TProjectSchema>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title='STATUS' />,
     cell: ({ row }) => {
       const status = projectStatus.find((status) => status.value === row.getValue('status'));
-      if (!status) {
+      if (!status || status.value == 'Default') {
         return null;
       }
 
       return (
         <div className='flex w-[100px] items-center'>
-          <span style={{ color: status.color }} className='font-semibold flex gap-1 items-center'>
-            {status.value}
-            {status.value === 'GENERATING' && <Spinner size='sm' />}
+          <span style={{ color: status.color }} className='font-semibold flex gap-1 items-center justify-center'>
+            {row.getValue('status')}
+            {row.getValue('status') === 'Generating' && <Spinner size='sm' />}
           </span>
         </div>
       );

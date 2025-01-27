@@ -20,21 +20,24 @@ import { DataTableToolbar } from './data-table-toolbar';
 import { DataTablePagination } from './data-table-pagination';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
+import { GetProjectsResponse } from '@/types/api';
+import { TProjectSchema } from '../_data/schemas';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<TValue> {
+  columns: ColumnDef<TProjectSchema, TValue>[];
+  data: Promise<GetProjectsResponse>;
 }
 
-export default function AllProjectTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function AllProjectTable<TValue>({ columns, data }: DataTableProps<TValue>) {
+  const projects = use(data).data as TProjectSchema[];
   const router = useRouter();
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<TProjectSchema>({
+    data: projects,
     columns,
     state: {
       sorting,

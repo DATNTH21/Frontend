@@ -6,6 +6,7 @@ type RequestOptions = {
   params?: Record<string, string | number | boolean | undefined | null>;
   cache?: RequestCache;
   next?: NextFetchRequestConfig;
+  useNextApi?: boolean;
 };
 
 function buildUrlWithParams(url: string, params?: RequestOptions['params']): string {
@@ -38,7 +39,7 @@ export function getServerCookies() {
 }
 
 async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T> {
-  const { method = 'GET', headers = {}, body, cookie, params, cache = 'no-store', next } = options;
+  const { method = 'GET', headers = {}, body, cookie, params, cache = 'no-store', next, useNextApi = false } = options;
 
   // Get cookies from the request when running on server
   let cookieHeader = cookie;
@@ -46,7 +47,12 @@ async function fetchApi<T>(url: string, options: RequestOptions = {}): Promise<T
     cookieHeader = await getServerCookies();
   }
 
-  const fullUrl = buildUrlWithParams(`${process.env.NEXT_PUBLIC_API_URL}${url}`, params);
+  // Decide which base URL to use
+  const baseUrl = useNextApi
+    ? process.env.NEXT_PUBLIC_NEXT_API_URL // Next.js API Route base URL
+    : process.env.NEXT_PUBLIC_API_URL || '';
+
+  const fullUrl = buildUrlWithParams(`${baseUrl}${url}`, params);
 
   const response = await fetch(fullUrl, {
     method,

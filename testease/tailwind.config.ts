@@ -103,7 +103,7 @@ const config: Config = {
     },
     darkMode: ['class'],
     safelist: ['dark'],
-    plugins: [require('tailwindcss-animate')]
+    plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')]
   }
 };
 

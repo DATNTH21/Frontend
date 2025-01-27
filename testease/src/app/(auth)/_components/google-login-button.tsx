@@ -28,7 +28,7 @@ function LoginGoogleButton() {
         className="flex justify-center items-center gap-3 flex-1 border bg-secondary rounded-md py-2 group cursor-pointer"
         onClick={handleLoginWithGoogle}
       >
-        <Image src="/google.svg" alt={"Google"} width={24} height={24} />
+        <Image src={'svg/google.svg'} alt={"Google"} width={24} height={24} />
         <p className="group-hover:opacity-80">Log in with Google</p>
       </div>
       {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}

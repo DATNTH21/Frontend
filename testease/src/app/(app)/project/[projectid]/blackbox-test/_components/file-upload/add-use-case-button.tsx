@@ -13,78 +13,101 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loader2, Menu, PlusCircle } from 'lucide-react';
+import { Loader2, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { TUsecaseUpload, UsecaseUploadSchema } from '../../_data/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useUseCaseDescriptionUpload } from '@/api/use-case/use-case';
-import Tiptap from '@/components/ui/tiptap/tiptap';
-import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { useRef, useState } from 'react';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
+import Editor from '@/components/ui/tiptap/editor';
+import { editorMode } from '@/components/ui/tiptap/extensions';
+import { Editor as TipTapEditor } from '@tiptap/react';
+import { readFile } from './file-handler';
+import Toolbar from '@/components/ui/tiptap/toolbar/toolbar';
 
 export default function AddUseCaseButton() {
-  const [useCaseContent, setUseCaseContent] = useState<string>();
+  const editorRef = useRef<TipTapEditor | null>(null);
+  const [useCaseContent, setUseCaseContent] = useState<string | undefined>(undefined);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [isTiptapOpen, setTiptapOpen] = useState<boolean>(false);
-  const fileUploadMutation = useUseCaseDescriptionUpload({
-    onSuccess: () => {
-      //dosth
-    },
-    onError: () => {
-      //dosth
-    }
-  });
+  // const createTestcaseMutation = useCreateTestcaseMutation({
+  //   onSuccess: () => {
+  //     //dosth
+  //   },
+  //   onError: () => {
+  //     //dosth
+  //   }
+  // });
   const {
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
     reset
   } = useForm<TUsecaseUpload>({ resolver: zodResolver(UsecaseUploadSchema) });
-  const submit = (data: TUsecaseUpload) => {
-    console.log('Blackbox - Create use case button: ', data);
-    //fileUploadMutation.mutate({ data: data });
-
-    setDialogOpen(false);
-    reset();
-    setTiptapOpen(true);
+  const submit = async (data: TUsecaseUpload) => {
+    try {
+      const fileContent = await readFile(data.description);
+      setUseCaseContent(fileContent);
+      setDialogOpen(false);
+      setTiptapOpen(true);
+    } catch (error) {
+      console.error('Error processing file:', error);
+    }
   };
+
+  const handleOnUpdate = (editor: TipTapEditor) => {
+    console.log('Update text: ', editor.getText());
+  };
+
+  const handleCreateTestCase = () => {
+    //createTestcaseMutation.mutate({})
+  };
+
   return (
     <div>
-      <AlertDialog open={isTiptapOpen} onOpenChange={setTiptapOpen}>
-        <AlertDialogContent className='min-w-[80%]'>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Edit your use cases before processing</AlertDialogTitle>
-          </AlertDialogHeader>
-          <Tiptap
-            initialContent={'Something to edit'}
-            onContentChange={(content) => setUseCaseContent(content)}
-          ></Tiptap>
-          <AlertDialogFooter>
-            <Button onClick={() => setTiptapOpen(false)} type='button' variant='ghost'>
-              Cancel
-            </Button>
-            <Button type='submit' form='' disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  Creating
-                </>
-              ) : (
-                <span>Confirm</span>
-              )}
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {useCaseContent && (
+        <AlertDialog open={isTiptapOpen} onOpenChange={setTiptapOpen}>
+          <AlertDialogContent className='max-w-[80%] h-[90vh] flex flex-col'>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Edit your use cases before processing</AlertDialogTitle>
+              <VisuallyHidden>
+                <AlertDialogDescription>Edit your use cases before processing</AlertDialogDescription>
+              </VisuallyHidden>
+            </AlertDialogHeader>
+            <Editor
+              ref={editorRef}
+              editable
+              editorType={editorMode.fullFeatured}
+              content={useCaseContent}
+              onUpdate={handleOnUpdate}
+            />
+            <AlertDialogFooter>
+              <Button onClick={() => setTiptapOpen(false)} type='button' variant='ghost'>
+                Cancel
+              </Button>
+              <Button onClick={handleCreateTestCase} disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Creating
+                  </>
+                ) : (
+                  <span>Confirm</span>
+                )}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+
       <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button className='cursor-pointer'>
@@ -137,13 +160,6 @@ export default function AddUseCaseButton() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {/* <Button
-        variant='outline'
-        className='bg-accent p-2 rounded-lg cursor-pointer'
-        onClick={() => handleMenuButtonClick()}
-      >
-        <Menu />
-      </Button> */}
     </div>
   );
 }

@@ -7,7 +7,6 @@ import { DataTable } from './_components/data-table';
 import { TestCaseSchema } from './_data/schema';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import AddUseCaseButton from './_components/file-upload/add-use-case-button';
-import Tiptap from '@/components/ui/tiptap/tiptap';
 
 export const metadata = {
   title: 'Black-box testing'

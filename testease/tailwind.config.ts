@@ -1,27 +1,34 @@
 import type { Config } from 'tailwindcss';
 
-const config: Config = {
+export default {
   darkMode: ['class'],
   content: [
-    'src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    'src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    'src/app/**/*.{js,ts,jsx,tsx,mdx}'
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
-    screens: {
-      sm: '480px',
-      md: '744px',
-      lg: '1280px',
-      xl: '1440px',
-      '2xl': '1728px'
-    },
     extend: {
+      container: {
+        center: true,
+        padding: '2rem',
+        screens: {
+          '2xl': '1400px'
+        }
+      },
+      screens: {
+        sm: '480px',
+        md: '744px',
+        lg: '1280px',
+        xl: '1440px',
+        '2xl': '1728px'
+      },
       colors: {
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))'
@@ -63,13 +70,9 @@ const config: Config = {
         },
         status: {
           generating: 'hsl(var(--status-generating))',
-          // 'generating-foreground': 'hsl(var(--status-generating-foreground))',
           done: 'hsl(var(--status-done))',
-          //'done-foreground': 'hsl(var(--status-done-foreground))',
           seen: 'hsl(var(--status-seen))',
-          //'seen-foreground': 'hsl(var(--status-seen-foreground))',
           error: 'hsl(var(--status-error))'
-          //'error-foreground': 'hsl(var(--status-error-foreground))'
         }
       },
       borderRadius: {
@@ -100,11 +103,9 @@ const config: Config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
       }
-    },
-    darkMode: ['class'],
-    safelist: ['dark'],
-    plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')]
-  }
-};
+    }
+  },
 
-export default config;
+  safelist: ['dark'],
+  plugins: [require('@tailwindcss/typography'), require('tailwind-scrollbar')]
+} satisfies Config;

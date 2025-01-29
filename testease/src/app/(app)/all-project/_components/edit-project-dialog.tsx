@@ -1,19 +1,20 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { EditProjectSchema, TEditProjectSchema, TProjectSchema } from '../_data/schemas';
+import { EditProjectSchema, TEditProjectSchema } from '../_data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
+import { Project } from '@/types/project.d';
 
 export default function EditProjectDialog({
   project,
   setIsOpen
 }: {
-  project: TProjectSchema;
+  project: Project;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const {
@@ -23,7 +24,7 @@ export default function EditProjectDialog({
   } = useForm<TEditProjectSchema>({
     resolver: zodResolver(EditProjectSchema),
     defaultValues: {
-      name: project?.title,
+      name: project?.name,
       description: null
     }
   });

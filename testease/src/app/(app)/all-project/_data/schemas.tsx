@@ -2,65 +2,40 @@ import { z } from 'zod';
 
 export const projectStatus = [
   {
-    label: 'generating',
-    value: 'GENERATING',
+    label: 'GENERATING',
+    value: 'Generating',
     color: 'hsl(var(--primary))'
   },
   {
-    label: 'complete',
-    value: 'COMPLETE',
+    label: 'DONE',
+    value: 'Done',
     color: '#37b24d'
   },
   {
-    label: 'default',
-    value: 'Default',
-    color: '#7c3aed'
-  },
-  {
-    label: 'failed',
-    value: 'FAILED',
+    label: 'FAILED',
+    value: 'Failed',
     color: '#f03e3e'
   },
   {
-    label: 'seen',
-    value: 'SEEN',
+    label: 'SEEN',
+    value: 'Seen',
     color: '#1E90FF'
+  },
+  {
+    label: 'DEFAULT',
+    value: 'Default',
+    color: ''
   }
 ];
-export const projectSchema = z.object({
-  _id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  status: z.string()
-});
-
-export type TProjectSchema = z.infer<typeof projectSchema>;
-
-const checkFileType = (file: File) => {
-  const supportedTypes = ['application/msword', 'application/pdf', 'text/plain'];
-  return supportedTypes.includes(file.type);
-};
 
 export const CreateProjectSchema = z.object({
   name: z.string().min(1, 'Project name is required'),
-  description: z
-    .any()
-    .nullable()
-    .optional()
-    .refine((file) => file === null || file === undefined || checkFileType(file), {
-      message: 'Only .txt, .doc and .pdf is supported'
-    })
+  description: z.string().optional()
 });
 
 export const EditProjectSchema = z.object({
   name: z.string().min(1, 'Project name is required'),
-  description: z
-    .any()
-    .nullable()
-    .optional()
-    .refine((file) => file === null || file === undefined || checkFileType(file), {
-      message: 'Only .txt, .doc, and .pdf are supported'
-    })
+  description: z.string().optional()
 });
 
 export type TEditProjectSchema = z.infer<typeof EditProjectSchema>;

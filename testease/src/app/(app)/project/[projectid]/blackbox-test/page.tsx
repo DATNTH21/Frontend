@@ -4,8 +4,9 @@ import { z } from 'zod';
 import FileStructure from '@/app/(app)/project/[projectId]/blackbox-test/_components/file-structure';
 import { columns } from './_components/columns';
 import { DataTable } from './_components/data-table';
-import { testCaseSchema } from './_data/schema';
+import { TestCaseSchema } from './_data/schema';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import AddUseCaseButton from './_components/file-upload/add-use-case-button';
 
 export const metadata = {
   title: 'Black-box testing'
@@ -18,26 +19,36 @@ async function getData() {
 
   const testCases = JSON.parse(data.toString());
 
-  return z.array(testCaseSchema).parse(testCases);
+  return z.array(TestCaseSchema).parse(testCases);
 }
 
 const BlackBoxTestPage = async () => {
   const data = await getData();
 
   return (
-    <ResizablePanelGroup direction='horizontal' className='max-w-screen'>
-      <ResizablePanel defaultSize={15} minSize={0} maxSize={40}>
-        {/* Folder/File Structure */}
-        <FileStructure />
-      </ResizablePanel>
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={85} minSize={60}>
-        {/* Data table */}
-        <div className='mx-auto p-2'>
-          <DataTable columns={columns} data={data} />
+    <div className='flex-1 flex flex-col bg-background'>
+      {/* Header */}
+      <div className='sticky top-0 z-10 flex justify-between items-center p-4 border-b bg-background'>
+        <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
+        <div className='flex justify-center items-center gap-2'>
+          <AddUseCaseButton />
         </div>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+      </div>
+
+      {/* Content Area */}
+      <div className='w-full h-full flex-1'>
+        <ResizablePanelGroup direction='horizontal' className='max-w-screen'>
+          <ResizablePanel defaultSize={15} minSize={0} maxSize={40}>
+            {/* Folder/File Structure */}
+            <FileStructure />
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={85} minSize={60}>
+            <div className='mx-auto p-2'>{/* <DataTable columns={columns} data={data} /> */}</div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -11,38 +11,35 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
-import { paths } from '@/lib/routes';
-import { User } from '@/types/api';
-import wretch from "wretch";
+import wretch from 'wretch';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import LoadingOverlay from "@/components/ui/loading/loading-overlay";
-import { SolarSystem } from "@/components/ui/loading/solar-system";
+import LoadingOverlay from '@/components/ui/loading/loading-overlay';
+import { SolarSystem } from '@/components/ui/loading/solar-system';
+import SidebarFooterSkeleton from './sidebar-footer-skeleton';
 
 export default function AppSidebarFooter() {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const { data: session } = useSession();
   const user = session?.user;
+  //console.log('Sidebar footer: ', session);
 
   const handleLogout = async () => {
     setIsLoading(true);
 
     try {
-      await wretch("/api/access/logout").post().json();
+      await wretch('/api/access/logout').post().json();
       await signOut();
       toast({
-        variant: "success",
-        title: "Log out successfully",
+        variant: 'success',
+        title: 'Log out successfully'
       });
     } catch (error: any) {
       toast({
-        variant: "destructive",
-        title: "Log out failed",
-        description: error?.json?.message || "An unexpected error occurred",
+        variant: 'destructive',
+        title: 'Log out failed',
+        description: error?.json?.message || 'An unexpected error occurred'
       });
     } finally {
       setIsLoading(false);
@@ -60,9 +57,9 @@ export default function AppSidebarFooter() {
                   size='lg'
                   className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
                 >
-                  <Avatar className='h-8 w-8 rounded-lg'>
+                  <Avatar className='h-8 w-8 rounded-full'>
                     <AvatarImage src={user.image} alt={user.name} />
-                    <AvatarFallback className='rounded-lg bg-primary text-primary-foreground'>PH</AvatarFallback>
+                    <AvatarFallback className='rounded-full bg-primary text-primary-foreground'>PH</AvatarFallback>
                   </Avatar>
                   <div className='grid flex-1 text-left text-sm leading-tight'>
                     <span className='truncate font-semibold'>{user.name}</span>
@@ -94,13 +91,7 @@ export default function AppSidebarFooter() {
           </SidebarMenuItem>
         </SidebarMenu>
       ) : (
-        <div className='flex'>
-          <Skeleton className='h-8 w-8 rounded-lg'></Skeleton>
-          <div className='grid flex-1 text-left text-sm leading-tight'>
-            <Skeleton></Skeleton>
-            <Skeleton></Skeleton>
-          </div>
-        </div>
+        <SidebarFooterSkeleton />
       )}
       {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
     </>

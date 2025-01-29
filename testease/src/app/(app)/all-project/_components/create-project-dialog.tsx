@@ -15,36 +15,61 @@ import { CreateProjectSchema, TCreateProjectSchema } from '../_data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useCreateProject } from '@/api/project/project';
+import { toast } from '@/hooks/use-toast';
+import { useSession } from 'next-auth/react';
 
 export default function CreateProjectDialog() {
+  const { data } = useSession();
+  const user = data?.user;
+  console.log('all-project/create-project-dialog: Create project user data: ', user);
   const [open, setOpen] = useState(false);
+  const createProjectMutation = useCreateProject({
+    onSuccess: () => {
+      toast({
+        variant: 'success',
+        title: 'Create project successfully'
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Create project failed',
+        description: error.message
+      });
+      setOpen(false);
+    }
+  });
+
   const {
     handleSubmit,
     register,
     control,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting },
+    reset
   } = useForm<TCreateProjectSchema>({ resolver: zodResolver(CreateProjectSchema) });
 
   const submit = (data: TCreateProjectSchema) => {
-    console.log('All-project - Create project button: ', data);
-    const formData = new FormData();
-    formData.append('name', data.name);
-    if (data.description) {
-      formData.append('description', data.description);
-    } else {
-      formData.append('description', '');
+    console.log('all-project/create-project-dialog: Submit data: ', data);
+    if (!user?.id) {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to create project',
+        description: 'User ID is not available. Please try again.'
+      });
+      return; // Stop form submission if user ID is not available
     }
 
     //Send form data to server
-
+    createProjectMutation.mutate({ data: data });
+    //Clear the input on Submit
+    reset();
+    //Close the dialog
     setOpen(false);
   };
-  return isSubmitting ? (
-    <Spinner></Spinner>
-  ) : (
+  return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Create project</Button>
@@ -66,18 +91,7 @@ export default function CreateProjectDialog() {
             <Label htmlFor='description' className='mb-2'>
               Project description
             </Label>
-            <Controller
-              name='description'
-              control={control}
-              render={({ field: { onChange } }) => (
-                <Input
-                  type='file'
-                  placeholder='Upload project description .txt, .pdf, .doc'
-                  accept='.txt, .doc, .pdf'
-                  onChange={(e) => onChange(e.target.files?.[0] || null)}
-                ></Input>
-              )}
-            />
+            <Input placeholder='Enter project description' {...register('description')}></Input>
             {errors.description && <p className='text-destructive my-1'>{`${errors.description.message}`}</p>}
           </div>
         </form>

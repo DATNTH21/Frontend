@@ -1,16 +1,6 @@
-import Image from 'next/image';
+import LoadingOverlay from '@/components/ui/loading/loading-overlay';
+import { SolarSystem } from '@/components/ui/loading/solar-system';
 
 export default function Loading() {
-  return (
-    <div className='w-full h-screen flex items-center justify-center'>
-      <Image
-        src='/img/loading-meo.gif'
-        alt='loading'
-        unoptimized
-        className='my-32 rounded-lg'
-        width={400}
-        height={200}
-      />
-    </div>
-  );
+  return <LoadingOverlay spinner={<SolarSystem />} />;
 }

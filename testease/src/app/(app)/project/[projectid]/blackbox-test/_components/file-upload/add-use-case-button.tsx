@@ -118,7 +118,7 @@ export default function AddUseCaseButton() {
           <DialogHeader>
             <DialogTitle>Create Use Case</DialogTitle>
             <DialogDescription>
-              Add your use case description file here, only .doc, .txt, .pdf and .md format are allow.
+              Add your use case description file here, only .docx, .txt, .pdf and .md format are allow.
             </DialogDescription>
           </DialogHeader>
           <form id='upload-usecase-form' className='mt-4' onSubmit={handleSubmit(submit)}>
@@ -132,8 +132,8 @@ export default function AddUseCaseButton() {
                 render={({ field: { onChange } }) => (
                   <Input
                     type='file'
-                    placeholder='Upload project description .txt, .pdf, .doc'
-                    accept='.txt, .doc, .pdf'
+                    placeholder='Upload project description .txt, .pdf, .docx'
+                    accept='.txt, .docx, .pdf'
                     onChange={(e) => onChange(e.target.files?.[0] || null)}
                   ></Input>
                 )}

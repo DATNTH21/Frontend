@@ -8,7 +8,12 @@ export const TestCaseSchema = z.object({
 });
 
 const checkFileType = (file: File) => {
-  const supportedTypes = ['application/msword', 'application/pdf', 'text/plain', 'text/markdown'];
+  const supportedTypes = [
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/pdf',
+    'text/plain',
+    'text/markdown'
+  ];
   return supportedTypes.includes(file.type);
 };
 
@@ -16,7 +21,7 @@ export const UsecaseUploadSchema = z.object({
   description: z
     .custom<File>((file) => file instanceof File, 'File is required')
     .refine((file) => checkFileType(file), {
-      message: 'Only .txt, .doc, .pdf and .md are supported'
+      message: 'Only .txt, .docx, .pdf and .md are supported'
     })
 });
 

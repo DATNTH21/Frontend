@@ -4,7 +4,7 @@ import { TOC } from '@/components/ui/tree';
 const elements: TreeViewElement[] = [
   {
     id: '1',
-    name: 'Use-cases',
+    name: 'Use Cases',
     children: [
       {
         id: '2',
@@ -21,36 +21,6 @@ const elements: TreeViewElement[] = [
       {
         id: '5',
         name: 'usecase4.pdf'
-      }
-    ]
-  },
-  {
-    id: '6',
-    name: 'Test-cases',
-    children: [
-      {
-        id: '7',
-        name: 'testcase1'
-      },
-      {
-        id: '8',
-        name: 'testcase2'
-      },
-      {
-        id: '9',
-        name: 'testcase3'
-      },
-      {
-        id: '10',
-        name: 'testcase4'
-      },
-      {
-        id: '11',
-        name: 'testcase5'
-      },
-      {
-        id: '12',
-        name: 'testcase6'
       }
     ]
   }

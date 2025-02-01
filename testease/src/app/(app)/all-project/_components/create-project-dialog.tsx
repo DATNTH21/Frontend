@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { CreateProjectSchema, TCreateProjectSchema } from '../_data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,7 @@ import { Loader2 } from 'lucide-react';
 import { useCreateProject } from '@/api/project/project';
 import { toast } from '@/hooks/use-toast';
 import { useSession } from 'next-auth/react';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function CreateProjectDialog() {
   const { data } = useSession();
@@ -91,7 +92,7 @@ export default function CreateProjectDialog() {
             <Label htmlFor='description' className='mb-2'>
               Project description
             </Label>
-            <Input placeholder='Enter project description' {...register('description')}></Input>
+            <Textarea placeholder='Enter project description' {...register('description')} />
             {errors.description && <p className='text-destructive my-1'>{`${errors.description.message}`}</p>}
           </div>
         </form>

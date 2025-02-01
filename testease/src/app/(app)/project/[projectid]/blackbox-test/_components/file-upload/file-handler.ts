@@ -1,6 +1,6 @@
 'use client';
 import mammoth from 'mammoth';
-import pdfToText from 'react-pdftotext';
+//import pdfToText from 'react-pdftotext';
 import * as pdfjsLib from 'pdfjs-dist';
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
@@ -11,8 +11,8 @@ export const readFile = async (file: File): Promise<string> => {
       try {
         if (file.type === 'application/pdf') {
           // Handle PDF files
-          // const arrayBuffer = reader.result as ArrayBuffer;
-          const pdfHtml = await handlePdfFile(file);
+          const arrayBuffer = reader.result as ArrayBuffer;
+          const pdfHtml = await handlePdfFile(arrayBuffer);
           resolve(pdfHtml);
         } else if (
           file.type === 'application/msword' ||
@@ -47,24 +47,44 @@ export const readFile = async (file: File): Promise<string> => {
 };
 
 const handleDocFile = async (arrayBuffer: ArrayBuffer): Promise<string> => {
-  const result = await mammoth.extractRawText({ arrayBuffer });
-  return `<div>${result.value}</div>`;
+  const result = await mammoth.convertToHtml({ arrayBuffer });
+  return result.value;
 };
 
-const handlePdfFile = async (file: File): Promise<string> => {
-  // const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-  // const totalPages = pdf.numPages;
-  // let pdfText = '';
+const handlePdfFile = async (arrayBuffer: ArrayBuffer): Promise<string> => {
+  //Using pdfjs-dist
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  const totalPages = pdf.numPages;
+  let pdfText = '';
 
-  // for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-  //   const page = await pdf.getPage(pageNum);
-  //   const textContent = await page.getTextContent();
-  //   const pageText = textContent.items.map((item: any) => item.str).join(' ');
-  //   pdfText += `<p>${pageText}</p>`;
-  // }
+  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+    const page = await pdf.getPage(pageNum);
+    const textContent = await page.getTextContent();
+    let lastY: number | undefined;
+    let pageText = '';
 
-  // return `<div>${pdfText}</div>`;
+    for (const item of textContent.items) {
+      // Type guard to ensure the item has 'transform' and 'str'
+      if ('transform' in item && 'str' in item) {
+        if (lastY === item.transform[5] || lastY === undefined) {
+          pageText += item.str;
+        } else {
+          pageText += '<br>' + item.str;
+        }
+        lastY = item.transform[5];
+      }
+    }
 
-  const text = await pdfToText(file);
-  return `<p>${text}</p>`;
+    // Wrap the page's text in a paragraph
+    pdfText += `<p>${pageText}</p>`;
+  }
+
+  // Wrap all pages' text in a div
+  console.log(pdfText);
+  return `<div>${pdfText}</div>`;
+
+  // Using react-pdftotext:
+  // const text = await pdfToText(file);
+  // console.log('file-handler: pdfText: ', text);
+  // return `<p>${text}</p>`;
 };

@@ -8,10 +8,10 @@ import { PanelLeft } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
-import Input from './input';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Skeleton } from './skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state';
@@ -118,7 +118,7 @@ const SidebarProvider = React.forwardRef<
               ...style
             } as React.CSSProperties
           }
-          className={cn('group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar', className)}
+          className={cn('group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-sidebar', className)}
           ref={ref}
           {...props}
         >
@@ -166,7 +166,7 @@ const Sidebar = React.forwardRef<
           }
           side={side}
         >
-          <div className='flex h-full w-full flex-col'>{children}</div>
+          <div className='flex w-full flex-col'>{children}</div>
         </SheetContent>
       </Sheet>
     );

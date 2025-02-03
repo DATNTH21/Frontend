@@ -1,42 +1,56 @@
-'use-client';
+'use client';
+import React, { useState } from 'react';
 import { TRegisterSchema, registerSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
-import Input from '@/components/ui/input';
+import { Input } from '@/components/ui/input';
 import Link from 'next/link';
 import { PasswordInput } from './password-input';
-import { paths } from '../../../lib/routes';
-import { useRouter } from 'next/navigation';
-import { useRegister } from '@/api/auth/auth';
+import { paths } from '@/lib/routes';
 import LoginGoogleButton from './google-login-button';
+import { toast } from '@/hooks/use-toast';
+import { ApiResponse } from '@/types/auth';
+import { Spinner } from '@/components/ui/spinner';
+import OtpDialog from './otp-dialog';
+import httpMethods from '@/lib/https';
+
 const SignupForm = () => {
+  const [verificationEmail, setVerificationEmail] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isOtpDialogOpen, setIsOtpDialogOpen] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TRegisterSchema>({ resolver: zodResolver(registerSchema) });
 
-  const router = useRouter();
-  const registerMutation = useRegister({
-    onSuccess: () => {
-      // Navigate to verify page
-      router.push(paths.auth.verify.getHref());
-    },
-    onError: () => {
-      console.log('Error register');
+  const onSubmit = async (data: TRegisterSchema) => {
+    const { email } = data;
+    setIsLoading(true);
+    setVerificationEmail(email);
+    try {
+      await httpMethods.post<ApiResponse<null>>('/api/v1/auth/signup', {
+        email: data.email,
+        password: data.password
+      });
+      setIsOtpDialogOpen(true);
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        variant: 'destructive',
+        title: 'Sign up failed',
+        description: error.message
+      });
+    } finally {
+      setIsLoading(false);
     }
-  });
-
-  const onSubmit = (data: TRegisterSchema) => {
-    const { email, password } = data;
-    registerMutation.mutate({ email, password });
   };
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gray-50'>
+    <div className='flex justify-center items-center min-h-screen'>
       <div className='bg-card p-10 rounded-lg shadow-lg max-w-md'>
-        <h2 className='text-2xl font-semibold mb-6 text-center text-primary'>Account Sign up</h2>
+        <h2 className='text-2xl font-semibold mb-6 text-center'>Account Sign up</h2>
         <p className='text-gray-500 text-center mb-8'>
           If you are already a member you can login with your email address and password.
         </p>
@@ -62,13 +76,8 @@ const SignupForm = () => {
             <PasswordInput placeholder='Enter your password again' {...register('confirmPassword')}></PasswordInput>
             {errors.confirmPassword && <p className='text-destructive my-1'>{`${errors.confirmPassword.message}`}</p>}
           </div>
-          <div className='inline-flex items-center mb-6'>
-            <Input type='checkbox' name='remember-me' className='mr-2 h-3 w-3'></Input>
-            <label htmlFor='remember-me' className='text-card-foreground'>
-              Remember me?
-            </label>
-          </div>
-          <Button className='w-full' size='lg' type='submit'>
+          <Button className='w-full' size='lg' type='submit' disabled={isLoading}>
+            {isLoading && <Spinner variant='light' />}
             Sign up
           </Button>
           <div className='flex justify-center mt-4 space-x-6'>
@@ -84,6 +93,7 @@ const SignupForm = () => {
           </div>
         </form>
       </div>
+      <OtpDialog isOpen={isOtpDialogOpen} email={verificationEmail} onClose={() => setIsOtpDialogOpen(false)} />
     </div>
   );
 };

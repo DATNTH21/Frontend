@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client';
 
 import { useState } from 'react';
@@ -66,10 +67,22 @@ const AllProjectPage = () => {
   const navigateBlackboxTesting = (projectId: string) => {
     router.push(`/project/${projectId}/blackbox-test`);
   };
+=======
+import SearchBar from './_components/search-bar';
+import CreateProjectDialog from './_components/create-project-dialog';
+import { Suspense } from 'react';
+import AllProjectTable from './_components/all-project-table';
+import { columns } from './_components/columns';
+
+const AllProjectPage = async (props: { searchParams?: Promise<{ search?: string }> }) => {
+  const searchParams = await props.searchParams;
+  const keyword = searchParams?.search || '';
+>>>>>>> f80d6be2701fdbb072e657b9c07cf2e74140032a
 
   return (
-    <div className='w-full'>
+    <div className='flex-1 mx-auto w-full'>
       {/* Search Bar */}
+<<<<<<< HEAD
       <div className='mb-4 relative w-full'>
         <SearchIcon className='absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500' />
         <input
@@ -80,9 +93,14 @@ const AllProjectPage = () => {
           placeholder='Search projects...'
           className='w-full pl-10 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
         />
+=======
+      <div className='w-full mb-4 flex items-center justify-between gap-4'>
+        <SearchBar />
+        <CreateProjectDialog />
+>>>>>>> f80d6be2701fdbb072e657b9c07cf2e74140032a
       </div>
-
       {/* Table */}
+<<<<<<< HEAD
       <Table>
         <TableHeader>
           <TableRow>
@@ -130,6 +148,11 @@ const AllProjectPage = () => {
           </TableRow>
         </TableFooter>
       </Table>
+=======
+      <Suspense fallback={<div>Loading...</div>}>
+        <AllProjectTable columns={columns} searchParam={keyword} />
+      </Suspense>
+>>>>>>> f80d6be2701fdbb072e657b9c07cf2e74140032a
     </div>
   );
 };

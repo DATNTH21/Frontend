@@ -1,4 +1,21 @@
 'use client';
-export default function error() {
-  return <div>error</div>;
+
+import { useEffect } from 'react';
+
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
+  return (
+    <main className='flex h-screen flex-col items-center justify-center'>
+      <h2 className='text-center'>Something went wrong!</h2>
+      <button
+        className='mt-4 rounded-md bg-destructive px-4 py-2 text-sm text-destructive-foreground transition-colors hover:bg-destructive/80'
+        onClick={() => reset()}
+      >
+        Try again
+      </button>
+    </main>
+  );
 }

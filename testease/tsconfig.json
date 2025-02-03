@@ -28,7 +28,14 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/__mocks__/nextLinkMock.js",
+<<<<<<< HEAD
     "src/src/__tests__/index.test.js"
   ],
   "exclude": ["node_modules"]
+=======
+    "src/src/__tests__/index.test.js" ],
+  "exclude": [
+    "node_modules"
+  ]
+>>>>>>> f80d6be2701fdbb072e657b9c07cf2e74140032a
 }

@@ -25,6 +25,7 @@ import { SolarSystem } from '@/components/ui/loading/solar-system';
 import { TScenario } from '@/types/scenario';
 import { useTreeStore } from '@/store/tree-store';
 import { scenarioMockData } from '../../_data/scenario-mock-data';
+import { useScenarioStore } from '@/store/scenario-store';
 
 interface DataTableProps<TScenario, TValue> {
   columns: ColumnDef<TScenario, TValue>[];
@@ -36,19 +37,21 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
 
   // Use tanstack query to get scenarios data of current use case:
-  const scenarios = useMemo(() => {
-    return scenarioMockData.find((scenario) => scenario._id === params.useCaseId);
-  }, [params.useCaseId]);
+  const { scenarioSelection, setScenarioSelection } = useScenarioStore();
+  const rowSelection = scenarioSelection[params.useCaseId] || {};
 
-  // ✅ Prevent crashes if `scenarios` is undefined
-  const data = useMemo(() => {
-    if (!scenarios) return [];
-    return scenarios.content.map((scenario) => ({
-      _id: scenarios._id,
-      content: scenario
-    })) as TScenario[];
-  }, [scenarios]);
-  const [rowSelection, setRowSelection] = useState({});
+  console.log('Scenario Selection: ', scenarioSelection);
+
+  // Fetch scenarios for the current use case
+  const scenarios = useMemo(() => scenarioMockData.find((s) => s._id === params.useCaseId), [params.useCaseId]);
+
+  const data = useMemo(
+    () =>
+      scenarios
+        ? (scenarios.content.map((scenario) => ({ _id: scenarios._id, content: scenario })) as TScenario[])
+        : [],
+    [scenarios]
+  );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -62,7 +65,7 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
       rowSelection,
       columnFilters
     },
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: (newSelection) => setScenarioSelection(params.useCaseId, newSelection),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,

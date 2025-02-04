@@ -1,14 +1,26 @@
-import { ApiResponse } from './response';
+export interface ApiResponse<T> {
+  status: number;
+  message: string;
+  code: number;
+  data?: T;
+  errorStack?: string;
+}
+
+export interface LoginReponse {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    image: string;
+  };
+  accessToken: string;
+  refreshToken: string;
+}
 
 export type User = {
   _id: string;
-  name: string;
+  name?: string;
   email: string;
-  photo: string;
+  image: string;
   isVerified: boolean;
 };
-
-export type GetUserResponse = ApiResponse<User>;
-export type LoginResponse = ApiResponse<undefined>;
-export type RegisterResponse = ApiResponse<undefined>;
-export type LogoutResponse = ApiResponse<undefined>;

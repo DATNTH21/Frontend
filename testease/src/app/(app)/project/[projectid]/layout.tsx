@@ -11,7 +11,7 @@ export default async function AppLayout({
   params: Promise<{ projectId: string }>;
 }) {
   const projectId = (await params).projectId;
-  console.log('Project layout: Get current project ID: ', projectId);
+  //console.log('Project layout: Get current project ID: ', projectId);
 
   if (!projectId) {
     redirect('/all-project');
@@ -19,12 +19,12 @@ export default async function AppLayout({
   return (
     <SidebarProvider>
       <AppSidebar projectId={projectId} />
-      <SidebarInset>
-        <header className='flex sticky top-0 bg-background px-4 py-3 shrink-0 items-center gap-2 border-b justify-between'>
+      <SidebarInset className='flex flex-col'>
+        <header className='flex bg-background px-4 py-3 shrink-0 items-center gap-2 border-b justify-between'>
           <SidebarTrigger className='-ml-1' />
           <ModeToggle />
         </header>
-        <main className='w-full h-full bg-background'>{children}</main>
+        <main className='w-full flex-1 flex flex-col bg-background'>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

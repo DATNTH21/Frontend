@@ -2,8 +2,8 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader } f
 import AppSidebarMenu from './sidebar-menu';
 import { Suspense } from 'react';
 import SidebarFooterSkeleton from './sidebar-footer-skeleton';
-import SidebarFooterServer from './sidebar-footer-server';
 import SidebarHeaderServer from './sidebar-header-server';
+import AppSidebarFooter from './sidebar-footer';
 
 const AppSidebar = async ({ projectId }: { projectId?: string }) => {
   return (
@@ -21,9 +21,7 @@ const AppSidebar = async ({ projectId }: { projectId?: string }) => {
         )}
       </SidebarContent>
       <SidebarFooter>
-        <Suspense fallback={<SidebarFooterSkeleton />}>
-          <SidebarFooterServer />
-        </Suspense>
+        <AppSidebarFooter />
       </SidebarFooter>
     </Sidebar>
   );

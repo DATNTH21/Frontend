@@ -1,18 +1,19 @@
-import { getUser } from '@/api/auth/auth';
 import AppSidebarHeader from './sidebar-header';
 import { getProjectById, getProjectsByUser } from '@/api/project/project';
-import { Project } from '@/types/project.d';
+import { auth } from '@/auth';
+import { Project } from '@/types/project';
 import { redirect } from 'next/navigation';
 
 export default async function SidebarHeaderServer({ projectId }: { projectId?: string }) {
   let projects: Project[] | [] = [];
   let currentProject: Project | undefined = undefined;
-  const userResponse = await getUser();
-  if (!userResponse.data) {
+  const session = await auth();
+  //console.log('Sidebar header session: ', session);
+  if (session == null) {
     return <div>Loading</div>;
   }
-  if (userResponse.data) {
-    const projectResponse = await getProjectsByUser(userResponse.data._id);
+  if (session.user) {
+    const projectResponse = await getProjectsByUser();
     if (!projectResponse.data) {
       return <div>Loading</div>;
     } else {

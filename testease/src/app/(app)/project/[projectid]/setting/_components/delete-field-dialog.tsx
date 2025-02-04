@@ -29,7 +29,7 @@ export default function DeleteFieldDialog({
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>DELETE PROJECT</AlertDialogTitle>
+        <AlertDialogTitle>DELETE FIELD</AlertDialogTitle>
         <AlertDialogDescription>
           This action cannot be undone. Are you sure you want to permanently delete this field?
         </AlertDialogDescription>

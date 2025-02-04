@@ -5,7 +5,7 @@ import { DataTableColumnHeader } from './data-table-column-header';
 import DataTableRowActions from './data-table-row-actions';
 import { projectStatus } from '../_data/schemas';
 import { Spinner } from '@/components/ui/spinner';
-import { Project } from '@/types/project.d';
+import { Project } from '@/types/project';
 
 export const columns: ColumnDef<Project>[] = [
   {

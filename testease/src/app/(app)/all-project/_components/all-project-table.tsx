@@ -20,30 +20,34 @@ import { DataTableToolbar } from './data-table-toolbar';
 import { DataTablePagination } from './data-table-pagination';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
+import { Project } from '@/types/project';
+import { useProject } from '@/api/project/project';
+import LoadingOverlay from '@/components/ui/loading/loading-overlay';
+import { SolarSystem } from '@/components/ui/loading/solar-system';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<TValue> {
+  columns: ColumnDef<Project, TValue>[];
+  searchParam: string;
 }
 
-export default function AllProjectTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export default function AllProjectTable<TValue>({ columns, searchParam }: DataTableProps<TValue>) {
   const router = useRouter();
-  const [rowSelection, setRowSelection] = useState({});
+  const { data: projectResponse, status } = useProject(searchParam);
+  const projects = projectResponse ? projectResponse.data : [];
+
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable({
-    data,
+  const table = useReactTable<Project>({
+    data: projects,
     columns,
     state: {
       sorting,
       columnVisibility,
-      rowSelection,
       columnFilters
     },
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
@@ -59,6 +63,11 @@ export default function AllProjectTable<TData, TValue>({ columns, data }: DataTa
       columnVisibility: { _id: false }
     }
   });
+
+  // If fail to retrieve project, return
+  if (status == 'error') {
+    router.push(paths.projectAll.getHref());
+  }
 
   return (
     <div className='space-y-4'>
@@ -105,6 +114,7 @@ export default function AllProjectTable<TData, TValue>({ columns, data }: DataTa
         </Table>
       </div>
       <DataTablePagination table={table} />
+      {status == 'pending' && <LoadingOverlay spinner={<SolarSystem />} />}
     </div>
   );
 }

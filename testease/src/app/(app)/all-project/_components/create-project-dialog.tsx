@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { CreateProjectSchema, TCreateProjectSchema } from '../_data/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
@@ -19,9 +19,13 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useCreateProject } from '@/api/project/project';
 import { toast } from '@/hooks/use-toast';
-import { useUser } from '@/api/auth/auth';
+import { useSession } from 'next-auth/react';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function CreateProjectDialog() {
+  const { data } = useSession();
+  const user = data?.user;
+  console.log('all-project/create-project-dialog: Create project user data: ', user);
   const [open, setOpen] = useState(false);
   const createProjectMutation = useCreateProject({
     onSuccess: () => {
@@ -40,8 +44,6 @@ export default function CreateProjectDialog() {
     }
   });
 
-  const { data: userResponse } = useUser();
-
   const {
     handleSubmit,
     register,
@@ -51,9 +53,8 @@ export default function CreateProjectDialog() {
   } = useForm<TCreateProjectSchema>({ resolver: zodResolver(CreateProjectSchema) });
 
   const submit = (data: TCreateProjectSchema) => {
-    console.log('All-project - Create project button: ', data);
-
-    if (!userResponse?.data?._id) {
+    console.log('all-project/create-project-dialog: Submit data: ', data);
+    if (!user?.id) {
       toast({
         variant: 'destructive',
         title: 'Failed to create project',
@@ -62,22 +63,10 @@ export default function CreateProjectDialog() {
       return; // Stop form submission if user ID is not available
     }
 
-    const userId = userResponse.data._id;
-    console.log(userId);
-
-    const formData = new FormData();
-    formData.append('name', data.name);
-    if (data.description) {
-      formData.append('description', data.description);
-    }
-    formData.append('users', JSON.stringify([userId]));
-
     //Send form data to server
-    createProjectMutation.mutate({ data: formData });
-
+    createProjectMutation.mutate({ data: data });
     //Clear the input on Submit
     reset();
-
     //Close the dialog
     setOpen(false);
   };
@@ -103,18 +92,7 @@ export default function CreateProjectDialog() {
             <Label htmlFor='description' className='mb-2'>
               Project description
             </Label>
-            <Controller
-              name='description'
-              control={control}
-              render={({ field: { onChange } }) => (
-                <Input
-                  type='file'
-                  placeholder='Upload project description .txt, .pdf, .doc'
-                  accept='.txt, .doc, .pdf'
-                  onChange={(e) => onChange(e.target.files?.[0] || null)}
-                ></Input>
-              )}
-            />
+            <Textarea placeholder='Enter project description' {...register('description')} />
             {errors.description && <p className='text-destructive my-1'>{`${errors.description.message}`}</p>}
           </div>
         </form>

@@ -15,7 +15,7 @@ import DeleteProjectDialog from './delete-project-dialog';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 
 import { Row } from '@tanstack/react-table';
-import { ProjectSchema } from '@/types/project.d';
+import { ProjectSchema } from '@/types/project';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;

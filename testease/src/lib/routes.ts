@@ -18,7 +18,10 @@ export const paths = {
   },
   projectDetail: {
     blackboxTest: {
-      getHref: (id: string) => `/project/${id}/blackbox-test`
+      getHref: (id: string) => `/project/${id}/blackbox-test/use-case`,
+      scenario: {
+        getHref: (id: string) => `/scenario/${id}` //add on top
+      }
     },
     dashboard: {
       getHref: (id: string) => `/project/${id}/dashboard`

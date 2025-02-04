@@ -28,31 +28,14 @@ export const projectStatus = [
   }
 ];
 
-const checkFileType = (file: File) => {
-  const supportedTypes = ['application/msword', 'application/pdf', 'text/plain'];
-  return supportedTypes.includes(file.type);
-};
-
 export const CreateProjectSchema = z.object({
   name: z.string().min(1, 'Project name is required'),
-  description: z
-    .any()
-    .nullable()
-    .optional()
-    .refine((file) => file === null || file === undefined || checkFileType(file), {
-      message: 'Only .txt, .doc and .pdf is supported'
-    })
+  description: z.string().optional()
 });
 
 export const EditProjectSchema = z.object({
   name: z.string().min(1, 'Project name is required'),
-  description: z
-    .any()
-    .nullable()
-    .optional()
-    .refine((file) => file === null || file === undefined || checkFileType(file), {
-      message: 'Only .txt, .doc, and .pdf are supported'
-    })
+  description: z.string().optional()
 });
 
 export type TEditProjectSchema = z.infer<typeof EditProjectSchema>;

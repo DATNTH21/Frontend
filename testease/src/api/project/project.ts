@@ -8,7 +8,7 @@ import {
   GetProjectByUserResponse,
   UpdateProjectDTO,
   UpdateProjectResponse
-} from '@/types/project.d';
+} from '@/types/project';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const deleteProject = async (projectId: string): Promise<DeleteProjectResponse> => {

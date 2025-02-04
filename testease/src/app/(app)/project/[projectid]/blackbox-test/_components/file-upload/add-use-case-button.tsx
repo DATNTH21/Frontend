@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
-import { TUsecaseUpload, UsecaseUploadSchema } from '../../_data/schema';
+import { TUsecaseUpload, UseCaseUploadSchema } from '../../_data/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef, useState } from 'react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
@@ -31,14 +31,15 @@ import Editor from '@/components/ui/tiptap/editor';
 import { editorMode } from '@/components/ui/tiptap/extensions';
 import { Editor as TipTapEditor } from '@tiptap/react';
 import { readFile } from './file-handler';
-import Toolbar from '@/components/ui/tiptap/toolbar/toolbar';
 
 export default function AddUseCaseButton() {
   const editorRef = useRef<TipTapEditor | null>(null);
   const [useCaseContent, setUseCaseContent] = useState<string | undefined>(undefined);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [isTiptapOpen, setTiptapOpen] = useState<boolean>(false);
-  // const createTestcaseMutation = useCreateTestcaseMutation({
+
+  // Create use case mutation
+  // const createUseCaseMutation = useCreateTestcaseMutation({
   //   onSuccess: () => {
   //     //dosth
   //   },
@@ -51,7 +52,7 @@ export default function AddUseCaseButton() {
     control,
     formState: { errors, isSubmitting },
     reset
-  } = useForm<TUsecaseUpload>({ resolver: zodResolver(UsecaseUploadSchema) });
+  } = useForm<TUsecaseUpload>({ resolver: zodResolver(UseCaseUploadSchema) });
   const submit = async (data: TUsecaseUpload) => {
     try {
       const fileContent = await readFile(data.description);
@@ -67,8 +68,8 @@ export default function AddUseCaseButton() {
     console.log('Update text: ', editor.getText());
   };
 
-  const handleCreateTestCase = () => {
-    //createTestcaseMutation.mutate({})
+  const handleCreateUseCase = () => {
+    //createUseCaseMutation.mutate({})
   };
 
   return (
@@ -93,7 +94,7 @@ export default function AddUseCaseButton() {
               <Button onClick={() => setTiptapOpen(false)} type='button' variant='ghost'>
                 Cancel
               </Button>
-              <Button onClick={handleCreateTestCase} disabled={isSubmitting}>
+              <Button onClick={handleCreateUseCase} disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />

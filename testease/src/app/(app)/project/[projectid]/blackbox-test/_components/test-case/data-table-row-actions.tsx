@@ -18,19 +18,18 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
-import { statuses, priorities } from '../_data/data';
+import { testCaseStatuses, testCasePriorities } from '../../_data/constant';
 
-import { testCaseSchema } from '../_data/schema';
+import { TestCaseSchema } from '@/types/test-case';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const testCase = testCaseSchema.parse(row.original);
-  // console.log(testCase, '💥');
-  const statusesToMark = statuses.filter((status) => status.value !== testCase.status);
-  const prioritiesToMark = priorities.filter((priority) => priority.value !== testCase.priority);
+  const testCase = TestCaseSchema.parse(row.original);
+  const statusesToMark = testCaseStatuses.filter((status) => status.value !== testCase.status);
+  const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
 
   return (
     <DropdownMenu>

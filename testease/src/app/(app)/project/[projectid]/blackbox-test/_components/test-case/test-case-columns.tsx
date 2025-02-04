@@ -4,8 +4,8 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { priorities, statuses } from '../_data/data';
-import { Testcase } from '../_data/schema';
+import { testCasePriorities, testCaseStatuses } from '../../_data/constant';
+import { TTestcase } from '@/types/test-case';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 import { Badge } from '@/components/ui/badge';
@@ -16,7 +16,7 @@ const priorityToInt = {
   high: 3
 } as const;
 
-export const columns: ColumnDef<Testcase>[] = [
+export const testCaseColumns: ColumnDef<TTestcase>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -60,7 +60,7 @@ export const columns: ColumnDef<Testcase>[] = [
     accessorKey: 'priority',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Priority' />,
     cell: ({ row }) => {
-      const priority = priorities.find((priority) => priority.value === row.getValue('priority'));
+      const priority = testCasePriorities.find((priority) => priority.value === row.getValue('priority'));
 
       if (!priority) {
         return null;
@@ -89,7 +89,7 @@ export const columns: ColumnDef<Testcase>[] = [
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
     cell: ({ row }) => {
-      const status = statuses.find((status) => status.value === row.getValue('status'));
+      const status = testCaseStatuses.find((status) => status.value === row.getValue('status'));
 
       if (!status) {
         return null;

@@ -20,20 +20,29 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
+import { useParams } from 'next/navigation';
+import { testcaseMockData } from '../../_data/test-case-mock-data';
+import { TTestcase } from '@/types/test-case';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps<TTestcase, TValue> {
+  columns: ColumnDef<TTestcase, TValue>[];
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function TestCaseDataTable<TTestcase, TValue>({ columns }: DataTableProps<TTestcase, TValue>) {
+  const params = useParams<{ projectId: string; scenarioId: string }>();
+  const projectId = params.projectId;
+  const scenarioId = params.scenarioId;
+
+  // Fetch test cases using the params:
+  const data = testcaseMockData as TTestcase[];
+
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
-    data,
+    data: data,
     columns,
     state: {
       sorting,

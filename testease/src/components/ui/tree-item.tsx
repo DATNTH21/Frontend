@@ -9,7 +9,7 @@ export const TreeItem = ({ elements }: TreeItemProps) => {
     <ul className='w-full space-y-1'>
       {elements.map((element) => (
         <li key={element.id} className='w-full space-y-2'>
-          {element.children && element.children?.length > 0 ? (
+          {element.children ? (
             <Folder element={element} value={element.id} isSelectable={element.isSelectable} className='pr-1'>
               <TreeItem key={element.id} aria-label={`folder ${element.name}`} elements={element.children} />
             </Folder>

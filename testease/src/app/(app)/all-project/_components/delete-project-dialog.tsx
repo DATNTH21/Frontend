@@ -11,7 +11,7 @@ import {
 import { Dispatch, SetStateAction } from 'react';
 import { useDeleteProject } from '@/api/project/project';
 import { toast } from '@/hooks/use-toast';
-import { Project } from '@/types/project.d';
+import { Project } from '@/types/project';
 
 export default function DeleteProjectDialog({
   project,
@@ -48,14 +48,16 @@ export default function DeleteProjectDialog({
       }}
     >
       <AlertDialogHeader>
-        <AlertDialogTitle>DELETE PROJECT</AlertDialogTitle>
+        <AlertDialogTitle className='text-destructive font-semibold'>DELETE PROJECT</AlertDialogTitle>
         <AlertDialogDescription>
           This action cannot be undone. Are you sure you want to permanently delete this project?
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel onClick={() => setIsOpen(false)}>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+        <AlertDialogAction onClick={handleDelete} className='bg-destructive text-destructive-foreground'>
+          Delete
+        </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   );

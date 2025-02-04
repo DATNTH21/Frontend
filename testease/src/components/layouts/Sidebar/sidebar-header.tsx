@@ -7,7 +7,7 @@ import { ChevronsDownUp, Folder } from 'lucide-react';
 
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
-import { Project } from '@/types/project.d';
+import { Project } from '@/types/project';
 export default function AppSidebarHeader({
   currentProject,
   projects

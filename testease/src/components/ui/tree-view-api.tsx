@@ -6,6 +6,8 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import { useTreeStore } from '@/store/tree-store';
+import { Checkbox } from './checkbox';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 
 type TreeViewElement = {
   id: string;
@@ -79,12 +81,6 @@ const Tree = forwardRef<HTMLDivElement, TreeViewProps>(
       },
       [expandedItems, setExpandedItems]
     );
-
-    // useEffect(() => {
-    //   if (elements) {
-    //     useTreeStore.getState().setParentMap(elements);
-    //   }
-    // }, [elements]);
 
     // Expand on mount
     useEffect(() => {
@@ -167,8 +163,11 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
     const isChecked = element.children?.every((child) => checkedIds.has(child.id));
     return (
       <AccordionPrimitive.Item {...props} value={value} className='relative overflow-hidden h-full'>
-        <div className='flex gap-2'>
-          <input type='checkbox' onChange={(e) => toggleCheck(e.target.checked, element)} checked={isChecked} />
+        <div className='flex gap-2 items-center'>
+          {element.children?.length != 0 && (
+            <Checkbox checked={isChecked} onCheckedChange={(value) => toggleCheck(value as boolean, element)} />
+          )}
+
           <AccordionPrimitive.Trigger
             className={cn(`flex items-center gap-1 text-sm rounded-md`, className, {
               'bg-muted rounded-md': isSelect && isSelectable,
@@ -216,13 +215,15 @@ const File = forwardRef<
     element: TreeViewElement;
   } & React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
 >(({ value, className, handleSelect, isSelectable = true, isSelect, fileIcon, children, element, ...props }, ref) => {
-  const { direction, selectedId, selectItem, checkedIds, toggleCheck } = useTreeStore();
-  const isSelected = isSelect ?? selectedId === value;
+  const router = useRouter();
+  const params = useParams<{ projectId: string; useCaseId: string }>();
+  const { direction, selectItem, checkedIds, toggleCheck } = useTreeStore();
+  const isSelected = isSelect ?? params.useCaseId === value;
   const isChecked = checkedIds.has(element.id);
   return (
     <AccordionPrimitive.Item value={value} className='relative'>
-      <div className='flex gap-2'>
-        <input type='checkbox' checked={isChecked} onChange={(e) => toggleCheck(e.target.checked, element)} />
+      <div className='flex gap-2 items-center'>
+        <Checkbox checked={isChecked} onCheckedChange={(value) => toggleCheck(value as boolean, element)} />
         <AccordionPrimitive.Trigger
           ref={ref}
           {...props}
@@ -237,7 +238,10 @@ const File = forwardRef<
             isSelectable ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed',
             className
           )}
-          onClick={() => selectItem(value)}
+          onClick={() => {
+            selectItem(value);
+            router.push(`/project/${params.projectId}/blackbox-test/use-case/${value}`);
+          }}
         >
           {fileIcon ?? <FileIcon className='h-4 w-4' />}
           {children}

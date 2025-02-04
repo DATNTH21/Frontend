@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
-import { priorities, statuses } from '../_data/data';
+import { testCasePriorities, testCaseStatuses } from '../../_data/constant';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 
 interface DataTableToolbarProps<TData> {
@@ -34,10 +34,10 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           className='h-8 w-[170px] lg:w-[250px] text-sm'
         />
         {table.getColumn('status') && (
-          <DataTableFacetedFilter column={table.getColumn('status')} title='Status' options={statuses} />
+          <DataTableFacetedFilter column={table.getColumn('status')} title='Status' options={testCaseStatuses} />
         )}
         {table.getColumn('priority') && (
-          <DataTableFacetedFilter column={table.getColumn('priority')} title='Priority' options={priorities} />
+          <DataTableFacetedFilter column={table.getColumn('priority')} title='Priority' options={testCasePriorities} />
         )}
         {isFiltered && (
           <Button variant='ghost' onClick={() => table.resetColumnFilters()} className='h-8 px-2 lg:px-3'>

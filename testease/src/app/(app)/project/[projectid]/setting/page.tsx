@@ -25,5 +25,3 @@ export default function SettingPage() {
     </Tabs>
   );
 }
-
-export default SettingPage;

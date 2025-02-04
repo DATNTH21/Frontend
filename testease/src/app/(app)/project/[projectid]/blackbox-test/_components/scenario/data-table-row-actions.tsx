@@ -9,31 +9,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
-import { Dialog } from '@/components/ui/dialog';
-import EditProjectDialog from './edit-project-dialog';
-import DeleteProjectDialog from './delete-project-dialog';
-import { AlertDialog } from '@/components/ui/alert-dialog';
-
 import { Row } from '@tanstack/react-table';
-import { ProjectSchema } from '@/types/project';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const project = ProjectSchema.parse(row.original);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
   return (
     <>
-      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <EditProjectDialog project={project} setIsOpen={setIsEditOpen} />
-      </Dialog>
-      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
-        <DeleteProjectDialog project={project} setIsOpen={setIsDeleteOpen} />
-      </AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size='icon' variant='ghost'>
@@ -45,21 +29,21 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
             <DropdownMenuItem
               className='cursor-pointer'
               onSelect={() => {
-                setIsEditOpen(true);
+                console.log('Row action - Row id: ', row.id);
               }}
             >
-              <Edit /> Edit
+              View Test Cases
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem
-              className='text-destructive focus:text-destructive cursor-pointer'
+              className='cursor-pointer'
               onSelect={() => {
-                setIsDeleteOpen(true);
+                console.log('Row action - Row id: ', row.id);
               }}
             >
-              <Trash /> Delete
+              View Scenario Detail
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

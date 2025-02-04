@@ -11,7 +11,7 @@ export default async function AppLayout({
   params: Promise<{ projectId: string }>;
 }) {
   const projectId = (await params).projectId;
-  console.log('Project layout: Get current project ID: ', projectId);
+  //console.log('Project layout: Get current project ID: ', projectId);
 
   if (!projectId) {
     redirect('/all-project');

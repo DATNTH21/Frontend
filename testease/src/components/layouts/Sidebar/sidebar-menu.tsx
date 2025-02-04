@@ -47,7 +47,7 @@ export default function AppSidebarMenu({ projectId }: { projectId: string }) {
             <SidebarMenuItem key={index}>
               <SidebarMenuButton
                 asChild
-                isActive={pathName == item.href}
+                isActive={pathName.includes(item.href)}
                 className='data-[active=true]:text-sidebar-active data-[active=true]:font-semibold'
               >
                 <Link href={item.href} className='flex items-center'>

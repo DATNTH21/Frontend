@@ -1,7 +1,7 @@
 'use client';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -18,36 +18,51 @@ import {
 } from '@tanstack/react-table';
 import { DataTableToolbar } from './data-table-toolbar';
 import { DataTablePagination } from './data-table-pagination';
-import { useRouter } from 'next/navigation';
-import { paths } from '@/lib/routes';
-import { Project } from '@/types/project';
-import { useProject } from '@/api/project/project';
+import { useParams, useRouter } from 'next/navigation';
+
 import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { SolarSystem } from '@/components/ui/loading/solar-system';
+import { TScenario } from '@/types/scenario';
+import { useTreeStore } from '@/store/tree-store';
+import { scenarioMockData } from '../../_data/scenario-mock-data';
 
-interface DataTableProps<TValue> {
-  columns: ColumnDef<Project, TValue>[];
-  searchParam: string;
+interface DataTableProps<TScenario, TValue> {
+  columns: ColumnDef<TScenario, TValue>[];
 }
 
-export default function AllProjectTable<TValue>({ columns, searchParam }: DataTableProps<TValue>) {
+export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableProps<TScenario, TValue>) {
+  console.log('rerendering');
   const router = useRouter();
-  const { data: projectResponse, status } = useProject(searchParam);
-  const projects = projectResponse ? projectResponse.data : [];
+  const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
 
+  // Use tanstack query to get scenarios data of current use case:
+  const scenarios = useMemo(() => {
+    return scenarioMockData.find((scenario) => scenario._id === params.useCaseId);
+  }, [params.useCaseId]);
+
+  // ✅ Prevent crashes if `scenarios` is undefined
+  const data = useMemo(() => {
+    if (!scenarios) return [];
+    return scenarios.content.map((scenario) => ({
+      _id: scenarios._id,
+      content: scenario
+    })) as TScenario[];
+  }, [scenarios]);
+  const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable<Project>({
-    data: projects,
+  const table = useReactTable({
+    data: data,
     columns,
     state: {
       sorting,
       columnVisibility,
+      rowSelection,
       columnFilters
     },
-    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
@@ -57,17 +72,13 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-    enableMultiRowSelection: false,
+    enableMultiRowSelection: true,
+    //enableRowSelection: (row) => row.original.status == 'default',
     enableHiding: true,
     initialState: {
       columnVisibility: { _id: false }
     }
   });
-
-  // If fail to retrieve project, return
-  if (status == 'error') {
-    router.push(paths.projectAll.getHref());
-  }
 
   return (
     <div className='space-y-4'>
@@ -92,10 +103,20 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getValue('status')}
-                  className={`cursor-pointer ${row.getValue('status') === 'Generating' ? 'pointer-events-none bg-muted !text-muted-foreground' : ''}`}
+                  // data-state={row.getValue('status')}
+                  // className={`cursor-pointer ${row.getValue('status') === 'generating' ? 'pointer-events-none bg-muted !text-muted-foreground' : ''}`}
+                  className='cursor-pointer'
                   onClick={() => {
-                    router.push(paths.projectDetail.dashboard.getHref(row.getValue('_id')));
+                    router.push(
+                      `/project/${params.projectId}/blackbox-test/use-case/${params.useCaseId}/scenario/${row.id}`
+                    );
+                    // if (row.getValue('status') != 'fail') {
+                    //   router.push(
+                    //     `/project/${params.projectId}/blackbox-test/use-case/${params.useCaseId}/scenario/${row.getValue('_id')}`
+                    //   );
+                    // } else {
+                    //   //notify user that they can't view fail scenarios
+                    // }
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -114,7 +135,7 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
         </Table>
       </div>
       <DataTablePagination table={table} />
-      {status == 'pending' && <LoadingOverlay spinner={<SolarSystem />} />}
+      {/* {status == 'pending' && <LoadingOverlay spinner={<SolarSystem />} />} */}
     </div>
   );
 }

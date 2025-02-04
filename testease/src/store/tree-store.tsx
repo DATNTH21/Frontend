@@ -2,7 +2,6 @@ import { TreeViewElement } from '@/components/ui/tree-view-api';
 import { create } from 'zustand';
 
 type TreeState = {
-  //parentMap: Record<string, string | null>;
   selectedId: string | undefined;
   expandedItems: string[];
   checkedIds: Set<string>;
@@ -11,7 +10,6 @@ type TreeState = {
   openIcon?: React.ReactNode;
   closeIcon?: React.ReactNode;
 
-  //setParentMap: (elements: TreeViewElement[]) => void;
   selectItem: (id: string) => void;
   handleExpand: (id: string) => void;
   toggleCheck: (checked: boolean, element: TreeViewElement) => void;
@@ -20,22 +18,6 @@ type TreeState = {
   setIndicator: (show: boolean) => void;
   setIcons: (openIcon?: React.ReactNode, closeIcon?: React.ReactNode) => void;
 };
-
-// const buildParentMap = (
-//   elements: TreeViewElement[],
-//   parentId: string | null = null,
-//   map: Record<string, string | null> = {}
-// ): Record<string, string | null> => {
-//   elements.forEach((element) => {
-//     map[element.id] = parentId; // Store parent ID
-//     if (element.children) {
-//       buildParentMap(element.children, element.id, map);
-//     }
-//   });
-
-//   //console.log('Tree map: ', map);
-//   return map;
-// };
 
 // Recursive function to get all descendant IDs
 const getDescendantIds = (element: TreeViewElement): string[] => {
@@ -51,17 +33,6 @@ const getDescendantIds = (element: TreeViewElement): string[] => {
   return ids;
 };
 
-// const findParentElement = (id: string, elements: TreeViewElement[]): TreeViewElement | null => {
-//   for (const element of elements) {
-//     if (element.children?.some((child) => child.id === id)) {
-//       return element;
-//     }
-//     const foundInChild = findParentElement(id, element.children || []);
-//     if (foundInChild) return foundInChild;
-//   }
-//   return null;
-// };
-
 export const useTreeStore = create<TreeState>((set) => ({
   //parentMap: {},
   selectedId: undefined,
@@ -71,8 +42,6 @@ export const useTreeStore = create<TreeState>((set) => ({
   indicator: true,
   openIcon: undefined,
   closeIcon: undefined,
-
-  //setParentMap: (elements) => set({ parentMap: buildParentMap(elements) }),
 
   selectItem: (id) => set({ selectedId: id }),
 

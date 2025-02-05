@@ -1,10 +1,10 @@
 'use client';
 import { TreeViewElement } from '@/components/ui/tree-view-api';
 import { TOC } from '@/components/ui/tree';
-import { UseCase } from '@/types/use-case';
 import { useParams, useRouter } from 'next/navigation';
-import { useCaseMockData } from '../_data/use-case-mock-data';
 import { paths } from '@/lib/routes';
+import { useUsecases } from '@/api/use-case/use-case';
+import { UseCase } from '@/types/use-case';
 
 // const elements: TreeViewElement[] = [
 //   {
@@ -31,16 +31,13 @@ import { paths } from '@/lib/routes';
 //   }
 // ];
 
-const UseCaseTree = () => {
+const UseCaseTree = ({ useCases }: { useCases: UseCase[] }) => {
   const router = useRouter();
   const params = useParams<{ projectId: string; useCaseId: string }>();
 
   if (!params.projectId) {
     router.push(paths.projectAll.getHref());
   }
-
-  // Get use case by projectID:
-  const useCases = useCaseMockData.filter((useCase) => useCase.project_id == params.projectId);
 
   const elements: TreeViewElement[] = [
     {

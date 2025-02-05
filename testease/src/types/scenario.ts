@@ -6,3 +6,9 @@ export const ScenarioSchema = z.object({
 });
 
 export type TScenario = z.infer<typeof ScenarioSchema>;
+
+export type GetAllScenariosOfUCResponse = {
+  status: string;
+  message: string;
+  data: TScenario[] | [];
+};

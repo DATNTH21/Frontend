@@ -1,6 +1,7 @@
 import React from 'react';
 import FieldTable from './field-table';
 import CreateFieldForm from './create-field-dialog';
+import TestCaseExportConfiguration from './test-case-export-configuration';
 
 const TestRunField: React.FC = () => {
   //Fetch value there
@@ -20,12 +21,11 @@ const TestRunField: React.FC = () => {
 
   return (
     <div>
-      <div className='flex sticky top-0 bg-background h-16 shrink-0 items-center border-b px-4 justify-between'>
-        <div>Select a test run field below to configure:</div>
-        <CreateFieldForm type={'testRun'} />
+      <div className='flex sticky top-0 bg-background h-16 shrink-0 items-center px-4 justify-between'>
+        <div>Configure your test case export structure here:</div>
       </div>
       <div className='p-4'>
-        <FieldTable fields={testRunFields} />
+        <TestCaseExportConfiguration />
       </div>
     </div>
   );

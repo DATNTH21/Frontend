@@ -50,7 +50,6 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
         title: 'Create use case successfully'
       });
       setTiptapOpen(false);
-      window.location.reload();
     },
     onError: (error: Error) => {
       toast({
@@ -77,16 +76,12 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
     }
   };
 
-  const handleOnUpdate = (editor: TipTapEditor) => {
-    console.log('Update text: ', editor.getText());
-  };
-
   const handleCreateUseCase = () => {
     const content = editorRef.current?.getText();
     const usecases = content!!
       .split(SPLIT_STRING)
       .slice(1, -1)
-      .filter((usecase) => usecase.trim().length > 0);
+      .filter((usecase) => usecase.trim().length > 200); //filter out too short use cases (probably incorrect use cases)
     console.log('Use case content:', usecases);
     createUseCaseMutation.mutate({ data: { project_id: projectId, content: usecases } });
   };
@@ -102,13 +97,7 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
                 <AlertDialogDescription>Edit your use cases before processing</AlertDialogDescription>
               </VisuallyHidden>
             </AlertDialogHeader>
-            <Editor
-              ref={editorRef}
-              editable
-              editorType={editorMode.fullFeatured}
-              content={useCaseContent}
-              onUpdate={handleOnUpdate}
-            />
+            <Editor ref={editorRef} editable editorType={editorMode.fullFeatured} content={useCaseContent} />
             <AlertDialogFooter>
               <Button onClick={() => setTiptapOpen(false)} type='button' variant='ghost'>
                 Cancel
@@ -138,7 +127,7 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
           <DialogHeader>
             <DialogTitle>Create Use Case</DialogTitle>
             <DialogDescription>
-              Add your use case description file here, only .docx, .txt, .pdf and .md format are allow.
+              Add your use case description file here, only .docx, .txt, .pdf and .md format are allowed.
             </DialogDescription>
           </DialogHeader>
           <form id='upload-usecase-form' className='mt-4' onSubmit={handleSubmit(submit)}>

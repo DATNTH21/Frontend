@@ -21,12 +21,14 @@ import {
 import { testCaseStatuses, testCasePriorities } from '../../_data/constant';
 
 import { TestCaseSchema } from '@/types/test-case';
+import { useGlobalStore } from '@/store/global-store';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
+  const { openEditTestCaseDialog } = useGlobalStore();
   const testCase = TestCaseSchema.parse(row.original);
   const statusesToMark = testCaseStatuses.filter((status) => status.value !== testCase.status);
   const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
@@ -40,7 +42,12 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem
+          className='cursor-pointer'
+          onClick={() => row.getValue('id') && openEditTestCaseDialog(row.getValue('id'))}
+        >
+          Edit
+        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 

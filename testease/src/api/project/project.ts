@@ -30,10 +30,7 @@ export const getProjectsByUser = async (searchParam?: string): Promise<GetProjec
 };
 
 export const getProjectById = async (projectId: string): Promise<GetProjectByIdResponse> => {
-  return customFetch.get<GetProjectByIdResponse>(`/projects/${projectId}`, {
-    cache: 'force-cache',
-    next: { revalidate: 60 }
-  });
+  return customFetch.get<GetProjectByIdResponse>(`/projects/${projectId}`);
 };
 
 const projectQueryKey = ['project'];
@@ -104,9 +101,17 @@ export const useCreateProject = ({
   });
 };
 
-export const useProject = (searchParam?: string) => {
+export const useProjects = (searchParam?: string) => {
   return useQuery({
     queryKey: [...projectQueryKey, searchParam],
     queryFn: () => getProjectsByUser(searchParam)
+  });
+};
+
+export const useProject = (id: string) => {
+  return useQuery({
+    queryKey: [...projectQueryKey, id],
+    queryFn: () => getProjectById(id)
+    // staleTime: 0
   });
 };

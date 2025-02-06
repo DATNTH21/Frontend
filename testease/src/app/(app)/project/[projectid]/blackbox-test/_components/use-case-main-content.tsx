@@ -1,7 +1,7 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTreeStore } from '@/store/tree-store';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import ScenarioTable from './scenario/scenario-table';
 import { columns } from './scenario/scenario-columns';
 import { useParams, useRouter } from 'next/navigation';
@@ -11,6 +11,7 @@ import { testCaseColumns } from './test-case/test-case-columns';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { UseCase } from '@/types/use-case';
+import { Button } from '@/components/ui/button';
 
 export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }) {
   const router = useRouter();
@@ -36,14 +37,18 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
   }, [scenarioId]);
 
   // Update the underline position and width when the active tab changes
-  useEffect(() => {
-    const activeElement = tabRefs.current[activeTab];
-    if (activeElement) {
-      setIndicatorStyle({
-        left: `${activeElement.offsetLeft}px`,
-        width: `${activeElement.offsetWidth}px`
-      });
-    }
+  useLayoutEffect(() => {
+    // Wait for the refs to be populated before updating the indicator
+    requestAnimationFrame(() => {
+      const activeElement = tabRefs.current[activeTab];
+      console.log(activeElement);
+      if (activeElement) {
+        setIndicatorStyle({
+          left: `${activeElement.offsetLeft}px`,
+          width: `${activeElement.offsetWidth}px`
+        });
+      }
+    });
   }, [activeTab]);
 
   if (!useCaseId) {
@@ -55,7 +60,14 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
   }
 
   if (!data) {
-    return <div className='flex flex-1 justify-center items-center'>Cannot find this use case data</div>;
+    return (
+      <div className='flex flex-col flex-1 gap-2 justify-center items-center'>
+        Cannot find this use case data
+        <Link href={`/project/${projectId}/blackbox-test/use-case/`}>
+          <Button>Go back</Button>
+        </Link>
+      </div>
+    );
   }
 
   return (

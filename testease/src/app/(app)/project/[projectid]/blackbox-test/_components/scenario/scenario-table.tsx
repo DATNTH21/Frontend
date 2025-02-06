@@ -26,6 +26,7 @@ import { TScenario } from '@/types/scenario';
 import { useTreeStore } from '@/store/tree-store';
 import { scenarioMockData } from '../../_data/scenario-mock-data';
 import { useScenarioStore } from '@/store/scenario-store';
+import { useScenariosOfUC } from '@/api/scenario/scenario';
 
 interface DataTableProps<TScenario, TValue> {
   columns: ColumnDef<TScenario, TValue>[];
@@ -43,13 +44,13 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   console.log('Scenario Selection: ', scenarioSelection);
 
   // Fetch scenarios for the current use case
-  const scenarios = useMemo(() => scenarioMockData.find((s) => s._id === params.useCaseId), [params.useCaseId]);
+  // const scenarios = useMemo(() => scenarioMockData.find((s) => s._id === params.useCaseId), [params.useCaseId]);
+  const scenarios = useScenariosOfUC(params.useCaseId).data?.data;
+  console.log('Scenarios: ', scenarios);
 
   const data = useMemo(
     () =>
-      scenarios
-        ? (scenarios.content.map((scenario) => ({ _id: scenarios._id, content: scenario })) as TScenario[])
-        : [],
+      scenarios ? (scenarios.map((scenario) => ({ _id: scenario._id, content: scenario.content })) as TScenario[]) : [],
     [scenarios]
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });

@@ -4,15 +4,15 @@ import { useTreeStore } from '@/store/tree-store';
 import React, { useEffect, useState, useRef } from 'react';
 import ScenarioTable from './scenario/scenario-table';
 import { columns } from './scenario/scenario-columns';
-import { useCaseMockData } from '../_data/use-case-mock-data';
 import { useParams, useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
 import { TestCaseDataTable } from './test-case/test-case-data-table';
 import { testCaseColumns } from './test-case/test-case-columns';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { UseCase } from '@/types/use-case';
 
-export default function UseCaseMainContent() {
+export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }) {
   const router = useRouter();
   const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
   const projectId = params.projectId;
@@ -24,7 +24,8 @@ export default function UseCaseMainContent() {
   }
 
   const { checkedIds } = useTreeStore();
-  const data = useCaseMockData.find((useCase) => useCase.project_id === projectId && useCase.use_case_id === useCaseId);
+  console.log('Checked IDs: ', checkedIds);
+  const data = useCases.find((useCase) => useCase.project_id === projectId && useCase.use_case_id === useCaseId);
 
   const [activeTab, setActiveTab] = useState(scenarioId ? 'Test Case' : 'Scenario');
   const tabRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
@@ -110,7 +111,7 @@ export default function UseCaseMainContent() {
       <TabsContent value='Use Case' className='p-4'>
         <p>Selected file: {useCaseId}</p>
         <p>Checked files: {checkedIds}</p>
-        <p>{data.content}</p>
+        <p>{data.description}</p>
       </TabsContent>
 
       <TabsContent value='Scenario' className='p-4'>

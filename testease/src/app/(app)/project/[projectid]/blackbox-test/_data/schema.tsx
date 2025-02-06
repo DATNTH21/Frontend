@@ -19,3 +19,14 @@ export const UseCaseUploadSchema = z.object({
 });
 
 export type TUsecaseUpload = z.infer<typeof UseCaseUploadSchema>;
+
+export const CreateUseCasesSchema = z.object({
+  project_id: z.string(),
+  content: z.array(z.string())
+});
+
+export type TCreateUseCases = z.infer<typeof CreateUseCasesSchema>;
+
+export type TCreateScenarios = {
+  use_case_ids: string[];
+};

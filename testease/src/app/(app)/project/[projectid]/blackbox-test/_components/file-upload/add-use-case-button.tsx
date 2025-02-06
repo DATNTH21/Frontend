@@ -31,22 +31,35 @@ import Editor from '@/components/ui/tiptap/editor';
 import { editorMode } from '@/components/ui/tiptap/extensions';
 import { Editor as TipTapEditor } from '@tiptap/react';
 import { readFile } from './file-handler';
+import { useCreateUseCase } from '@/api/use-case/use-case';
+import { toast } from '@/hooks/use-toast';
 
-export default function AddUseCaseButton() {
+const SPLIT_STRING = '%#%--------%#%';
+
+export default function AddUseCaseButton({ projectId }: { projectId: string }) {
   const editorRef = useRef<TipTapEditor | null>(null);
   const [useCaseContent, setUseCaseContent] = useState<string | undefined>(undefined);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [isTiptapOpen, setTiptapOpen] = useState<boolean>(false);
 
   // Create use case mutation
-  // const createUseCaseMutation = useCreateTestcaseMutation({
-  //   onSuccess: () => {
-  //     //dosth
-  //   },
-  //   onError: () => {
-  //     //dosth
-  //   }
-  // });
+  const createUseCaseMutation = useCreateUseCase({
+    onSuccess: () => {
+      toast({
+        variant: 'success',
+        title: 'Create use case successfully'
+      });
+      setTiptapOpen(false);
+      window.location.reload();
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Create use case failed',
+        description: error.message
+      });
+    }
+  });
   const {
     handleSubmit,
     control,
@@ -69,7 +82,13 @@ export default function AddUseCaseButton() {
   };
 
   const handleCreateUseCase = () => {
-    //createUseCaseMutation.mutate({})
+    const content = editorRef.current?.getText();
+    const usecases = content!!
+      .split(SPLIT_STRING)
+      .slice(1, -1)
+      .filter((usecase) => usecase.trim().length > 0);
+    console.log('Use case content:', usecases);
+    createUseCaseMutation.mutate({ data: { project_id: projectId, content: usecases } });
   };
 
   return (
@@ -94,8 +113,8 @@ export default function AddUseCaseButton() {
               <Button onClick={() => setTiptapOpen(false)} type='button' variant='ghost'>
                 Cancel
               </Button>
-              <Button onClick={handleCreateUseCase} disabled={isSubmitting}>
-                {isSubmitting ? (
+              <Button onClick={handleCreateUseCase} disabled={createUseCaseMutation.isPending}>
+                {createUseCaseMutation.isPending ? (
                   <>
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />
                     Creating

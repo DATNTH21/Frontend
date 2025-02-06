@@ -11,7 +11,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isVisible = true, spinn
   if (!isVisible) return null;
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 !m-0'>{spinner}</div>
+    <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999] !m-0'>{spinner}</div>
   );
 };
 

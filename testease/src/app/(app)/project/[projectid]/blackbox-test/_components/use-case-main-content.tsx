@@ -120,7 +120,7 @@ export default function UseCaseMainContent() {
       <TabsContent value='Test Case' className='p-4'>
         <div>
           <div className='flex justify-center items-center w-fit mb-6'>
-            <ArrowLeft /> GO BACK TO{''}
+            <ArrowLeft /> Go Back To{''}
             <Link
               href={`/project/${projectId}/blackbox-test/use-case/${useCaseId}`}
               className='ml-2 font-bold text-sidebar-active'

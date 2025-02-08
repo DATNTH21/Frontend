@@ -6,10 +6,9 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { useScenarioStore } from '@/store/scenario-store';
 import { Sparkles } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Spinner } from '@/components/ui/spinner';
-import { disconnectSocket, getSocket, initializeSocket } from '@/socket';
-import { useSession } from 'next-auth/react';
+import { getSocket } from '@/socket';
 import { useProject } from '@/api/project/project';
 import { useParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
@@ -28,29 +27,23 @@ export default function GenerateTestCaseButton() {
   const { data: { data: project } = {} } = useProject(params.projectId);
   const isGenerating = project ? project.status === 'Generating' : true;
 
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (session?.user) {
-      initializeSocket(session?.user.id);
-      const socket = getSocket();
+    const socket = getSocket();
 
-      socket.on('scenario-generated', (data) => {
-        console.log('Received scenarios:', data);
-        queryClient.invalidateQueries({ queryKey: ['project'] });
-        queryClient.invalidateQueries({ queryKey: ['scenario'] });
-      });
+    socket.on('scenario-generated', (data) => {
+      console.log('Received scenarios:', data);
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
+    });
 
-      socket.on('test-cases-generated', (data) => {
-        console.log('Received testcases:', data);
-        queryClient.invalidateQueries({ queryKey: ['project'] });
-        queryClient.invalidateQueries({ queryKey: ['testcase'] });
-      });
-    }
-    return () => {
-      disconnectSocket();
-    };
+    socket.on('test-cases-generated', (data) => {
+      console.log('Received testcases:', data);
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+      queryClient.invalidateQueries({ queryKey: ['testcase'] });
+    });
   }, []);
 
   const createScenariosMutation = useCreateScenarios({

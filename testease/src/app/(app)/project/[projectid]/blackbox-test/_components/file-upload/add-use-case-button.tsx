@@ -17,7 +17,7 @@ import { Loader2, PlusCircle } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import { TUsecaseUpload, UseCaseUploadSchema } from '../../_data/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
   AlertDialog,
@@ -33,6 +33,8 @@ import { Editor as TipTapEditor } from '@tiptap/react';
 import { readFile } from './file-handler';
 import { useCreateUseCase } from '@/api/use-case/use-case';
 import { toast } from '@/hooks/use-toast';
+import { getSocket } from '@/socket';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SPLIT_STRING = '%#%--------%#%';
 
@@ -41,14 +43,11 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
   const [useCaseContent, setUseCaseContent] = useState<string | undefined>(undefined);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [isTiptapOpen, setTiptapOpen] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   // Create use case mutation
   const createUseCaseMutation = useCreateUseCase({
     onSuccess: () => {
-      toast({
-        variant: 'success',
-        title: 'Create use case successfully'
-      });
       setTiptapOpen(false);
     },
     onError: (error: Error) => {
@@ -75,6 +74,20 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
       console.error('Error processing file:', error);
     }
   };
+
+  useEffect(() => {
+    const socket = getSocket();
+
+    socket.on('use-case-generated', (data) => {
+      console.log('Received use-cases:', data);
+      queryClient.invalidateQueries({ queryKey: ['use-case'] });
+      toast({
+        variant: 'success',
+        title: 'Create use case successfully'
+      });
+      setTiptapOpen(false);
+    });
+  }, []);
 
   const handleCreateUseCase = () => {
     const content = editorRef.current?.getText();

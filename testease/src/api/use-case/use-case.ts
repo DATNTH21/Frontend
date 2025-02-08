@@ -21,13 +21,11 @@ export const useCreateUseCase = ({
   onSuccess?: () => void;
   onError?: (error: Error) => void;
 }) => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['create-use-case'],
     mutationFn: ({ data }: { data: TCreateUseCases }) => createUseCase(data),
     onSuccess: () => {
       // Revidate
-      queryClient.invalidateQueries({ queryKey: useCaseQueryKey });
       onSuccess?.();
     },
     onError: (error) => {

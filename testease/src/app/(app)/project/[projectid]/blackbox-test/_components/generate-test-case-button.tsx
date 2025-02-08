@@ -13,6 +13,8 @@ import { useSession } from 'next-auth/react';
 import { useProject } from '@/api/project/project';
 import { useParams } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import { TCreateTestcases } from '../_data/schema';
+import { useCreateTestcases } from '@/api/testcase/testcase';
 
 export default function GenerateTestCaseButton() {
   const { scenarioSelection } = useScenarioStore();
@@ -38,6 +40,13 @@ export default function GenerateTestCaseButton() {
         queryClient.invalidateQueries({ queryKey: ['project'] });
         queryClient.invalidateQueries({ queryKey: ['scenario'] });
       });
+
+      socket.on('test-cases-generated', (data) => {
+        console.log('Received testcases:', data);
+        setIsGenerating(false);
+        queryClient.invalidateQueries({ queryKey: ['project'] });
+        queryClient.invalidateQueries({ queryKey: ['testcase'] });
+      });
     }
     return () => {
       disconnectSocket();
@@ -60,13 +69,44 @@ export default function GenerateTestCaseButton() {
     }
   });
 
-  // indeed generate scenarios first
-  function handleGenerateTestCase() {
-    if (checkedIds.size === 0) return;
+  const createTestcasesMutation = useCreateTestcases({
+    onError: (error: Error) => {
+      toast({
+        variant: 'destructive',
+        title: 'Create test cases failed',
+        description: error.message
+      });
+    }
+  });
+
+  function handleGenerateScenario() {
     const useCaseIds = Array.from(checkedIds);
     createScenariosMutation.mutate({ data: { use_case_ids: useCaseIds } });
     setIsGenerating(true);
     queryClient.invalidateQueries({ queryKey: ['project'] });
+  }
+
+  function handleGenerateTestCase() {
+    const genReq = [] as TCreateTestcases;
+    const usecaseIds = Object.keys(scenarioSelection);
+    for (const usecaseId of usecaseIds) {
+      genReq.push({
+        use_case_id: usecaseId,
+        scenario_ids: Object.keys(scenarioSelection[usecaseId])
+      });
+    }
+    console.log('Generating test cases:', genReq);
+    createTestcasesMutation.mutate({ data: genReq });
+    setIsGenerating(true);
+    queryClient.invalidateQueries({ queryKey: ['project'] });
+  }
+
+  function handleClick() {
+    if (isUCSelected) {
+      handleGenerateScenario();
+    } else if (isScenarioSelected) {
+      handleGenerateTestCase();
+    }
   }
 
   if (isGenerating) {
@@ -78,12 +118,7 @@ export default function GenerateTestCaseButton() {
   }
 
   return (
-    <Button
-      className=''
-      variant='destructive'
-      onClick={handleGenerateTestCase}
-      disabled={!isUCSelected && !isScenarioSelected}
-    >
+    <Button className='' variant='destructive' onClick={handleClick} disabled={!isUCSelected && !isScenarioSelected}>
       <Sparkles /> {isScenarioSelected ? 'Generate Test Case' : 'Generate Scenario'}
     </Button>
   );

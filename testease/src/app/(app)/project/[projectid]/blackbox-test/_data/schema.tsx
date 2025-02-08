@@ -30,3 +30,8 @@ export type TCreateUseCases = z.infer<typeof CreateUseCasesSchema>;
 export type TCreateScenarios = {
   use_case_ids: string[];
 };
+
+export type TCreateTestcases = {
+  use_case_id: string;
+  scenario_ids: string[];
+}[];

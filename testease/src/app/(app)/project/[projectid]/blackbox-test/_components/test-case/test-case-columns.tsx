@@ -10,11 +10,11 @@ import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 import { Badge } from '@/components/ui/badge';
 
-const priorityToInt = {
-  low: 1,
-  medium: 2,
-  high: 3
-} as const;
+// const priorityToInt = {
+//   low: 1,
+//   medium: 2,
+//   high: 3
+// } as const;
 
 export const testCaseColumns: ColumnDef<TTestcase>[] = [
   {
@@ -46,45 +46,45 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'title',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Title' />,
+    accessorKey: 'name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
     cell: ({ row }) => {
       return (
         <div className='flex space-x-2'>
-          <span className='max-w-[500px] truncate font-medium'>{row.getValue('title')}</span>
+          <span className='max-w-[500px] truncate font-medium'>{row.getValue('name')}</span>
         </div>
       );
     }
   },
-  {
-    accessorKey: 'priority',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Priority' />,
-    cell: ({ row }) => {
-      const priority = testCasePriorities.find((priority) => priority.value === row.getValue('priority'));
+  // {
+  //   accessorKey: 'priority',
+  //   header: ({ column }) => <DataTableColumnHeader column={column} title='Priority' />,
+  //   cell: ({ row }) => {
+  //     const priority = testCasePriorities.find((priority) => priority.value === row.getValue('priority'));
 
-      if (!priority) {
-        return null;
-      }
+  //     if (!priority) {
+  //       return null;
+  //     }
 
-      return (
-        <div className='flex items-center'>
-          <Badge variant='outline'>
-            {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
-            <span>{priority.label}</span>
-          </Badge>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-    sortingFn: (rowA, rowB, columnId) => {
-      const { priority: priority1 } = rowA.original;
-      const { priority: priority2 } = rowB.original;
+  //     return (
+  //       <div className='flex items-center'>
+  //         <Badge variant='outline'>
+  //           {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
+  //           <span>{priority.label}</span>
+  //         </Badge>
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   },
+  //   sortingFn: (rowA, rowB, columnId) => {
+  //     const { priority: priority1 } = rowA.original;
+  //     const { priority: priority2 } = rowB.original;
 
-      return priorityToInt[priority1] - priorityToInt[priority2];
-    }
-  },
+  //     return priorityToInt[priority1] - priorityToInt[priority2];
+  //   }
+  // },
   {
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,

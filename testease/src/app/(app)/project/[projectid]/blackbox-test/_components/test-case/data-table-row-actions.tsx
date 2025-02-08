@@ -31,7 +31,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
   const { openEditTestCaseDialog } = useGlobalStore();
   const testCase = TestCaseSchema.parse(row.original);
   const statusesToMark = testCaseStatuses.filter((status) => status.value !== testCase.status);
-  const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
+  // const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
 
   return (
     <DropdownMenu>
@@ -49,7 +49,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           Edit
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator />
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Priority</DropdownMenuSubTrigger>
@@ -62,7 +62,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
               ))}
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
-        </DropdownMenuSub>
+        </DropdownMenuSub> */}
 
         <DropdownMenuSeparator />
 

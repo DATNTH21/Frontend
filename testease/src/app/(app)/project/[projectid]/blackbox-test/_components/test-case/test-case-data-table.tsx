@@ -27,6 +27,7 @@ import TestCaseDetail from './test-case-detail';
 import { Sheet } from '@/components/ui/sheet';
 import TestCaseEditForm from './test-case-edit-form';
 import { useGlobalStore } from '@/store/global-store';
+import { useTestCasesOfScenario } from '@/api/testcase/testcase';
 
 interface DataTableProps<TTestcase, TValue> {
   columns: ColumnDef<TTestcase, TValue>[];
@@ -38,7 +39,8 @@ export function TestCaseDataTable<TTestcase, TValue>({ columns }: DataTableProps
   const scenarioId = params.scenarioId;
 
   // Fetch test cases using the params:
-  const data = testcaseMockData as TTestcase[];
+  const data = (useTestCasesOfScenario(scenarioId).data?.data || []) as TTestcase[];
+  console.log('Test Cases: ', data);
 
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});

@@ -266,7 +266,7 @@ const File = forwardRef<
             router.push(`/project/${params.projectId}/blackbox-test/use-case/${value}`);
           }}
         >
-          {fileIcon ?? <FileIcon className='h-4 w-4' />}
+          {fileIcon ?? <FileIcon className='h-4 w-4 flex-shrink-0' />}
           {children}
         </AccordionPrimitive.Trigger>
       </div>

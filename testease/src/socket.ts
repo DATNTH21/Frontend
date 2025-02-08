@@ -7,7 +7,8 @@ let socketInstance: Socket | null = null;
 export const getSocket = () => {
   if (!socketInstance) {
     socketInstance = io(process.env.NEXT_PUBLIC_API_URL, {
-      autoConnect: true
+      autoConnect: true,
+      transports: ['websocket']
     });
   }
   return socketInstance;

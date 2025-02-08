@@ -8,6 +8,8 @@ import React, { forwardRef, useCallback, useEffect } from 'react';
 import { useTreeStore } from '@/store/tree-store';
 import { Checkbox } from './checkbox';
 import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useScenarioStore } from '@/store/scenario-store';
+import { useProject } from '@/api/project/project';
 
 type TreeViewElement = {
   id: string;
@@ -160,12 +162,23 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
       checkedIds
     } = useTreeStore();
 
+    const { scenarioSelection } = useScenarioStore();
+    const isScenarioSelected = Object.keys(scenarioSelection).length > 0;
+
+    const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
+    const { data: { data: project } = {} } = useProject(params.projectId);
+    const isGenerating = project ? project.status === 'Generating' : true;
+
     const isChecked = element.children?.every((child) => checkedIds.has(child.id));
     return (
       <AccordionPrimitive.Item {...props} value={value} className='relative overflow-hidden h-full'>
         <div className='flex gap-2 items-center'>
           {element.children?.length != 0 && (
-            <Checkbox checked={isChecked} onCheckedChange={(value) => toggleCheck(value as boolean, element)} />
+            <Checkbox
+              checked={isChecked}
+              onCheckedChange={(value) => toggleCheck(value as boolean, element)}
+              disabled={isScenarioSelected || isGenerating}
+            />
           )}
 
           <AccordionPrimitive.Trigger
@@ -220,10 +233,20 @@ const File = forwardRef<
   const { direction, selectItem, checkedIds, toggleCheck } = useTreeStore();
   const isSelected = isSelect ?? params.useCaseId === value;
   const isChecked = checkedIds.has(element.id);
+
+  const { scenarioSelection } = useScenarioStore();
+  const isScenarioSelected = Object.keys(scenarioSelection).length > 0;
+
+  const { data: { data: project } = {} } = useProject(params.projectId);
+  const isGenerating = project ? project.status === 'Generating' : true;
   return (
     <AccordionPrimitive.Item value={value} className='relative'>
       <div className='flex gap-2 items-center'>
-        <Checkbox checked={isChecked} onCheckedChange={(value) => toggleCheck(value as boolean, element)} />
+        <Checkbox
+          checked={isChecked}
+          onCheckedChange={(value) => toggleCheck(value as boolean, element)}
+          disabled={isScenarioSelected || isGenerating}
+        />
         <AccordionPrimitive.Trigger
           ref={ref}
           {...props}

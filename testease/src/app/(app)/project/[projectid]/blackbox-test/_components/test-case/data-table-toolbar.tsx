@@ -20,7 +20,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
   const [value, setValue] = useState('');
 
   const handleChangeInputFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    table.getColumn('title')?.setFilterValue(event.target.value);
+    table.getColumn('name')?.setFilterValue(event.target.value);
     setValue(event.target.value);
   };
 

@@ -41,7 +41,8 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
   {
     accessorKey: 'id',
     header: ({ column }) => <DataTableColumnHeader column={column} title='ID' />,
-    cell: ({ row }) => <div className='w-[80px]'>{row.getValue('id')}</div>,
+    // cell: ({ row }) => <div className='w-[80px]'>{row.getValue('_id')}</div>,
+    cell: ({ row }) => <div className='w-[80px]'>{row.id}</div>,
     enableSorting: false,
     enableHiding: false
   },
@@ -89,8 +90,7 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
     cell: ({ row }) => {
-      const status = testCaseStatuses.find((status) => status.value === row.getValue('status'));
-
+      const status = testCaseStatuses.find((status) => status.value === String(row.getValue('status')).toLowerCase());
       if (!status) {
         return null;
       }

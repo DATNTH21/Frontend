@@ -69,7 +69,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
+            <DropdownMenuRadioGroup value={testCase._id}>
               {statusesToMark.map((status) => (
                 <DropdownMenuRadioItem key={status.value} value={status.value}>
                   Mark as {status.label}
@@ -84,7 +84,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Export as</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
+            <DropdownMenuRadioGroup value={testCase._id}>
               {['PDF', 'Excel'].map((format) => (
                 <DropdownMenuRadioItem key={format} value={format}>
                   {format}

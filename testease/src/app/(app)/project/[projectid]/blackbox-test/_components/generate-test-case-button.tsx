@@ -24,8 +24,10 @@ export default function GenerateTestCaseButton() {
   const isScenarioSelected = Object.keys(scenarioSelection).length > 0;
 
   const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
+
   const { data: { data: project } = {} } = useProject(params.projectId);
-  const [isGenerating, setIsGenerating] = useState(true);
+  const isGenerating = project ? project.status === 'Generating' : true;
+
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
@@ -36,14 +38,12 @@ export default function GenerateTestCaseButton() {
 
       socket.on('scenario-generated', (data) => {
         console.log('Received scenarios:', data);
-        setIsGenerating(false);
         queryClient.invalidateQueries({ queryKey: ['project'] });
         queryClient.invalidateQueries({ queryKey: ['scenario'] });
       });
 
       socket.on('test-cases-generated', (data) => {
         console.log('Received testcases:', data);
-        setIsGenerating(false);
         queryClient.invalidateQueries({ queryKey: ['project'] });
         queryClient.invalidateQueries({ queryKey: ['testcase'] });
       });
@@ -53,13 +53,10 @@ export default function GenerateTestCaseButton() {
     };
   }, []);
 
-  useEffect(() => {
-    if (project) {
-      setIsGenerating(project.status === 'Generating');
-    }
-  }, [project]);
-
   const createScenariosMutation = useCreateScenarios({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+    },
     onError: (error: Error) => {
       toast({
         variant: 'destructive',
@@ -70,6 +67,9 @@ export default function GenerateTestCaseButton() {
   });
 
   const createTestcasesMutation = useCreateTestcases({
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+    },
     onError: (error: Error) => {
       toast({
         variant: 'destructive',
@@ -82,8 +82,6 @@ export default function GenerateTestCaseButton() {
   function handleGenerateScenario() {
     const useCaseIds = Array.from(checkedIds);
     createScenariosMutation.mutate({ data: { use_case_ids: useCaseIds } });
-    setIsGenerating(true);
-    queryClient.invalidateQueries({ queryKey: ['project'] });
   }
 
   function handleGenerateTestCase() {
@@ -97,7 +95,6 @@ export default function GenerateTestCaseButton() {
     }
     console.log('Generating test cases:', genReq);
     createTestcasesMutation.mutate({ data: genReq });
-    setIsGenerating(true);
     queryClient.invalidateQueries({ queryKey: ['project'] });
   }
 

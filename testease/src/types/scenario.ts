@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ApiResponse } from './response';
 
 export const ScenarioSchema = z.object({
   _id: z.string(),
@@ -13,3 +14,5 @@ export type GetAllScenariosOfUCResponse = {
   message: string;
   data: TScenario[] | [];
 };
+
+export type DeleteScenarioResponse = ApiResponse<undefined>;

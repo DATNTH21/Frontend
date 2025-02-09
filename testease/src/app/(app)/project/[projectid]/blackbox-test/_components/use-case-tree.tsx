@@ -3,7 +3,6 @@ import { TreeViewElement } from '@/components/ui/tree-view-api';
 import { TOC } from '@/components/ui/tree';
 import { useParams, useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
-import { useUsecases } from '@/api/use-case/use-case';
 import { UseCase } from '@/types/use-case';
 
 // const elements: TreeViewElement[] = [

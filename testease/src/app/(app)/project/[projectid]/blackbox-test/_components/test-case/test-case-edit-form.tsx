@@ -51,14 +51,14 @@ export default function TestCaseEditForm() {
                   <div className='mt-4 flex'>
                     <FormField
                       control={form.control}
-                      name='title'
+                      name='name'
                       render={({ field }) => (
                         <FormItem className='w-full'>
                           <FormLabel className='flex items-center'>
-                            Title <Asterisk className='text-destructive w-3 h-3' />
+                            Name <Asterisk className='text-destructive w-3 h-3' />
                           </FormLabel>
                           <FormControl>
-                            <Input className='border-input' placeholder='Enter your title' {...field} />
+                            <Input className='border-input' placeholder='Enter your test case name' {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

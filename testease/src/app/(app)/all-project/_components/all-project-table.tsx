@@ -21,7 +21,7 @@ import { DataTablePagination } from './data-table-pagination';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
 import { Project } from '@/types/project';
-import { useProject } from '@/api/project/project';
+import { useProjects } from '@/api/project/project';
 import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { SolarSystem } from '@/components/ui/loading/solar-system';
 
@@ -32,7 +32,7 @@ interface DataTableProps<TValue> {
 
 export default function AllProjectTable<TValue>({ columns, searchParam }: DataTableProps<TValue>) {
   const router = useRouter();
-  const { data: projectResponse, status } = useProject(searchParam);
+  const { data: projectResponse, status } = useProjects(searchParam);
   const projects = projectResponse ? projectResponse.data : [];
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });

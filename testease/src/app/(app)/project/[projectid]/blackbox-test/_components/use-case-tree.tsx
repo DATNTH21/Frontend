@@ -49,7 +49,7 @@ const UseCaseTree = ({ useCases }: { useCases: UseCase[] }) => {
           : useCases.map((useCase, index) => {
               return {
                 id: useCase.use_case_id,
-                name: `use_case_${index}`
+                name: useCase.name.trim()
               };
             })
     }

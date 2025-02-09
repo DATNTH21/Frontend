@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const ScenarioSchema = z.object({
   _id: z.string(),
+  scenario_id: z.string(),
   content: z.string()
 });
 

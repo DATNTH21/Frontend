@@ -19,9 +19,9 @@ export const TreeItem = ({ elements }: TreeItemProps) => {
               value={element.id}
               isSelectable={element.isSelectable}
               element={element}
-              className={'px-1'}
+              className={'px-1 flex-1 min-w-0'}
             >
-              <span className='ml-1'>{element?.name}</span>
+              <span className='ml-1 truncate'>{element?.name}</span>
             </File>
           )}
         </li>

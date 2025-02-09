@@ -31,7 +31,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
   const { openEditTestCaseDialog } = useGlobalStore();
   const testCase = TestCaseSchema.parse(row.original);
   const statusesToMark = testCaseStatuses.filter((status) => status.value !== testCase.status);
-  const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
+  // const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
 
   return (
     <DropdownMenu>
@@ -49,7 +49,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           Edit
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator />
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Priority</DropdownMenuSubTrigger>
@@ -62,14 +62,14 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
               ))}
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
-        </DropdownMenuSub>
+        </DropdownMenuSub> */}
 
         <DropdownMenuSeparator />
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
+            <DropdownMenuRadioGroup value={testCase._id}>
               {statusesToMark.map((status) => (
                 <DropdownMenuRadioItem key={status.value} value={status.value}>
                   Mark as {status.label}
@@ -84,7 +84,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Export as</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
+            <DropdownMenuRadioGroup value={testCase._id}>
               {['PDF', 'Excel'].map((format) => (
                 <DropdownMenuRadioItem key={format} value={format}>
                   {format}

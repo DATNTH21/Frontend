@@ -3,15 +3,18 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SheetClose, SheetContent, SheetFooter, SheetTitle } from '@/components/ui/sheet';
 import { useGlobalStore } from '@/store/global-store';
+import { TTestcase } from '@/types/test-case';
 import { Edit, X } from 'lucide-react';
 import React, { Dispatch, SetStateAction } from 'react';
 
 type TestCaseDetailProps = {
   testCaseId: string | undefined;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  testCases: TTestcase[];
 };
 
-export default function TestCaseDetail({ setOpen, testCaseId }: TestCaseDetailProps) {
+export default function TestCaseDetail({ setOpen, testCaseId, testCases }: TestCaseDetailProps) {
+  const testCase = testCases.find((tc) => tc.test_case_id === testCaseId);
   const { openEditTestCaseDialog } = useGlobalStore();
   return (
     <SheetContent className='min-w-[35vw] !p-0 max-h-[100vh]'>
@@ -37,63 +40,38 @@ export default function TestCaseDetail({ setOpen, testCaseId }: TestCaseDetailPr
             <Edit /> Edit
           </Button>
         </div>
-        <h1 className='font-semibold text-xl mb-4'>Creation of user session upon successful login</h1>
+        <h1 className='font-semibold text-xl mb-4'>{testCase?.name}</h1>
         <div className='flex flex-col gap-4'>
           <div>
-            <h3 className='font-semibold'>Description:</h3>
-            <p className=''>Some descriptions here</p>
+            <h3 className='font-semibold'>Objective:</h3>
+            <p className=''>{testCase?.objective}</p>
           </div>
-          <div>
-            <h3 className='font-semibold'>Preconditions:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
+
           <div>
             <h3 className='font-semibold'>Steps:</h3>
-            <p className=''>Some descriptions here</p>
+            {testCase?.steps.map((step, index) => (
+              <div key={index} className='ml-4 mb-2'>
+                <p className=''>
+                  {index + 1}. {step}
+                </p>
+              </div>
+            ))}
           </div>
           <div>
             <h3 className='font-semibold'>Expected Result(s):</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div>
-            <h3 className='font-semibold'>Description:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div>
-            <h3 className='font-semibold'>Preconditions:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div>
-            <h3 className='font-semibold'>Steps:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div>
-            <h3 className='font-semibold'>Expected Result(s):</h3>
-            <p className=''>Some descriptions here</p>
+            <p className=''>{testCase?.expected_result}</p>
           </div>
         </div>
         <Separator className='my-4' />
         <div className='flex flex-wrap w-full gap-y-4'>
           <div className='w-3/6'>
-            <h3 className='font-semibold'>Owner:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div className='w-3/6'>
             <h3 className='font-semibold'>Status:</h3>
-            <p className=''>Some descriptions here</p>
+            <p className=''>{testCase?.status}</p>
           </div>
 
           <div className='w-3/6'>
             <h3 className='font-semibold'>Priority:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div className='w-3/6'>
-            <h3 className='font-semibold'>Type:</h3>
-            <p className=''>Some descriptions here</p>
-          </div>
-          <div className='w-full'>
-            <h3 className='font-semibold'>Requirement:</h3>
-            <p className=''>Some descriptions here</p>
+            <p className=''>{testCase?.priority}</p>
           </div>
         </div>
       </div>

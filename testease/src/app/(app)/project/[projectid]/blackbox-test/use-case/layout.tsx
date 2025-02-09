@@ -1,6 +1,5 @@
-import AddUseCaseButton from '../_components/file-upload/add-use-case-button';
-import GenerateTestCaseButton from '../_components/generate-test-case-button';
 import UseCaseArea from '../_components/use-case-area';
+import FeatureButtonsList from '../_components/feature-buttons-list';
 
 export const metadata = {
   title: 'Black-box testing'
@@ -20,10 +19,7 @@ export default async function Layout({
       {/* Header */}
       <div className='sticky top-0 z-10 flex justify-between items-center p-4 border-b bg-background'>
         <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
-        <div className='flex justify-center items-center gap-3'>
-          <GenerateTestCaseButton />
-          <AddUseCaseButton projectId={projectId} />
-        </div>
+        <FeatureButtonsList projectId={projectId} />
       </div>
 
       {/* Content Area */}

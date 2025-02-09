@@ -22,23 +22,37 @@ import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import { useParams } from 'next/navigation';
 import { testcaseMockData } from '../../_data/test-case-mock-data';
-import { TTestcase } from '@/types/test-case';
+import { TTestcase as BaseTestcase } from '@/types/test-case';
+
 import TestCaseDetail from './test-case-detail';
 import { Sheet } from '@/components/ui/sheet';
 import TestCaseEditForm from './test-case-edit-form';
 import { useGlobalStore } from '@/store/global-store';
+import { useTestCasesOfScenario } from '@/api/testcase/testcase';
+
+interface TTestcase extends BaseTestcase {
+  _id: string;
+  test_case_id: string;
+  name: string;
+  objective: string;
+  steps: string[];
+  status: string;
+  expected_result: string;
+  priority: 'low' | 'medium' | 'high';
+}
 
 interface DataTableProps<TTestcase, TValue> {
   columns: ColumnDef<TTestcase, TValue>[];
 }
 
-export function TestCaseDataTable<TTestcase, TValue>({ columns }: DataTableProps<TTestcase, TValue>) {
+export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase, TValue>) {
   const params = useParams<{ projectId: string; scenarioId: string }>();
   const projectId = params.projectId;
   const scenarioId = params.scenarioId;
 
   // Fetch test cases using the params:
-  const data = testcaseMockData as TTestcase[];
+  const data = (useTestCasesOfScenario(scenarioId).data?.data || []) as TTestcase[];
+  console.log('Test Cases: ', data);
 
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -56,6 +70,7 @@ export function TestCaseDataTable<TTestcase, TValue>({ columns }: DataTableProps
       rowSelection,
       columnFilters
     },
+    getRowId: (row: any) => row.test_case_id,
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -95,7 +110,7 @@ export function TestCaseDataTable<TTestcase, TValue>({ columns }: DataTableProps
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                     onClick={() => {
-                      setTestCaseDetailId(row.getValue('id'));
+                      setTestCaseDetailId(row.id);
                       setTestCaseDetailOpen(true);
                     }}
                     className='cursor-pointer'
@@ -120,7 +135,7 @@ export function TestCaseDataTable<TTestcase, TValue>({ columns }: DataTableProps
 
       {/* Test case detail sheet */}
       <Sheet open={isTestCaseDetailOpen} onOpenChange={setTestCaseDetailOpen}>
-        <TestCaseDetail testCaseId={testCaseDetailId} setOpen={setTestCaseDetailOpen} />
+        <TestCaseDetail testCaseId={testCaseDetailId} setOpen={setTestCaseDetailOpen} testCases={data} />
       </Sheet>
 
       {/* Test case edit dialog */}

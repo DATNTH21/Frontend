@@ -11,10 +11,16 @@ type ScenarioStoreState = {
 export const useScenarioStore = create<ScenarioStoreState>((set) => ({
   scenarioSelection: {},
   setScenarioSelection: (useCaseId, selection) =>
-    set((state) => ({
-      scenarioSelection: {
-        ...state.scenarioSelection,
-        [useCaseId]: typeof selection === 'function' ? selection(state.scenarioSelection[useCaseId] || {}) : selection
+    set((state) => {
+      const newState = {
+        scenarioSelection: {
+          ...state.scenarioSelection,
+          [useCaseId]: typeof selection === 'function' ? selection(state.scenarioSelection[useCaseId] || {}) : selection
+        }
+      };
+      if (Object.keys(newState.scenarioSelection[useCaseId]).length === 0) {
+        delete newState.scenarioSelection[useCaseId];
       }
-    }))
+      return newState;
+    })
 }));

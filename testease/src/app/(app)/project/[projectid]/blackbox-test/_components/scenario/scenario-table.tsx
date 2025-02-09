@@ -41,16 +41,22 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   const { scenarioSelection, setScenarioSelection } = useScenarioStore();
   const rowSelection = scenarioSelection[params.useCaseId] || {};
 
-  console.log('Scenario Selection: ', scenarioSelection);
+  // console.log('Scenario Selection: ', scenarioSelection);
 
   // Fetch scenarios for the current use case
   // const scenarios = useMemo(() => scenarioMockData.find((s) => s._id === params.useCaseId), [params.useCaseId]);
   const scenarios = useScenariosOfUC(params.useCaseId).data?.data;
-  console.log('Scenarios: ', scenarios);
+  // console.log('Scenarios: ', scenarios);
 
   const data = useMemo(
     () =>
-      scenarios ? (scenarios.map((scenario) => ({ _id: scenario._id, content: scenario.content })) as TScenario[]) : [],
+      scenarios
+        ? (scenarios.map((scenario) => ({
+            _id: scenario._id,
+            content: scenario.content,
+            scenario_id: scenario.scenario_id
+          })) as TScenario[])
+        : [],
     [scenarios]
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
@@ -66,6 +72,7 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
       rowSelection,
       columnFilters
     },
+    getRowId: (row: any) => row.scenario_id,
     onRowSelectionChange: (newSelection) => setScenarioSelection(params.useCaseId, newSelection),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

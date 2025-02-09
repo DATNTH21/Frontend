@@ -20,7 +20,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
   const [value, setValue] = useState('');
 
   const handleChangeInputFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    table.getColumn('title')?.setFilterValue(event.target.value);
+    table.getColumn('name')?.setFilterValue(event.target.value);
     setValue(event.target.value);
   };
 
@@ -36,9 +36,9 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         {table.getColumn('status') && (
           <DataTableFacetedFilter column={table.getColumn('status')} title='Status' options={testCaseStatuses} />
         )}
-        {table.getColumn('priority') && (
+        {/* {table.getColumn('priority') && (
           <DataTableFacetedFilter column={table.getColumn('priority')} title='Priority' options={testCasePriorities} />
-        )}
+        )} */}
         {isFiltered && (
           <Button variant='ghost' onClick={() => table.resetColumnFilters()} className='h-8 px-2 lg:px-3'>
             Reset

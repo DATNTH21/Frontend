@@ -12,19 +12,18 @@ export default async function AppLayout({
 }) {
   const projectId = (await params).projectId;
   //console.log('Project layout: Get current project ID: ', projectId);
-
   if (!projectId) {
     redirect('/all-project');
   }
   return (
     <SidebarProvider>
       <AppSidebar projectId={projectId} />
-      <SidebarInset className='flex flex-col'>
+      <SidebarInset className='flex flex-col min-w-0'>
         <header className='flex bg-background px-4 py-3 shrink-0 items-center gap-2 border-b justify-between'>
           <SidebarTrigger className='-ml-1' />
           <ModeToggle />
         </header>
-        <main className='w-full flex-1 flex flex-col bg-background'>{children}</main>
+        <main className='flex-1 flex flex-col bg-background'>{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

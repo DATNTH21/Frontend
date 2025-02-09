@@ -3,25 +3,33 @@
 import { useState } from 'react';
 import { MoreVertical, Edit, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 import DeleteFieldDialog from './delete-field-dialog';
 import EditFieldDialog from './edit-field-dialog';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Dialog } from '@/components/ui/dialog';
 import { TFieldSchema } from '../_data/schemas';
+import { TestCaseConfigOption } from '@/types/user-config';
 
-const ActionCell: React.FC<{ field: TFieldSchema }> = ({ field }) => {
+const ActionCell: React.FC<{ field: TestCaseConfigOption[] }> = ({ field }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
     <>
-      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+      {/* <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <EditFieldDialog field={field} setIsOpen={setIsEditOpen} />
       </Dialog>
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <DeleteFieldDialog field={field} setIsOpen={setIsDeleteOpen} />
-      </AlertDialog>
+      </AlertDialog> */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size='icon' variant='ghost'>

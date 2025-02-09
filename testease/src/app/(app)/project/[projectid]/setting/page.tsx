@@ -1,11 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TestCaseField from './_components/testcase-field';
-import TestRunField from './_components/testrun-field';
 import { FolderCode, SquareCode } from 'lucide-react';
+import TestCaseExportConfiguration from './_components/test-case-export-configuration';
 
 export default function SettingPage() {
   return (
-    <Tabs defaultValue='testCase' className='p-4 w-full'>
+    <Tabs defaultValue='testCase' className='p-4 w-full mb-12'>
       <div className='w-full border-b relative'>
         <TabsList className='relative p-0 flex h-fit w-fit'>
           <TabsTrigger
@@ -41,7 +41,7 @@ export default function SettingPage() {
         <TestCaseField />
       </TabsContent>
       <TabsContent value='testCaseExport'>
-        <TestRunField />
+        <TestCaseExportConfiguration />
       </TabsContent>
     </Tabs>
   );

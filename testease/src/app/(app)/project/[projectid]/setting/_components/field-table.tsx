@@ -1,47 +1,50 @@
 import React from 'react';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 import ActionCell from './action-cell';
-import { TFieldSchema } from '../_data/schemas';
+import { TestCaseConfigOption } from '@/types/user-config';
 
 interface FieldTableProps {
-  fields: TFieldSchema[];
+  fields: Record<string, TestCaseConfigOption[]>;
 }
 
 const FieldTable: React.FC<FieldTableProps> = ({ fields }) => {
+  const fieldKeys = Object.keys(fields);
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className='pl-4 w-[480px]'>FIELDS</TableHead>
-          <TableHead className='text-right'></TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {fields.length > 0 ? (
-          fields.map((field) => (
-            <TableRow key={field._id}>
-              <TableCell className='pl-4'>
-                <div>{field.field}</div>
-                <div className='flex'>
-                  {field.values.map((value) => (
-                    <div key={value}>{value}&nbsp;</div>
-                  ))}
-                </div>
-              </TableCell>
-              <TableCell className='text-right pr-4'>
-                <ActionCell field={field} />
+    <div className='border rounded-lg'>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className='pl-4 w-[480px]'>FIELDS</TableHead>
+            <TableHead className='text-right'></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {fieldKeys.length > 0 ? (
+            fieldKeys.map((fieldKey) => (
+              <TableRow key={fieldKey}>
+                <TableCell className='pl-4'>
+                  <div className='font-semibold capitalize'>{fieldKey}</div>
+                  <div className='flex'>
+                    {fields[fieldKey].map((option) => (
+                      <div key={option._id}>{option.name}&nbsp;</div>
+                    ))}
+                  </div>
+                </TableCell>
+                <TableCell className='text-right pr-4'>
+                  <ActionCell field={fields[fieldKey]} />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className='text-center'>
+                No field found.
               </TableCell>
             </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={5} className='text-center'>
-              No field found.
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

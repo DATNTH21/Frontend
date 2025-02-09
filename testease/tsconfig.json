@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,9 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
+      "@/*": ["./src/*"]
     },
     "target": "ES2017"
   },
@@ -34,8 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/__mocks__/nextLinkMock.js",
-    "src/src/__tests__/index.test.js" ],
-  "exclude": [
-    "node_modules"
-  ]
+    "src/src/__tests__/index.test.js"
+  ],
+  "exclude": ["node_modules"]
 }

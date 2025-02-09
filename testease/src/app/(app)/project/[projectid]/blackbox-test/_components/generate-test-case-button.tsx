@@ -92,7 +92,7 @@ export default function GenerateTestCaseButton() {
   }
 
   function handleClick() {
-    if (isUCSelected) {
+    if (isUCSelected && !isScenarioSelected) {
       handleGenerateScenario();
     } else if (isScenarioSelected) {
       handleGenerateTestCase();

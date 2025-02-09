@@ -13,7 +13,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isVisible = true, spinn
 
   return (
     <div
-      className={`${coverBody ? 'fixed bg-black bg-opacity-50' : 'absolute'} inset-0 flex justify-center items-center z-[9999] !m-0`}
+      className={`${coverBody ? 'fixed bg-black bg-opacity-50' : 'absolute'} inset-0 flex justify-center items-center z-[999999] !m-0`}
     >
       {spinner}
     </div>

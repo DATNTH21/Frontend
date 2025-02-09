@@ -47,6 +47,10 @@ const DialogContent = React.forwardRef<
           onClick(event);
         }
       }}
+      onCloseAutoFocus={(event) => {
+        event.preventDefault();
+        document.body.style.pointerEvents = '';
+      }}
       {...props}
     >
       {children}

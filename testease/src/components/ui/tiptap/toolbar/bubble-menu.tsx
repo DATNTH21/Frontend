@@ -13,8 +13,8 @@ const BubbleMenu = (props: Props) => {
   const activeExtensions = getActiveExtensions(editor);
 
   return (
-    <TiptapBubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-      <div className='border shadow-md p-1 rounded-md'>
+    <TiptapBubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className='bg-background text-foreground'>
+      <div className='border shadow-md p-1 rounded-md bg-background text-foreground'>
         {activeExtensions[extensionMap.bold] ? <Bold editor={editor} /> : null}
 
         {activeExtensions[extensionMap.italic] ? <Italic editor={editor} /> : null}

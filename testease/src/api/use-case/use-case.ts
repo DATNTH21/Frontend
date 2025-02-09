@@ -1,16 +1,17 @@
-import { TUsecaseUpload } from '@/app/(app)/project/[projectId]/blackbox-test/_data/schema';
+import { TCreateUseCases, TUsecaseUpload } from '@/app/(app)/project/[projectId]/blackbox-test/_data/schema';
 import { customFetch } from '@/lib/api-client';
 import { ApiResponse } from '@/types/response';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { GetAllUsecasesResponse } from '@/types/use-case';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const useCaseQueryKey = ['use-case'];
 
-export const createUseCase = async (data: FormData): Promise<any> => {
+export const createUseCase = async (data: TCreateUseCases): Promise<any> => {
   return customFetch.post<any>('/usecases', data);
 };
 
-export const handleDescriptionUpload = async (data: TUsecaseUpload) => {
-  return customFetch.post<Promise<ApiResponse<{ description: string }>>>('/usecase/upload', data, { useNextApi: true });
+export const getAllUsecases = async (projectId: string): Promise<GetAllUsecasesResponse> => {
+  return customFetch.get<GetAllUsecasesResponse>(`/usecases?project_id=${projectId}`);
 };
 
 export const useCreateUseCase = ({
@@ -20,13 +21,11 @@ export const useCreateUseCase = ({
   onSuccess?: () => void;
   onError?: (error: Error) => void;
 }) => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['create-use-case'],
-    mutationFn: ({ data }: { data: FormData }) => createUseCase(data),
+    mutationFn: ({ data }: { data: TCreateUseCases }) => createUseCase(data),
     onSuccess: () => {
       // Revidate
-      queryClient.invalidateQueries({ queryKey: useCaseQueryKey });
       onSuccess?.();
     },
     onError: (error) => {
@@ -35,24 +34,9 @@ export const useCreateUseCase = ({
   });
 };
 
-export const useUseCaseDescriptionUpload = ({
-  onSuccess,
-  onError
-}: {
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
-}) => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationKey: ['use-case-description-upload'],
-    mutationFn: ({ data }: { data: TUsecaseUpload }) => handleDescriptionUpload(data),
-    onSuccess: () => {
-      // Revidate
-      queryClient.invalidateQueries({ queryKey: useCaseQueryKey });
-      onSuccess?.();
-    },
-    onError: (error) => {
-      onError?.(error);
-    }
+export const useUsecases = (projectId: string) => {
+  return useQuery({
+    queryKey: [...useCaseQueryKey, projectId],
+    queryFn: () => getAllUsecases(projectId)
   });
 };

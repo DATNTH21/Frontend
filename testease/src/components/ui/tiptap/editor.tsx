@@ -28,7 +28,7 @@ const Editor = forwardRef<TipTapEditor | null, EditorProps>((props, ref) => {
     content: content,
     editorProps: {
       attributes: {
-        class: 'outline-none px-4 py-2 rounded-lg prose max-w-full prose-slate'
+        class: 'outline-none px-4 py-2 rounded-lg prose max-w-full bg-background text-foreground dark:prose-invert'
       }
     }
   });
@@ -47,7 +47,7 @@ const Editor = forwardRef<TipTapEditor | null, EditorProps>((props, ref) => {
       <BubbleMenu editor={editor} />
 
       {/* Scrollable Editor Content */}
-      <div className='overflow-hidden border-2 border-primary rounded-lg'>
+      <div className='flex-1 overflow-hidden border-2 border-primary rounded-lg'>
         <div className='overflow-auto h-full'>
           <EditorContent editor={editor} />
         </div>

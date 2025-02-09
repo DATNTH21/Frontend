@@ -47,7 +47,6 @@ export default function CreateProjectDialog() {
   const {
     handleSubmit,
     register,
-    control,
     formState: { errors, isSubmitting },
     reset
   } = useForm<TCreateProjectSchema>({ resolver: zodResolver(CreateProjectSchema) });

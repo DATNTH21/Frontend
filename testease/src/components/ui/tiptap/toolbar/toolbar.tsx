@@ -28,7 +28,7 @@ const Toolbar = (props: Props) => {
   const activeExtensions = getActiveExtensions(editor);
 
   return (
-    <div className='sticky bg-white z-50'>
+    <div className='sticky bg-background text-foreground z-50'>
       <div className='border flex-wrap rounded-lg p-1 flex items-center gap-2'>
         {activeExtensions[extensionMap.heading] ? <Undo editor={editor} /> : null}
 

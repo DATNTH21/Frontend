@@ -1,7 +1,7 @@
 'use client';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,8 +20,8 @@ import { DataTableToolbar } from './data-table-toolbar';
 import { DataTablePagination } from './data-table-pagination';
 import { useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
-import { Project } from '@/types/project.d';
-import { useProject } from '@/api/project/project';
+import { Project } from '@/types/project';
+import { useProjects } from '@/api/project/project';
 import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { SolarSystem } from '@/components/ui/loading/solar-system';
 
@@ -32,10 +32,9 @@ interface DataTableProps<TValue> {
 
 export default function AllProjectTable<TValue>({ columns, searchParam }: DataTableProps<TValue>) {
   const router = useRouter();
-  const { data: projectResponse, status } = useProject(searchParam);
+  const { data: projectResponse, status } = useProjects(searchParam);
   const projects = projectResponse ? projectResponse.data : [];
 
-  const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -46,11 +45,9 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
     state: {
       sorting,
       columnVisibility,
-      rowSelection,
       columnFilters
     },
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
@@ -66,6 +63,11 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
       columnVisibility: { _id: false }
     }
   });
+
+  // If fail to retrieve project, return
+  if (status == 'error') {
+    router.push(paths.projectAll.getHref());
+  }
 
   return (
     <div className='space-y-4'>

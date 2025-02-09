@@ -21,11 +21,7 @@ export default function DeleteFieldDialog({
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   //Add field id as additional argument to server action
-  const handleDelete = () => {
-    //deleteField.bind(null, field._id);
-    console.log("delete ", field._id);
-    setIsOpen(false);
-  };
+  const handleDelete = () => {};
   return (
     <AlertDialogContent>
       <AlertDialogHeader>

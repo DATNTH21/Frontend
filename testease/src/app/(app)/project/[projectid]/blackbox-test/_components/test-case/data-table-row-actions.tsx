@@ -18,19 +18,20 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
-import { statuses, priorities } from '../_data/data';
+import { testCaseStatuses, testCasePriorities } from '../../_data/constant';
 
-import { testCaseSchema } from '../_data/schema';
+import { TestCaseSchema } from '@/types/test-case';
+import { useGlobalStore } from '@/store/global-store';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const testCase = testCaseSchema.parse(row.original);
-  // console.log(testCase, '💥');
-  const statusesToMark = statuses.filter((status) => status.value !== testCase.status);
-  const prioritiesToMark = priorities.filter((priority) => priority.value !== testCase.priority);
+  const { openEditTestCaseDialog } = useGlobalStore();
+  const testCase = TestCaseSchema.parse(row.original);
+  const statusesToMark = testCaseStatuses.filter((status) => status.value !== testCase.status);
+  // const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
 
   return (
     <DropdownMenu>
@@ -41,9 +42,14 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem
+          className='cursor-pointer'
+          onClick={() => row.getValue('id') && openEditTestCaseDialog(row.getValue('id'))}
+        >
+          Edit
+        </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator />
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Priority</DropdownMenuSubTrigger>
@@ -56,14 +62,14 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
               ))}
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
-        </DropdownMenuSub>
+        </DropdownMenuSub> */}
 
         <DropdownMenuSeparator />
 
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
+            <DropdownMenuRadioGroup value={testCase._id}>
               {statusesToMark.map((status) => (
                 <DropdownMenuRadioItem key={status.value} value={status.value}>
                   Mark as {status.label}
@@ -78,7 +84,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Export as</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
+            <DropdownMenuRadioGroup value={testCase._id}>
               {['PDF', 'Excel'].map((format) => (
                 <DropdownMenuRadioItem key={format} value={format}>
                   {format}

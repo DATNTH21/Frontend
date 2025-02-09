@@ -5,13 +5,18 @@ import React from 'react';
 type LoadingOverlayProps = {
   isVisible?: boolean;
   spinner: React.ReactNode;
+  coverBody?: boolean;
 };
 
-const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isVisible = true, spinner }) => {
+const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ isVisible = true, spinner, coverBody = true }) => {
   if (!isVisible) return null;
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 !m-0'>{spinner}</div>
+    <div
+      className={`${coverBody ? 'fixed bg-black bg-opacity-50' : 'absolute'} inset-0 flex justify-center items-center z-[999999] !m-0`}
+    >
+      {spinner}
+    </div>
   );
 };
 

@@ -1,12 +1,13 @@
 'use client';
 
 import { Row } from '@tanstack/react-table';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, Trash } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -22,84 +23,43 @@ import { testCaseStatuses, testCasePriorities } from '../../_data/constant';
 
 import { TestCaseSchema } from '@/types/test-case';
 import { useGlobalStore } from '@/store/global-store';
+import { useState } from 'react';
+import { AlertDialog } from '@/components/ui/alert-dialog';
+import DeleteTestCaseDialog from './delete-testcase-dialog';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const { openEditTestCaseDialog } = useGlobalStore();
   const testCase = TestCaseSchema.parse(row.original);
-  const statusesToMark = testCaseStatuses.filter((status) => status.value !== testCase.status);
-  // const prioritiesToMark = testCasePriorities.filter((priority) => priority.value !== testCase.priority);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant='ghost' className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'>
-          <MoreHorizontal />
-          <span className='sr-only'>Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuItem
-          className='cursor-pointer'
-          onClick={() => row.getValue('id') && openEditTestCaseDialog(row.getValue('id'))}
-        >
-          Edit
-        </DropdownMenuItem>
-
-        {/* <DropdownMenuSeparator />
-
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Priority</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase.id}>
-              {prioritiesToMark.map((priority) => (
-                <DropdownMenuRadioItem key={priority.value} value={priority.value}>
-                  Mark as {priority.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub> */}
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase._id}>
-              {statusesToMark.map((status) => (
-                <DropdownMenuRadioItem key={status.value} value={status.value}>
-                  Mark as {status.label}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Export as</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={testCase._id}>
-              {['PDF', 'Excel'].map((format) => (
-                <DropdownMenuRadioItem key={format} value={format}>
-                  {format}
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DeleteTestCaseDialog testcase={testCase} setIsOpen={setIsDeleteOpen} />
+      </AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant='ghost' className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'>
+            <MoreHorizontal />
+            <span className='sr-only'>Open menu</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align='end' className='w-[160px]'>
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              className='text-destructive focus:text-destructive cursor-pointer'
+              onSelect={() => {
+                setIsDeleteOpen(true);
+              }}
+            >
+              <Trash /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 }

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ApiResponse } from './response';
 
 export const TestCaseSchema = z.object({
   _id: z.string(),
@@ -8,7 +9,7 @@ export const TestCaseSchema = z.object({
   steps: z.array(z.string()),
   expected_result: z.string(),
   status: z.string(),
-  priority: z.enum(['low', 'medium', 'high']).default('medium')
+  priority: z.enum(['Low', 'Medium', 'High']).default('Medium')
 });
 
 export type TTestcase = z.infer<typeof TestCaseSchema>;
@@ -18,3 +19,5 @@ export type GetAllTestCasesOfScenarioResponse = {
   message: string;
   data: TTestcase[] | [];
 };
+
+export type DeleteTestCaseResponse = ApiResponse<undefined>;

@@ -38,7 +38,7 @@ interface TTestcase extends BaseTestcase {
   steps: string[];
   status: string;
   expected_result: string;
-  priority: 'low' | 'medium' | 'high';
+  priority: 'Low' | 'Medium' | 'High';
 }
 
 interface DataTableProps<TTestcase, TValue> {

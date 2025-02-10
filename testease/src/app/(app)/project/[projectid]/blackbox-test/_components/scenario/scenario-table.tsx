@@ -46,7 +46,7 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   // Fetch scenarios for the current use case
   // const scenarios = useMemo(() => scenarioMockData.find((s) => s._id === params.useCaseId), [params.useCaseId]);
   const scenarios = useScenariosOfUC(params.useCaseId).data?.data;
-  // console.log('Scenarios: ', scenarios);
+  console.log('Scenarios: ', scenarios);
 
   const data = useMemo(
     () =>
@@ -54,7 +54,8 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
         ? (scenarios.map((scenario) => ({
             _id: scenario._id,
             content: scenario.content,
-            scenario_id: scenario.scenario_id
+            scenario_id: scenario.scenario_id,
+            test_cases_count: scenario.test_cases_count
           })) as TScenario[])
         : [],
     [scenarios]

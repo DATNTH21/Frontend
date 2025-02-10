@@ -9,35 +9,34 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { Dispatch, SetStateAction } from 'react';
-import { useDeleteProject } from '@/api/project/project';
 import { toast } from '@/hooks/use-toast';
-import { Project } from '@/types/project';
+import { TScenario } from '@/types/scenario';
+import { useDeleteScenario } from '@/api/scenario/scenario';
 
-export default function DeleteProjectDialog({
-  project,
+export default function DeleteScenarioDialog({
+  scenario,
   setIsOpen
 }: {
-  project: Project;
+  scenario: TScenario;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  //console.log('Delete dialog project: ', project);
-  const deleteProjectMutation = useDeleteProject({
+  const deleteScenarioMutation = useDeleteScenario({
     onSuccess: () => {
       toast({
         variant: 'success',
-        title: 'DELETE PROJECT SUCCESSFULLY'
+        title: 'DELETE SCENARIO SUCCESSFULLY'
       });
     },
     onError: (error: Error) => {
       toast({
         variant: 'destructive',
-        title: 'DELETE PROJECT FAILED',
+        title: 'DELETE SCENARIO FAILED',
         description: error.message
       });
     }
   });
   const handleDelete = () => {
-    deleteProjectMutation.mutate(project._id);
+    deleteScenarioMutation.mutate(scenario._id);
     setIsOpen(false);
   };
   return (
@@ -47,9 +46,9 @@ export default function DeleteProjectDialog({
       }}
     >
       <AlertDialogHeader>
-        <AlertDialogTitle className='text-destructive font-semibold'>DELETE PROJECT</AlertDialogTitle>
+        <AlertDialogTitle className='text-destructive font-semibold'>DELETE SCENARIO</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. Are you sure you want to permanently delete this project?
+          This action cannot be undone. Are you sure you want to permanently delete this scenario?
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

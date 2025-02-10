@@ -34,6 +34,7 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
   const router = useRouter();
   const { data: projectResponse, status } = useProjects(searchParam);
   const projects = projectResponse ? projectResponse.data : [];
+  console.log('projects', projects);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);

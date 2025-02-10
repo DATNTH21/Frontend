@@ -37,7 +37,11 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   const { scenarioSelection, setScenarioSelection } = useScenarioStore();
   const rowSelection = scenarioSelection[params.useCaseId] || {};
   const scenarios = useScenariosOfUC(params.useCaseId).data?.data;
+<<<<<<< HEAD
   //const { data: allTestCasesOfScenarioResponse, status: testCaseStatus } = useTestCasesOfScenario(params.scenarioId);
+=======
+  console.log('Scenarios: ', scenarios);
+>>>>>>> e5ee8bcc7f755b1e09bb7e27e38816c85727cac4
 
   const data = useMemo(
     () =>
@@ -45,7 +49,8 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
         ? (scenarios.map((scenario) => ({
             _id: scenario._id,
             content: scenario.content,
-            scenario_id: scenario.scenario_id
+            scenario_id: scenario.scenario_id,
+            test_cases_count: scenario.test_cases_count
           })) as TScenario[])
         : [],
     [scenarios]

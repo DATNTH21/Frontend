@@ -43,6 +43,7 @@ export default function GenerateTestCaseButton() {
       console.log('Received testcases:', data);
       queryClient.invalidateQueries({ queryKey: ['project'] });
       queryClient.invalidateQueries({ queryKey: ['testcase'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
     });
   }, []);
 

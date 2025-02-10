@@ -1,8 +1,15 @@
+import { Inter } from 'next/font/google';
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import { AppProvider } from './provider';
 import { Toaster } from '@/components/ui/toaster';
 import { auth } from '@/auth';
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   title: 'Testease',
@@ -17,7 +24,7 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang='en' suppressHydrationWarning>
-      <body>
+      <body className={inter.variable}>
         <AppProvider session={session}>{children}</AppProvider>
         <Toaster />
       </body>

@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { MoreVertical, Edit, Trash } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,12 +9,15 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
 import { Row } from '@tanstack/react-table';
+import { useParams, useRouter } from 'next/navigation';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
+  const router = useRouter();
+  const params = useParams<{ projectId: string; useCaseId: string }>();
   return (
     <>
       <DropdownMenu>
@@ -29,21 +31,12 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
             <DropdownMenuItem
               className='cursor-pointer'
               onSelect={() => {
-                console.log('Row action - Row id: ', row.id);
+                router.push(
+                  `/project/${params.projectId}/blackbox-test/use-case/${params.useCaseId}/scenario/${row.id}`
+                );
               }}
             >
               View Test Cases
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem
-              className='cursor-pointer'
-              onSelect={() => {
-                console.log('Row action - Row id: ', row.id);
-              }}
-            >
-              View Scenario Detail
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

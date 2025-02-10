@@ -10,12 +10,6 @@ import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 import { Badge } from '@/components/ui/badge';
 
-// const priorityToInt = {
-//   low: 1,
-//   medium: 2,
-//   high: 3
-// } as const;
-
 export const testCaseColumns: ColumnDef<TTestcase>[] = [
   {
     id: 'select',
@@ -40,15 +34,18 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
   },
   {
     accessorKey: 'id',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='ID' />,
-    // cell: ({ row }) => <div className='w-[80px]'>{row.getValue('_id')}</div>,
-    cell: ({ row }) => <div className='w-[80px]'>{row.id}</div>,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='TEST CASE ID' />,
+    cell: ({ row }) => (
+      <div className='flex space-x-2'>
+        <span className='truncate font-medium'>{row.id}</span>
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false
   },
   {
     accessorKey: 'name',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='NAME' />,
     cell: ({ row }) => {
       return (
         <div className='flex space-x-2'>
@@ -88,7 +85,7 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
   // },
   {
     accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='STATUS' />,
     cell: ({ row }) => {
       const status = testCaseStatuses.find((status) => status.value === String(row.getValue('status')).toLowerCase());
       if (!status) {

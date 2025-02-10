@@ -102,7 +102,7 @@ export default function GenerateTestCaseButton() {
   if (isGenerating) {
     return (
       <Button className='' variant='destructive' disabled>
-        <Spinner /> Generating {isScenarioSelected ? 'Test Case' : isUCSelected ? 'Scenario' : ''} ...
+        <Spinner variant='light' /> Generating {isScenarioSelected ? 'Test Case' : isUCSelected ? 'Scenario' : ''} ...
       </Button>
     );
   }

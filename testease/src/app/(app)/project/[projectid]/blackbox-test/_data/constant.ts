@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/ui/spinner';
-import { ArrowDown, ArrowRight, ArrowUp, CheckCircle, CircleOff, Timer } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUp, CheckCircle, CircleOff, Minus, Timer } from 'lucide-react';
 
 export const testCaseStatuses = [
   {
@@ -31,7 +31,7 @@ export const testCasePriorities = [
   {
     label: 'Medium',
     value: 'medium',
-    icon: ArrowRight
+    icon: Minus
   },
   {
     label: 'High',

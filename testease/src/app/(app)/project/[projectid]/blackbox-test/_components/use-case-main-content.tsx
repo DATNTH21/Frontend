@@ -12,6 +12,9 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { UseCase } from '@/types/use-case';
 import { Button } from '@/components/ui/button';
+import { useTestCasesOfScenario } from '@/api/testcase/testcase';
+import { useScenarioStore } from '@/store/scenario-store';
+import { toast } from '@/hooks/use-toast';
 
 export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }) {
   const router = useRouter();
@@ -121,9 +124,18 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
       </div>
 
       <TabsContent value='Use Case' className='p-4'>
-        <p>Selected file: {useCaseId}</p>
-        <p>Checked files: {checkedIds}</p>
-        <p>{data.description}</p>
+        <div className='flex items-center gap-2 mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case ID: </h1>
+          <p>{data.use_case_id}</p>
+        </div>
+        <div className='flex items-center gap-2 mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case Name: </h1>
+          <p>{data.name}</p>
+        </div>
+        <div className='mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case Description: </h1>
+          <p>{data.description}</p>
+        </div>
       </TabsContent>
 
       <TabsContent value='Scenario' className='p-4'>
@@ -131,18 +143,7 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
       </TabsContent>
 
       <TabsContent value='Test Case' className='p-4'>
-        <div>
-          <div className='flex justify-center items-center w-fit mb-6'>
-            <ArrowLeft /> Go Back To{''}
-            <Link
-              href={`/project/${projectId}/blackbox-test/use-case/${useCaseId}`}
-              className='ml-2 font-bold text-sidebar-active'
-            >
-              SCENARIO {''} {scenarioId}
-            </Link>
-          </div>
-          <TestCaseDataTable columns={testCaseColumns} />
-        </div>
+        <TestCaseDataTable columns={testCaseColumns} />
       </TabsContent>
     </Tabs>
   );

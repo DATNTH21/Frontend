@@ -4,16 +4,17 @@ import { ApiResponse } from './response';
 // Define the ConfigOption schema
 export const TestCaseConfigOptionSchema = z.object({
   _id: z.string(),
-  name: z.string(), // e.g., "High", "Low"
-  icon: z.string().default('default-icon') // e.g., "arrow-up", "alert-circle"
+  name: z.string(),
+  icon: z.string().default('CircleDot')
 });
 
 // Define the TestCaseExportColumn schema
 const TestCaseExportColumnSchema = z.object({
   fieldKey: z.enum([
     'test_case_id',
-    'use_case_id',
-    'description',
+    'use_case',
+    'name',
+    'objective',
     'pre_condition',
     'steps',
     'expected_result',
@@ -22,7 +23,7 @@ const TestCaseExportColumnSchema = z.object({
     'test_date',
     'tester',
     'remarks'
-  ]), // Enum of available fields
+  ]),
   displayName: z.string(),
   order: z.number(),
   visible: z.boolean()
@@ -31,10 +32,11 @@ const TestCaseExportColumnSchema = z.object({
 export type ExampleTestCaseData = {
   status: string;
   test_case_id: string;
-  use_case_id: string;
-  description: string;
+  use_case: string;
+  name: string;
+  objective: string;
   pre_condition: string;
-  steps: string;
+  steps: string[];
   expected_result: string;
   priority: string;
   test_date: string;
@@ -52,6 +54,7 @@ export const UserConfigSchema = z.object({
 
 export type UserConfig = z.infer<typeof UserConfigSchema>;
 export type TestCaseConfigOption = z.infer<typeof TestCaseConfigOptionSchema>;
+export type UserConfigOptionResponse = ApiResponse<TestCaseConfigOption[]>;
 export type GetUserConfigResponse = ApiResponse<UserConfig>;
 export type TestCaseExportColumn = z.infer<typeof TestCaseExportColumnSchema>;
 export type UpdateTestCaseExportTemplateResponse = ApiResponse<TestCaseExportColumn[]>;

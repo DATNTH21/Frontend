@@ -166,10 +166,8 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='w-full h-24 text-center'>
-                  <div className='w-full flex items-center justify-center'>
-                    <Spinner />
-                  </div>
+                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                  No results.
                 </TableCell>
               </TableRow>
             )}

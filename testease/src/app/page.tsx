@@ -26,6 +26,7 @@ import wretch from 'wretch';
 import { useRouter } from 'next/navigation';
 import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { SolarSystem } from '@/components/ui/loading/solar-system';
+import { ModeToggle } from '@/components/ui/mode-toggle';
 
 export default function page() {
   const router = useRouter();
@@ -65,7 +66,7 @@ export default function page() {
         <div className='absolute h-[1460px] w-full top-0 left-0 right-0 z-[-1]'>
           <motion.div
             initial={{ x: '-100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 0.6 }}
+            animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
             className='absolute left-0 w-[40%] aspect-[0.5/1] '
           >
@@ -78,10 +79,9 @@ export default function page() {
             />
           </motion.div>
 
-          {/* Bottom Image (enters from the right) */}
           <motion.div
             initial={{ x: '100%', opacity: 0 }}
-            animate={{ x: 0, opacity: 0.6 }}
+            animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
             className='absolute right-0 -top-20 w-[40%] aspect-[0.5/1]'
           >
@@ -97,62 +97,73 @@ export default function page() {
               </div>
               <div className='flex items-center gap-2'>
                 <Link href='#'>
-                  <Button variant='ghost' size='lg' className='text-[#ADADAD] text-lg rounded-full'>
+                  <Button variant='ghost' size='lg' className='dark:text-[#ADADAD]  text-lg rounded-full'>
                     Features
                   </Button>
                 </Link>
                 <Link href='#'>
-                  <Button variant='ghost' size='lg' className='text-[#ADADAD] text-lg rounded-full'>
+                  <Button
+                    variant='ghost'
+                    size='lg'
+                    className='dark:text-[#ADADAD] light:text-muted text-lg rounded-full'
+                  >
                     Pricing
                   </Button>
                 </Link>
                 <Link href='#'>
-                  <Button variant='ghost' size='lg' className='text-[#ADADAD] text-lg rounded-full'>
+                  <Button
+                    variant='ghost'
+                    size='lg'
+                    className='dark:text-[#ADADAD] light:text-muted text-lg rounded-full'
+                  >
                     Contact
                   </Button>
                 </Link>
               </div>
-              {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild className='cursor-pointer'>
-                    <Avatar className='h-8 w-8 rounded-full'>
-                      <AvatarImage src={user.image} alt={user.name} />
-                      <AvatarFallback className='rounded-full bg-primary text-primary-foreground'>PH</AvatarFallback>
-                    </Avatar>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent sideOffset={10} align='end'>
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem
-                        onClick={() => router.push('/all-project')}
-                        className='flex items-center cursor-pointer'
-                      >
-                        <Menu />
-                        <span>Project Explorer</span>
+              <div className='flex items-center gap-4'>
+                <ModeToggle />
+                {user ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className='cursor-pointer'>
+                      <Avatar className='h-8 w-8 rounded-full'>
+                        <AvatarImage src={user.image} alt={user.name} />
+                        <AvatarFallback className='rounded-full bg-primary text-primary-foreground'>PH</AvatarFallback>
+                      </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent sideOffset={10} align='end'>
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem
+                          onClick={() => router.push('/all-project')}
+                          className='flex items-center cursor-pointer'
+                        >
+                          <Menu />
+                          <span>Project</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className='flex items-center cursor-pointer'>
+                          <User />
+                          <span>Profile</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleLogout} className='flex items-center cursor-pointer'>
+                        <LogOut />
+                        <span>Log out</span>
                       </DropdownMenuItem>
-                      <DropdownMenuItem className='flex items-center cursor-pointer'>
-                        <User />
-                        <span>Profile</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout} className='flex items-center cursor-pointer'>
-                      <LogOut />
-                      <span>Log out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link href={'/login'}>
-                  <Button
-                    className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
-                    size='lg'
-                  >
-                    Log In
-                  </Button>
-                </Link>
-              )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link href={'/login'}>
+                    <Button
+                      className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
+                      size='lg'
+                    >
+                      Log In
+                    </Button>
+                  </Link>
+                )}
+              </div>
             </div>
           </nav>
         </header>
@@ -202,7 +213,7 @@ export default function page() {
           </motion.div>
         </section>
         <section className='container flex flex-col items-center justify-center gap-12'>
-          <h1 className='text-[#ADADAD] text-3xl font-semibold'>Feature several LLMs</h1>
+          <h1 className='dark:text-[#ADADAD] text-3xl font-semibold'>Feature several LLMs</h1>
           <motion.div
             initial={{ scale: 0.6, opacity: 0.1 }}
             whileInView={{ scale: 1, opacity: 1 }}
@@ -220,7 +231,7 @@ export default function page() {
                   <CarouselItem key={index} className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
                     <div
                       key={index}
-                      className='flex sm:flex-col items-center gap-2 justify-center bg-muted/30 rounded-2xl py-6'
+                      className='flex sm:flex-col items-center gap-2 justify-center dark:bg-muted/30 bg-muted rounded-2xl py-6'
                     >
                       <Image
                         src={src.img}
@@ -286,7 +297,7 @@ export default function page() {
                     use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
                     software, ensuring a seamless, bug-free experience.{' '}
                   </p>
-                  <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1'>
+                  <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                     Learn More <ArrowRight />
                   </Link>
                 </motion.div>
@@ -315,7 +326,7 @@ export default function page() {
                     use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
                     software, ensuring a seamless, bug-free experience.{' '}
                   </p>
-                  <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1'>
+                  <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                     Learn More <ArrowRight />
                   </Link>
                 </motion.div>
@@ -344,7 +355,7 @@ export default function page() {
                     use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
                     software, ensuring a seamless, bug-free experience.{' '}
                   </p>
-                  <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1'>
+                  <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                     Learn More <ArrowRight />
                   </Link>
                 </motion.div>

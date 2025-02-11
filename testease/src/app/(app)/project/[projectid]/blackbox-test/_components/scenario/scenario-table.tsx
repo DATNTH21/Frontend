@@ -23,7 +23,6 @@ import { useScenarioStore } from '@/store/scenario-store';
 import { useScenariosOfUC } from '@/api/scenario/scenario';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/hooks/use-toast';
-import { useTestCasesOfScenario } from '@/api/testcase/testcase';
 
 interface DataTableProps<TScenario, TValue> {
   columns: ColumnDef<TScenario, TValue>[];
@@ -36,8 +35,8 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   // Use tanstack query to get scenarios data of current use case:
   const { scenarioSelection, setScenarioSelection } = useScenarioStore();
   const rowSelection = scenarioSelection[params.useCaseId] || {};
-  const scenarios = useScenariosOfUC(params.useCaseId).data?.data;
-  console.log('Scenarios: ', scenarios);
+  const { data: scenariosResponse, status } = useScenariosOfUC(params.useCaseId);
+  const scenarios = scenariosResponse?.data;
 
   const data = useMemo(
     () =>
@@ -148,7 +147,15 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {status == 'pending' ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className='w-full h-24 text-center'>
+                  <div className='w-full flex items-center justify-center'>
+                    <Spinner />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -167,9 +174,7 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='w-full h-24 text-center'>
-                  <div className='w-full flex items-center justify-center'>
-                    <Spinner />
-                  </div>
+                  No scenarios available.
                 </TableCell>
               </TableRow>
             )}

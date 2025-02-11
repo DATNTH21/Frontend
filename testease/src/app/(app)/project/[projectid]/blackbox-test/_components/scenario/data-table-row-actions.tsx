@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { MoreVertical, Edit, Trash } from 'lucide-react';
+import { MoreVertical, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -10,14 +9,27 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
 import { Row } from '@tanstack/react-table';
+import { useParams, useRouter } from 'next/navigation';
+import { ScenarioSchema } from '@/types/scenario';
+import { AlertDialog } from '@/components/ui/alert-dialog';
+import DeleteScenarioDialog from './delete-scenario-dialog';
+import { useState } from 'react';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
+  const router = useRouter();
+  const params = useParams<{ projectId: string; useCaseId: string }>();
+  const scenario = ScenarioSchema.parse(row.original);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   return (
     <>
+      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
+        <DeleteScenarioDialog scenario={scenario} setIsOpen={setIsDeleteOpen} />
+      </AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size='icon' variant='ghost'>
@@ -27,23 +39,12 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         <DropdownMenuContent className='w-50'>
           <DropdownMenuGroup>
             <DropdownMenuItem
-              className='cursor-pointer'
+              className='text-destructive focus:text-destructive cursor-pointer'
               onSelect={() => {
-                console.log('Row action - Row id: ', row.id);
+                setIsDeleteOpen(true);
               }}
             >
-              View Test Cases
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem
-              className='cursor-pointer'
-              onSelect={() => {
-                console.log('Row action - Row id: ', row.id);
-              }}
-            >
-              View Scenario Detail
+              <Trash /> Delete
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

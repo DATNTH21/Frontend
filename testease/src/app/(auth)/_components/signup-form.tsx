@@ -1,8 +1,5 @@
 'use client';
-<<<<<<< HEAD
-=======
 import React, { useState } from 'react';
->>>>>>> 25887e5781aade40165c424aa9fbf380ea0b6e1e
 import { TRegisterSchema, registerSchema } from '../_data/auth-schema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

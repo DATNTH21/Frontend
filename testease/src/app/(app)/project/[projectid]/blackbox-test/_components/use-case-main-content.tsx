@@ -12,6 +12,9 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { UseCase } from '@/types/use-case';
 import { Button } from '@/components/ui/button';
+import { useTestCasesOfScenario } from '@/api/testcase/testcase';
+import { useScenarioStore } from '@/store/scenario-store';
+import { toast } from '@/hooks/use-toast';
 
 export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }) {
   const router = useRouter();
@@ -29,27 +32,10 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
   const data = useCases.find((useCase) => useCase.project_id === projectId && useCase.use_case_id === useCaseId);
 
   const [activeTab, setActiveTab] = useState(scenarioId ? 'Test Case' : 'Scenario');
-  const tabRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: '0px', width: '0px' });
 
   useEffect(() => {
     setActiveTab(scenarioId ? 'Test Case' : 'Scenario');
   }, [scenarioId]);
-
-  // Update the underline position and width when the active tab changes
-  useLayoutEffect(() => {
-    // Wait for the refs to be populated before updating the indicator
-    requestAnimationFrame(() => {
-      const activeElement = tabRefs.current[activeTab];
-      console.log(activeElement);
-      if (activeElement) {
-        setIndicatorStyle({
-          left: `${activeElement.offsetLeft}px`,
-          width: `${activeElement.offsetWidth}px`
-        });
-      }
-    });
-  }, [activeTab]);
 
   if (!useCaseId) {
     return (
@@ -75,55 +61,58 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
       <div className='w-full border-b relative'>
         <TabsList className='relative p-0 h-fit flex w-fit'>
           <TabsTrigger
-            ref={(el) => {
-              tabRefs.current['Use Case'] = el;
-            }}
             value='Use Case'
-            className='relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
+            className='group relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
             data-[state=active]:text-sidebar-active data-[state=active]:font-bold'
           >
             USE CASE
+            <span
+              className='absolute bottom-0 left-0 h-[2px] bg-primary w-full scale-x-0 transition-all duration-300 ease-in-out 
+              group-data-[state=active]:scale-x-100'
+            ></span>
           </TabsTrigger>
 
           <TabsTrigger
-            ref={(el) => {
-              tabRefs.current['Scenario'] = el;
-            }}
             value='Scenario'
-            className='relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
+            className='group relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
             data-[state=active]:text-sidebar-active data-[state=active]:font-bold'
           >
             SCENARIO
+            <span
+              className='absolute bottom-0 left-0 h-[2px] bg-primary w-full scale-x-0 transition-all duration-300 ease-in-out 
+              group-data-[state=active]:scale-x-100'
+            ></span>
           </TabsTrigger>
 
           {scenarioId && (
             <TabsTrigger
-              ref={(el) => {
-                tabRefs.current['Test Case'] = el;
-              }}
               value='Test Case'
-              className='relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
+              className='group relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
               data-[state=active]:text-sidebar-active data-[state=active]:font-bold'
             >
               TEST CASE
+              <span
+                className='absolute bottom-0 left-0 h-[2px] bg-primary w-full scale-x-0 transition-all duration-300 ease-in-out 
+              group-data-[state=active]:scale-x-100'
+              ></span>
             </TabsTrigger>
           )}
-
-          {/* Motion Indicator */}
-          <span
-            className='absolute bottom-0 h-[2px] bg-primary transition-all duration-300 ease-in-out'
-            style={{
-              left: indicatorStyle.left,
-              width: indicatorStyle.width
-            }}
-          ></span>
         </TabsList>
       </div>
 
       <TabsContent value='Use Case' className='p-4'>
-        <p>Selected file: {useCaseId}</p>
-        <p>Checked files: {checkedIds}</p>
-        <p>{data.description}</p>
+        <div className='flex items-center gap-2 mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case ID: </h1>
+          <p>{data.use_case_id}</p>
+        </div>
+        <div className='flex items-center gap-2 mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case Name: </h1>
+          <p>{data.name}</p>
+        </div>
+        <div className='mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case Description: </h1>
+          <p>{data.description}</p>
+        </div>
       </TabsContent>
 
       <TabsContent value='Scenario' className='p-4'>
@@ -131,18 +120,7 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
       </TabsContent>
 
       <TabsContent value='Test Case' className='p-4'>
-        <div>
-          <div className='flex justify-center items-center w-fit mb-6'>
-            <ArrowLeft /> Go Back To{''}
-            <Link
-              href={`/project/${projectId}/blackbox-test/use-case/${useCaseId}`}
-              className='ml-2 font-bold text-sidebar-active'
-            >
-              SCENARIO {''} {scenarioId}
-            </Link>
-          </div>
-          <TestCaseDataTable columns={testCaseColumns} />
-        </div>
+        <TestCaseDataTable columns={testCaseColumns} />
       </TabsContent>
     </Tabs>
   );

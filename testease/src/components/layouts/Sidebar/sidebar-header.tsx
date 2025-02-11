@@ -51,18 +51,19 @@ export default function AppSidebarHeader({
             side='bottom'
             sideOffset={4}
           >
-            {filteredProjects.map((project, index) => (
-              <DropdownMenuItem
-                key={index}
-                onClick={() => handleOnClickProject(project._id)}
-                className='gap-2 p-2 hover:bg-primary hover:text-primary-foreground cursor-pointer'
-              >
-                {project.name}
-              </DropdownMenuItem>
-            ))}
+            {filteredProjects.length > 0 &&
+              filteredProjects.map((project, index) => (
+                <DropdownMenuItem
+                  key={index}
+                  onClick={() => handleOnClickProject(project._id)}
+                  className='gap-2 p-2 hover:bg-primary hover:text-primary-foreground cursor-pointer'
+                >
+                  {project.name}
+                </DropdownMenuItem>
+              ))}
             {currentProject && (
               <>
-                <DropdownMenuSeparator />
+                {filteredProjects.length > 0 && <DropdownMenuSeparator />}
                 <DropdownMenuItem
                   key='all-project'
                   onClick={() => handleOnClickProject()}

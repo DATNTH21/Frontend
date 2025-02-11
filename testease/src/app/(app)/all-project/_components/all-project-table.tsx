@@ -34,6 +34,7 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
   const router = useRouter();
   const { data: projectResponse, status } = useProjects(searchParam);
   const projects = projectResponse ? projectResponse.data : [];
+  console.log('projects', projects);
 
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -93,7 +94,7 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
                 <TableRow
                   key={row.id}
                   data-state={row.getValue('status')}
-                  className={`cursor-pointer ${row.getValue('status') === 'Generating' ? 'pointer-events-none bg-muted !text-muted-foreground' : ''}`}
+                  className='cursor-pointer'
                   onClick={() => {
                     router.push(paths.projectDetail.dashboard.getHref(row.getValue('_id')));
                   }}

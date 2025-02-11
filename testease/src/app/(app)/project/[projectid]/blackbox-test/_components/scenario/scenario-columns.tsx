@@ -3,11 +3,9 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTableColumnHeader } from './data-table-column-header';
 import DataTableRowActions from './data-table-row-actions';
-import { Spinner } from '@/components/ui/spinner';
-import { scenarioStatus } from '../../_data/constant';
 import { TScenario } from '@/types/scenario';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useMemo } from 'react';
+import { Badge } from '@/components/ui/badge';
 
 export const columns: ColumnDef<TScenario>[] = [
   {
@@ -39,29 +37,40 @@ export const columns: ColumnDef<TScenario>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'id',
+    accessorKey: '_id',
     header: ({ column }) => <DataTableColumnHeader column={column} title='ID' />,
-    cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.id}</div>
+    cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('_id')}</div>
   },
-  // {
-  //   accessorKey: '_id',
-  //   header: ({ column }) => <DataTableColumnHeader column={column} title='USE CASE ID' />,
-  //   cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('_id')}</div>
-  // },
-  // {
-  //   accessorKey: 'project_id',
-  //   header: ({ column }) => <DataTableColumnHeader column={column} title='ID' />,
-  //   cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('project_id')}</div>,
-  //   enableSorting: false,
-  //   enableHiding: false
-  // },
+  {
+    accessorKey: 'scenario_id',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='SCENARIO ID' />,
+    cell: ({ row }) => <div className='overflow-hidden text-ellipsis'>{row.getValue('scenario_id')}</div>
+  },
   {
     accessorKey: 'content',
     header: ({ column }) => <DataTableColumnHeader column={column} title='CONTENT' />,
     cell: ({ row }) => {
       return (
         <div className='flex space-x-2'>
-          <span className='max-w-[500px] truncate font-medium'>{row.getValue('content')}</span>
+          <span className='truncate font-medium'>{row.getValue('content')}</span>
+        </div>
+      );
+    }
+  },
+  {
+    accessorKey: 'test_cases_count',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='TESTCASES NUMBER' />,
+    cell: ({ row }) => {
+      const count = row.getValue('test_cases_count') as number;
+      return (
+        <div className='flex space-x-2'>
+          {count === 0 ? (
+            <Badge variant='secondary'>NO TEST CASE YET</Badge>
+          ) : (
+            <span className='font-medium'>
+              {count} {count > 1 ? 'test cases' : 'test case'}{' '}
+            </span>
+          )}
         </div>
       );
     }

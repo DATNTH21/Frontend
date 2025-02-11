@@ -43,6 +43,7 @@ export default function GenerateTestCaseButton() {
       console.log('Received testcases:', data);
       queryClient.invalidateQueries({ queryKey: ['project'] });
       queryClient.invalidateQueries({ queryKey: ['testcase'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
     });
   }, []);
 
@@ -92,7 +93,7 @@ export default function GenerateTestCaseButton() {
   }
 
   function handleClick() {
-    if (isUCSelected) {
+    if (isUCSelected && !isScenarioSelected) {
       handleGenerateScenario();
     } else if (isScenarioSelected) {
       handleGenerateTestCase();
@@ -102,7 +103,7 @@ export default function GenerateTestCaseButton() {
   if (isGenerating) {
     return (
       <Button className='' variant='destructive' disabled>
-        <Spinner /> Generating {isScenarioSelected ? 'Test Case' : isUCSelected ? 'Scenario' : ''} ...
+        <Spinner variant='light' /> Generating {isScenarioSelected ? 'Test Case' : isUCSelected ? 'Scenario' : ''} ...
       </Button>
     );
   }

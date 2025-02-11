@@ -7,11 +7,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 const useCaseQueryKey = ['use-case'];
 
 export const createUseCase = async (data: TCreateUseCases): Promise<any> => {
-  return customFetch.post<any>('/usecases', data);
+  return customFetch.post<any>('/api/v1/use-cases', data);
 };
 
 export const getAllUsecases = async (projectId: string): Promise<GetAllUsecasesResponse> => {
-  return customFetch.get<GetAllUsecasesResponse>(`/usecases?project_id=${projectId}`);
+  return customFetch.get<GetAllUsecasesResponse>(`/api/v1/use-cases?project_id=${projectId}`);
 };
 
 export const useCreateUseCase = ({

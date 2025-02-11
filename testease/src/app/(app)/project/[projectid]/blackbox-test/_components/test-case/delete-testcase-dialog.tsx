@@ -9,35 +9,38 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { Dispatch, SetStateAction } from 'react';
-import { useDeleteProject } from '@/api/project/project';
 import { toast } from '@/hooks/use-toast';
-import { Project } from '@/types/project';
+import { TTestcase } from '@/types/test-case';
+import { useDeleteTestCase } from '@/api/testcase/testcase';
+import { useQueryClient } from '@tanstack/react-query';
 
-export default function DeleteProjectDialog({
-  project,
+export default function DeleteTestCaseDialog({
+  testcase,
   setIsOpen
 }: {
-  project: Project;
+  testcase: TTestcase;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  //console.log('Delete dialog project: ', project);
-  const deleteProjectMutation = useDeleteProject({
+  const queryClient = useQueryClient();
+
+  const deleteTestCaseMutation = useDeleteTestCase({
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
       toast({
         variant: 'success',
-        title: 'DELETE PROJECT SUCCESSFULLY'
+        title: 'DELETE TEST CASE SUCCESSFULLY'
       });
     },
     onError: (error: Error) => {
       toast({
         variant: 'destructive',
-        title: 'DELETE PROJECT FAILED',
+        title: 'DELETE TEST CASE FAILED',
         description: error.message
       });
     }
   });
   const handleDelete = () => {
-    deleteProjectMutation.mutate(project._id);
+    deleteTestCaseMutation.mutate(testcase._id);
     setIsOpen(false);
   };
   return (
@@ -47,9 +50,9 @@ export default function DeleteProjectDialog({
       }}
     >
       <AlertDialogHeader>
-        <AlertDialogTitle className='text-destructive font-semibold'>DELETE PROJECT</AlertDialogTitle>
+        <AlertDialogTitle className='text-destructive font-semibold'>DELETE SCENARIO</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. Are you sure you want to permanently delete this project?
+          This action cannot be undone. Are you sure you want to permanently delete this scenario?
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

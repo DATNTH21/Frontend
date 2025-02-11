@@ -13,7 +13,7 @@ export const ExportTemplateColumns = (
   return template.map((column) => ({
     accessorKey: column.fieldKey,
     id: column.fieldKey,
-    header: ({ column: col }) => (
+    header: () => (
       <div className='flex flex-col items-center space-y-2 py-2'>
         <div className='flex gap-1 items-center'>
           <span>{column.fieldKey}</span>
@@ -31,8 +31,20 @@ export const ExportTemplateColumns = (
         />
       </div>
     ),
-    cell: ({ row }) => (
-      <div className='overflow-hidden text-ellipsis'>{row.original[column.fieldKey as keyof ExampleTestCaseData]}</div>
-    )
+    cell: ({ row }) =>
+      column.fieldKey == 'steps' ? (
+        <div className='overflow-hidden text-ellipsis'>
+          {row.original['steps']?.map((step, index) => (
+            <p className='' key={index}>
+              {index + 1}. {''}
+              {step}
+            </p>
+          ))}
+        </div>
+      ) : (
+        <div className='overflow-hidden text-ellipsis'>
+          {row.original[column.fieldKey as keyof ExampleTestCaseData]}
+        </div>
+      )
   }));
 };

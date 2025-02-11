@@ -12,13 +12,15 @@ export default function UseCaseArea({ projectId }: { projectId: string }) {
   const useCases = data?.data || [];
   return (
     <ResizablePanelGroup direction='horizontal' className='max-w-screen'>
-      <ResizablePanel defaultSize={15} minSize={0} maxSize={40}>
+      <ResizablePanel defaultSize={30} minSize={0}>
         <UseCaseTree useCases={useCases} />
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={85} minSize={60}>
+      <ResizablePanel defaultSize={70}>
         <div className='mx-auto h-full flex relative'>
-          {status == 'error' && <div>Error fetching use cases</div>}
+          {status == 'error' && (
+            <div className='flex-1 w-full h-full flex justify-center items-center'>Error fetching use cases</div>
+          )}
           {status == 'pending' && <LoadingOverlay spinner={<Spinner />} coverBody={false} />}
           {status == 'success' && <UseCaseMainContent useCases={useCases} />}
         </div>

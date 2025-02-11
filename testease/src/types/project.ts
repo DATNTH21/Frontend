@@ -42,6 +42,21 @@ export type GetProjectByUserResponse = {
   message: string;
   data: Project[] | [];
 };
+
+export type ProjectOverviewStatistics = {
+  total_test_cases: number;
+  total_scenarios: number;
+  test_cases_by_status: {
+    status: string;
+    count: number;
+  }[];
+};
+
+export type GetProjectOverviewStatistics = {
+  status: string;
+  message: string;
+  data: ProjectOverviewStatistics;
+};
 export type GetProjectByIdResponse = ApiResponse<Project>;
 export type UpdateProjectResponse = ApiResponse<Project>;
 export type DeleteProjectResponse = ApiResponse<undefined>;

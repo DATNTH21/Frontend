@@ -33,7 +33,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           onChange={handleChangeInputFilter}
           className='h-8 w-[170px] lg:w-[250px] text-sm'
         />
-        {table.getColumn('status') && (
+        {/* {table.getColumn('status') && (
           <DataTableFacetedFilter column={table.getColumn('status')} title='Status' options={testCaseStatuses} />
         )}
         {table.getColumn('priority') && (
@@ -44,7 +44,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             Reset
             <X />
           </Button>
-        )}
+        )} */}
       </div>
       <DataTableViewOptions table={table} />
     </div>

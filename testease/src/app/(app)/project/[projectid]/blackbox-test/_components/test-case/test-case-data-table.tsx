@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
+  RowSelectionState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -21,40 +22,36 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import { useParams } from 'next/navigation';
-import { testcaseMockData } from '../../_data/test-case-mock-data';
-import { TTestcase as BaseTestcase } from '@/types/test-case';
+import { TTestcase } from '@/types/test-case';
 
 import TestCaseDetail from './test-case-detail';
 import { Sheet } from '@/components/ui/sheet';
 import TestCaseEditForm from './test-case-edit-form';
-import { useGlobalStore } from '@/store/global-store';
 import { useTestCasesOfScenario } from '@/api/testcase/testcase';
-
-interface TTestcase extends BaseTestcase {
-  _id: string;
-  test_case_id: string;
-  name: string;
-  objective: string;
-  steps: string[];
-  status: string;
-  expected_result: string;
-  priority: 'Low' | 'Medium' | 'High';
-}
+import { Spinner } from '@/components/ui/spinner';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
+import { useUserConfig } from '@/api/user-config/user-config';
+import { exportTestCasesToExcel } from '../file-export/file-export';
 
 interface DataTableProps<TTestcase, TValue> {
   columns: ColumnDef<TTestcase, TValue>[];
 }
 
 export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase, TValue>) {
-  const params = useParams<{ projectId: string; scenarioId: string }>();
-  const projectId = params.projectId;
+  const params = useParams<{ useCaseId: string; projectId: string; scenarioId: string }>();
   const scenarioId = params.scenarioId;
 
   // Fetch test cases using the params:
-  const data = (useTestCasesOfScenario(scenarioId).data?.data || []) as TTestcase[];
-  console.log('Test Cases: ', data);
+  const { data: allTestCaseOfScenarioResponse, status: getTestCaseOfScenarioStatus } =
+    useTestCasesOfScenario(scenarioId);
+  const allTestCaseOfScenario = (allTestCaseOfScenarioResponse?.data || []) as TTestcase[];
+  const exportTemplate = useUserConfig().data?.data?.testCaseExportTemplate || [];
+  console.log('Test Cases: ', allTestCaseOfScenario);
 
-  const [rowSelection, setRowSelection] = useState({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -62,7 +59,7 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
   const [testCaseDetailId, setTestCaseDetailId] = useState<string | undefined>(undefined);
 
   const table = useReactTable({
-    data: data,
+    data: allTestCaseOfScenario,
     columns,
     state: {
       sorting,
@@ -84,8 +81,64 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
     getFacetedUniqueValues: getFacetedUniqueValues()
   });
 
+  const handleExportTestCaseInScenario = () => {
+    console.log('Test case selection: ', rowSelection);
+    if (!rowSelection || Object.keys(rowSelection).length == 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'Select at least 1 test case of this scenario to export'
+      });
+      return;
+    }
+
+    // Get test case data based on selection
+    const testCasesToExport = allTestCaseOfScenario.filter((testCase) => rowSelection[testCase.test_case_id]);
+    console.log('Test case to export data: ', testCasesToExport);
+
+    if (!testCasesToExport) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'Something is wrong'
+      });
+      return;
+    }
+
+    if (!exportTemplate || exportTemplate.length == 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'No export template. Please config the template in the setting'
+      });
+      return;
+    }
+
+    try {
+      exportTestCasesToExcel(testCasesToExport, exportTemplate);
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'Something is wrong'
+      });
+    }
+  };
+
   return (
     <>
+      <div className='flex justify-between items-center mb-6'>
+        <Link
+          href={`/project/${params.projectId}/blackbox-test/use-case/${params.useCaseId}`}
+          className='flex gap-1 items-center'
+        >
+          <ArrowLeft /> Go Back To{''}
+          <span className='font-bold text-sidebar-active'>
+            SCENARIO {''} {scenarioId}
+          </span>
+        </Link>
+        <Button onClick={handleExportTestCaseInScenario}>Export All Test Cases</Button>
+      </div>
       <div className='space-y-4'>
         <DataTableToolbar table={table} />
         <div className='rounded-md border'>
@@ -122,8 +175,10 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className='h-24 text-center'>
-                    No results.
+                  <TableCell colSpan={columns.length} className='w-full h-24 text-center'>
+                    <div className='w-full flex items-center justify-center'>
+                      <Spinner />
+                    </div>
                   </TableCell>
                 </TableRow>
               )}
@@ -135,7 +190,11 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
 
       {/* Test case detail sheet */}
       <Sheet open={isTestCaseDetailOpen} onOpenChange={setTestCaseDetailOpen}>
-        <TestCaseDetail testCaseId={testCaseDetailId} setOpen={setTestCaseDetailOpen} testCases={data} />
+        <TestCaseDetail
+          testCaseId={testCaseDetailId}
+          setOpen={setTestCaseDetailOpen}
+          testCases={allTestCaseOfScenario}
+        />
       </Sheet>
 
       {/* Test case edit dialog */}

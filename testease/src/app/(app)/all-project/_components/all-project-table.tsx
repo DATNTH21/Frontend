@@ -94,7 +94,7 @@ export default function AllProjectTable<TValue>({ columns, searchParam }: DataTa
                 <TableRow
                   key={row.id}
                   data-state={row.getValue('status')}
-                  className={`cursor-pointer ${row.getValue('status') === 'Generating' ? 'pointer-events-none bg-muted !text-muted-foreground' : ''}`}
+                  className='cursor-pointer'
                   onClick={() => {
                     router.push(paths.projectDetail.dashboard.getHref(row.getValue('_id')));
                   }}

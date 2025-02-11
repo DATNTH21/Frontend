@@ -11,50 +11,54 @@ const exampleData: ExampleTestCaseData[] = [
   {
     status: 'Passed',
     test_case_id: 'TC-001',
-    use_case_id: 'UC-101',
-    description: 'Verify login functionality with valid credentials',
-    pre_condition: 'User must have a registered account',
-    steps:
-      '1. Navigate to the login page\n' + '2. Enter valid username and password\n' + "3. Click on the 'Login' button",
-    expected_result: 'User should be successfully logged in and redirected to the dashboard',
+    use_case: 'UC-101',
+    name: 'Verify user login with valid credentials',
+    objective: 'Ensure that users can successfully log in using valid credentials.',
+    pre_condition: 'User must have a registered account with valid credentials.',
+    steps: ['Navigate to the login page', 'Enter a valid username and password', "Click the 'Login' button"],
+    expected_result: 'User should be redirected to the dashboard after successful login.',
     priority: 'High',
-    test_date: '2024-02-08',
+    test_date: '2024-02-10',
     tester: 'John Doe',
-    remarks: 'Login successful; session token verified'
+    remarks: 'Login successful, session token validated.'
   },
   {
     status: 'Failed',
     test_case_id: 'TC-002',
-    use_case_id: 'UC-102',
-    description: 'Verify password reset functionality',
-    pre_condition: 'User must have a registered email',
-    steps:
-      "1. Navigate to the 'Forgot Password' page\n" +
-      '2. Enter registered email address\n' +
-      "3. Click on 'Reset Password' button\n" +
-      '4. Check email inbox for reset link\n' +
-      '5. Click the reset link and set a new password',
-    expected_result: 'User should receive a reset email and be able to set a new password',
+    use_case: 'UC-102',
+    name: 'Verify password reset functionality',
+    objective: 'Ensure that users can reset their password using the forgot password feature.',
+    pre_condition: 'User must have a registered email linked to their account.',
+    steps: [
+      "Navigate to the 'Forgot Password' page",
+      'Enter a registered email address',
+      "Click on the 'Reset Password' button",
+      'Check email inbox for the reset link',
+      'Click the reset link and set a new password'
+    ],
+    expected_result: 'User should receive a password reset email and be able to set a new password.',
     priority: 'Medium',
-    test_date: '2024-02-08',
+    test_date: '2024-02-10',
     tester: 'Jane Smith',
-    remarks: 'Reset email was not received within 10 minutes'
+    remarks: 'Reset email was not received within 15 minutes.'
   },
   {
     status: 'Blocked',
     test_case_id: 'TC-003',
-    use_case_id: 'UC-103',
-    description: 'Verify adding a product to the cart',
-    pre_condition: 'User must be logged in and browsing a product',
-    steps:
-      '1. Navigate to a product page\n' +
-      "2. Click on 'Add to Cart' button\n" +
-      '3. Open the cart page to check if the item is added',
-    expected_result: 'Product should be added to the cart with correct details',
+    use_case: 'UC-103',
+    name: 'Verify adding a product to the cart',
+    objective: 'Ensure that users can add a product to the shopping cart successfully.',
+    pre_condition: 'User must be logged in and viewing a product page.',
+    steps: [
+      'Navigate to a product page',
+      "Click on the 'Add to Cart' button",
+      'Open the cart page to check if the item is added'
+    ],
+    expected_result: 'The product should be successfully added to the cart with correct details.',
     priority: 'High',
-    test_date: '2024-02-08',
+    test_date: '2024-02-10',
     tester: 'Michael Lee',
-    remarks: 'Test blocked due to database connectivity issues'
+    remarks: 'Test blocked due to database connectivity issues.'
   }
 ];
 

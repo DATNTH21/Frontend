@@ -31,7 +31,7 @@ const FieldTable: React.FC<FieldTableProps> = ({ fields }) => {
                   </div>
                 </TableCell>
                 <TableCell className='text-right pr-4'>
-                  <ActionCell field={fields[fieldKey]} />
+                  <ActionCell field={fields[fieldKey]} fieldKey={fieldKey} />
                 </TableCell>
               </TableRow>
             ))

@@ -38,7 +38,7 @@ export default function TestCaseEditForm() {
       objective: editTestCase?.objective || '',
       expected_result: editTestCase?.expected_result || '',
       status: editTestCase?.status || '',
-      priority: editTestCase?.priority || 'Medium',
+      // priority: editTestCase?.priority || 'Medium',
       steps:
         editTestCase?.steps?.map((step, index) => ({
           id: `${index}-${Date.now()}`,
@@ -56,7 +56,7 @@ export default function TestCaseEditForm() {
         objective: editTestCase.objective,
         expected_result: editTestCase.expected_result,
         status: editTestCase.status,
-        priority: editTestCase.priority,
+        // priority: editTestCase.priority,
         steps:
           editTestCase.steps?.map((step, index) => ({
             id: `${index}-${Date.now()}`,

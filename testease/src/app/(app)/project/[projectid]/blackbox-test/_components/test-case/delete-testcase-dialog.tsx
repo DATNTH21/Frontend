@@ -10,34 +10,37 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from '@/hooks/use-toast';
-import { TScenario } from '@/types/scenario';
-import { useDeleteScenario } from '@/api/scenario/scenario';
+import { TTestcase } from '@/types/test-case';
+import { useDeleteTestCase } from '@/api/testcase/testcase';
+import { useQueryClient } from '@tanstack/react-query';
 
-export default function DeleteScenarioDialog({
-  scenario,
+export default function DeleteTestCaseDialog({
+  testcase,
   setIsOpen
 }: {
-  scenario: TScenario;
+  testcase: TTestcase;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const deleteScenarioMutation = useDeleteScenario({
+  const queryClient = useQueryClient();
+
+  const deleteTestCaseMutation = useDeleteTestCase({
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
       toast({
         variant: 'success',
-        title: 'DELETE SCENARIO SUCCESSFULLY'
+        title: 'DELETE TEST CASE SUCCESSFULLY'
       });
     },
     onError: (error: Error) => {
-      console.error('error', error);
       toast({
         variant: 'destructive',
-        title: 'DELETE SCENARIO FAILED',
+        title: 'DELETE TEST CASE FAILED',
         description: error.message
       });
     }
   });
   const handleDelete = () => {
-    deleteScenarioMutation.mutate(scenario._id);
+    deleteTestCaseMutation.mutate(testcase._id);
     setIsOpen(false);
   };
   return (

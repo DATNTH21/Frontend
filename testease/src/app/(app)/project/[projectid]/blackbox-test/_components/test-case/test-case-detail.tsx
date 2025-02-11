@@ -37,7 +37,7 @@ export default function TestCaseDetail({ setOpen, testCaseId, testCases }: TestC
               variant='ghost'
               onClick={() => {
                 setOpen(false);
-                testCaseId && openEditTestCaseDialog(testCaseId);
+                testCaseId && openEditTestCaseDialog(testCase!!);
               }}
             >
               <Edit /> Edit

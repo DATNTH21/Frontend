@@ -1,17 +1,18 @@
+import { TTestcase } from '@/types/test-case';
 import { create } from 'zustand';
 
 type GlobalStoreProps = {
   isEditTestCaseOpen: boolean;
-  editTestCaseId: string | undefined;
-  openEditTestCaseDialog: (id: string) => void;
+  editTestCase: TTestcase | undefined;
+  openEditTestCaseDialog: (testCase: TTestcase) => void;
   closeEditTestCaseDialog: () => void;
 };
 
 export const useGlobalStore = create<GlobalStoreProps>((set) => ({
   isEditTestCaseOpen: false,
-  editTestCaseId: undefined,
-  openEditTestCaseDialog: (id) => set({ isEditTestCaseOpen: true, editTestCaseId: id }),
+  editTestCase: undefined,
+  openEditTestCaseDialog: (testCase) => set({ isEditTestCaseOpen: true, editTestCase: testCase }),
   closeEditTestCaseDialog: () => {
-    set({ isEditTestCaseOpen: false, editTestCaseId: undefined });
+    set({ isEditTestCaseOpen: false, editTestCase: undefined });
   }
 }));

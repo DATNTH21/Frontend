@@ -25,7 +25,7 @@ export const testCaseStatuses = [
 export const testCasePriorities = [
   {
     label: 'Low',
-    value: 'low',
+    value: 'Low',
     icon: ArrowDown
   },
   {
@@ -35,7 +35,7 @@ export const testCasePriorities = [
   },
   {
     label: 'High',
-    value: 'high',
+    value: 'High',
     icon: ArrowUp
   }
 ];

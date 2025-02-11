@@ -157,7 +157,15 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
+              {getTestCaseOfScenarioStatus == 'pending' ? (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className='w-full h-24 text-center'>
+                    <div className='w-full flex items-center justify-center'>
+                      <Spinner />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
@@ -175,8 +183,8 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={columns.length} className='h-24 text-center'>
-                    No results.
+                  <TableCell colSpan={columns.length} className='w-full h-24 text-center'>
+                    <div className='w-full flex items-center justify-center'>No Test case yet</div>
                   </TableCell>
                 </TableRow>
               )}

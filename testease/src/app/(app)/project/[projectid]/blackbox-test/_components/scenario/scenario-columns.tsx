@@ -5,7 +5,6 @@ import { DataTableColumnHeader } from './data-table-column-header';
 import DataTableRowActions from './data-table-row-actions';
 import { TScenario } from '@/types/scenario';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 
 export const columns: ColumnDef<TScenario>[] = [
@@ -66,11 +65,11 @@ export const columns: ColumnDef<TScenario>[] = [
       return (
         <div className='flex space-x-2'>
           {count === 0 ? (
-            <Badge variant='secondary'>NO TESTCASE YET</Badge>
+            <Badge variant='secondary'>NO TEST CASE YET</Badge>
           ) : (
-            <Badge variant='default'>
-              <span>{count} TESTCASES</span>
-            </Badge>
+            <span className='font-medium'>
+              {count} {count > 1 ? 'test cases' : 'test case'}{' '}
+            </span>
           )}
         </div>
       );

@@ -8,32 +8,29 @@ import {
   GetProjectByUserResponse,
   UpdateProjectDTO,
   UpdateProjectResponse
-} from '@/types/project.d';
+} from '@/types/project';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const deleteProject = async (projectId: string): Promise<DeleteProjectResponse> => {
-  return customFetch.delete<DeleteProjectResponse>(`/projects/${projectId}`);
+  return customFetch.delete<DeleteProjectResponse>(`/api/v1/projects/${projectId}`);
 };
 
 export const updateProject = async (projectId: string, data: FormData): Promise<UpdateProjectResponse> => {
-  return customFetch.patch<UpdateProjectResponse>(`/projects/${projectId}`, data);
+  return customFetch.patch<UpdateProjectResponse>(`/api/v1/projects/${projectId}`, data);
 };
 
 export const createProject = async (data: TCreateProjectSchema): Promise<CreateProjectResponse> => {
-  return customFetch.post<CreateProjectResponse>('/projects', data);
+  return customFetch.post<CreateProjectResponse>('/api/v1/projects', data);
 };
 
 export const getProjectsByUser = async (searchParam?: string): Promise<GetProjectByUserResponse> => {
-  const url = searchParam ? `/projects?search=${encodeURIComponent(searchParam)}` : `/projects`;
+  const url = searchParam ? `/api/v1/projects?search=${encodeURIComponent(searchParam)}` : `/api/v1/projects`;
   //console.log(url);
   return customFetch.get<GetProjectByUserResponse>(url);
 };
 
 export const getProjectById = async (projectId: string): Promise<GetProjectByIdResponse> => {
-  return customFetch.get<GetProjectByIdResponse>(`/projects/${projectId}`, {
-    cache: 'force-cache',
-    next: { revalidate: 60 }
-  });
+  return customFetch.get<GetProjectByIdResponse>(`/api/v1/projects/${projectId}`);
 };
 
 const projectQueryKey = ['project'];
@@ -104,9 +101,17 @@ export const useCreateProject = ({
   });
 };
 
-export const useProject = (searchParam?: string) => {
+export const useProjects = (searchParam?: string) => {
   return useQuery({
     queryKey: [...projectQueryKey, searchParam],
     queryFn: () => getProjectsByUser(searchParam)
+  });
+};
+
+export const useProject = (id: string) => {
+  return useQuery({
+    queryKey: [...projectQueryKey, id],
+    queryFn: () => getProjectById(id)
+    // staleTime: 0
   });
 };

@@ -11,21 +11,19 @@ import {
 } from '@/components/ui/alert-dialog';
 //import { Field } from '@/types/api';
 import { Dispatch, SetStateAction } from 'react';
-import { TFieldSchema } from '../_data/schemas';
+import { TestCaseConfigOption } from '@/types/user-config';
 
 export default function DeleteFieldDialog({
-  field,
+  fields,
+  fieldKey,
   setIsOpen
 }: {
-  field: TFieldSchema;
+  fields: TestCaseConfigOption[];
+  fieldKey: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   //Add field id as additional argument to server action
-  const handleDelete = () => {
-    //deleteField.bind(null, field._id);
-    console.log("delete ", field._id);
-    setIsOpen(false);
-  };
+  const handleDelete = () => {};
   return (
     <AlertDialogContent>
       <AlertDialogHeader>

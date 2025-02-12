@@ -3,24 +3,31 @@
 import { useState } from 'react';
 import { MoreVertical, Edit, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
 import DeleteFieldDialog from './delete-field-dialog';
-import EditFieldDialog from './edit-field-dialog';
+import AddFieldDialog from './add-field-dialog';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import { Dialog } from '@/components/ui/dialog';
-import { TFieldSchema } from '../_data/schemas';
+import { TestCaseConfigOption } from '@/types/user-config';
 
-const ActionCell: React.FC<{ field: TFieldSchema }> = ({ field }) => {
+const ActionCell: React.FC<{ field: TestCaseConfigOption[]; fieldKey: string }> = ({ field, fieldKey }) => {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
     <>
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <EditFieldDialog field={field} setIsOpen={setIsEditOpen} />
+        <AddFieldDialog fields={field} fieldKey={fieldKey} setIsOpen={setIsEditOpen} />
       </Dialog>
       <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
-        <DeleteFieldDialog field={field} setIsOpen={setIsDeleteOpen} />
+        <DeleteFieldDialog fields={field} fieldKey={fieldKey} setIsOpen={setIsDeleteOpen} />
       </AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -31,7 +38,7 @@ const ActionCell: React.FC<{ field: TFieldSchema }> = ({ field }) => {
         <DropdownMenuContent className='w-50'>
           <DropdownMenuGroup>
             <DropdownMenuItem className='cursor-pointer' onSelect={() => setIsEditOpen(true)}>
-              <Edit /> Configure
+              <Edit /> Add value
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
@@ -40,7 +47,7 @@ const ActionCell: React.FC<{ field: TFieldSchema }> = ({ field }) => {
               className='text-destructive focus:text-destructive cursor-pointer'
               onSelect={() => setIsDeleteOpen(true)}
             >
-              <Trash /> Delete
+              <Trash /> Remove Value
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

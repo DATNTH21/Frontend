@@ -4,19 +4,13 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Checkbox } from '@/components/ui/checkbox';
 
-import { priorities, statuses } from '../_data/data';
-import { Testcase } from '../_data/schema';
+import { testCasePriorities, testCaseStatuses } from '../../_data/constant';
+import { TTestcase } from '@/types/test-case';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { DataTableRowActions } from './data-table-row-actions';
 import { Badge } from '@/components/ui/badge';
 
-const priorityToInt = {
-  low: 1,
-  medium: 2,
-  high: 3
-} as const;
-
-export const columns: ColumnDef<Testcase>[] = [
+export const testCaseColumns: ColumnDef<TTestcase>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -40,18 +34,22 @@ export const columns: ColumnDef<Testcase>[] = [
   },
   {
     accessorKey: 'id',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='ID' />,
-    cell: ({ row }) => <div className='w-[80px]'>{row.getValue('id')}</div>,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='TEST CASE ID' />,
+    cell: ({ row }) => (
+      <div className='flex space-x-2'>
+        <span className='truncate font-medium'>{row.id}</span>
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false
   },
   {
-    accessorKey: 'title',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Title' />,
+    accessorKey: 'name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='NAME' />,
     cell: ({ row }) => {
       return (
         <div className='flex space-x-2'>
-          <span className='max-w-[500px] truncate font-medium'>{row.getValue('title')}</span>
+          <span className='max-w-[500px] truncate font-medium'>{row.getValue('name')}</span>
         </div>
       );
     }
@@ -60,7 +58,7 @@ export const columns: ColumnDef<Testcase>[] = [
     accessorKey: 'priority',
     header: ({ column }) => <DataTableColumnHeader column={column} title='Priority' />,
     cell: ({ row }) => {
-      const priority = priorities.find((priority) => priority.value === row.getValue('priority'));
+      const priority = testCasePriorities.find((priority) => priority.value === row.getValue('priority'));
 
       if (!priority) {
         return null;
@@ -77,20 +75,19 @@ export const columns: ColumnDef<Testcase>[] = [
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
-    },
-    sortingFn: (rowA, rowB, columnId) => {
-      const { priority: priority1 } = rowA.original;
-      const { priority: priority2 } = rowB.original;
-
-      return priorityToInt[priority1] - priorityToInt[priority2];
     }
+    // sortingFn: (rowA, rowB, columnId) => {
+    //   const { priority: priority1 } = rowA.original;
+    //   const { priority: priority2 } = rowB.original;
+
+    //   return priorityToInt[priority1] - priorityToInt[priority2];
+    // }
   },
   {
     accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='STATUS' />,
     cell: ({ row }) => {
-      const status = statuses.find((status) => status.value === row.getValue('status'));
-
+      const status = testCaseStatuses.find((status) => status.value === String(row.getValue('status')).toLowerCase());
       if (!status) {
         return null;
       }

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { ApiResponse } from './response';
-import { Usecase, UsecaseSchema } from './usecase.d';
+import { UseCase, UseCaseSchema } from './use-case';
+import { TTestcase } from './test-case';
 
 export const ProjectSchema = z.object({
   _id: z.string(),
@@ -16,7 +17,7 @@ export const ProjectSchema = z.object({
     .string()
     .transform((val) => new Date(val))
     .optional(),
-  use_cases: z.array(UsecaseSchema).nullable().optional(),
+  use_cases: z.array(UseCaseSchema).nullable().optional(),
   user: z.string()
 });
 
@@ -28,11 +29,12 @@ export type Project = {
   status: 'Generating' | 'Done' | 'Seen' | 'Failed' | 'Default';
   created_at?: Date;
   updated_at?: Date;
-  use_cases?: Usecase[] | null;
+  use_cases?: UseCase[] | null;
   user: string;
+  test_cases?: TTestcase[] | [];
 };
 
-export type CreateProjectDTO = Pick<Project, 'name' | 'description' | 'user'>;
+export type CreateProjectDTO = Pick<Project, 'name' | 'description'>;
 export type UpdateProjectDTO = Partial<Omit<Project, 'project_id'>>;
 export type CreateProjectResponse = ApiResponse<Project>;
 export type GetProjectByUserResponse = {

@@ -8,7 +8,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
-import { Project } from '@/types/project.d';
+import { Project } from '@/types/project';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function EditProjectDialog({
   project,
@@ -25,7 +26,7 @@ export default function EditProjectDialog({
     resolver: zodResolver(EditProjectSchema),
     defaultValues: {
       name: project?.name,
-      description: null
+      description: project?.description || undefined
     }
   });
 
@@ -62,13 +63,12 @@ export default function EditProjectDialog({
           <Controller
             name='description'
             control={control}
-            render={({ field: { onChange } }) => (
-              <Input
-                type='file'
-                placeholder='Upload project description .txt, .pdf, .doc'
-                accept='.txt, .doc, .pdf'
-                onChange={(e) => onChange(e.target.files?.[0] || null)}
-              ></Input>
+            render={({ field: { onChange, value } }) => (
+              <Textarea
+                placeholder='Write something to describe the project'
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+              ></Textarea>
             )}
           />
           {errors.description && <p className='text-destructive my-1'>{`${errors.description.message}`}</p>}

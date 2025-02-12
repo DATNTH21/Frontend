@@ -1,12 +1,5 @@
 import { z } from 'zod';
 
-export const TestCaseSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  status: z.string(),
-  priority: z.enum(['low', 'medium', 'high'])
-});
-
 const checkFileType = (file: File) => {
   const supportedTypes = [
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -17,7 +10,7 @@ const checkFileType = (file: File) => {
   return supportedTypes.includes(file.type);
 };
 
-export const UsecaseUploadSchema = z.object({
+export const UseCaseUploadSchema = z.object({
   description: z
     .custom<File>((file) => file instanceof File, 'File is required')
     .refine((file) => checkFileType(file), {
@@ -25,6 +18,20 @@ export const UsecaseUploadSchema = z.object({
     })
 });
 
-export type TUsecaseUpload = z.infer<typeof UsecaseUploadSchema>;
+export type TUsecaseUpload = z.infer<typeof UseCaseUploadSchema>;
 
-export type Testcase = z.infer<typeof TestCaseSchema>;
+export const CreateUseCasesSchema = z.object({
+  project_id: z.string(),
+  content: z.array(z.string())
+});
+
+export type TCreateUseCases = z.infer<typeof CreateUseCasesSchema>;
+
+export type TCreateScenarios = {
+  use_case_ids: string[];
+};
+
+export type TCreateTestcases = {
+  use_case_id: string;
+  scenario_ids: string[];
+}[];

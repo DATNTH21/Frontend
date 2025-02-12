@@ -25,17 +25,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Block access to `/api/auth/session`
-  if (pathname === '/api/auth/session') {
-    return NextResponse.redirect(new URL('/unauthorized', url));
-  }
-
   // If the request is for login or sign-up and the user is logged in, redirect to home
   if ((pathname === '/login' || pathname === '/signup') && session) {
-    return NextResponse.redirect(new URL('/', url));
-  }
-
-  if (!session && !['/', '/login', '/signup'].includes(pathname)) {
     return NextResponse.redirect(new URL('/', url));
   }
 
@@ -52,6 +43,10 @@ export async function middleware(request: NextRequest) {
   // If refresh token error, redirect to logout
   if (session?.error === 'RefreshTokenError' && pathname !== '/logout') {
     return NextResponse.redirect(new URL('/logout', url));
+  }
+
+  if (!session && !['/', '/login', '/signup'].includes(pathname)) {
+    return NextResponse.redirect(new URL('/login', url));
   }
 
   return NextResponse.next();

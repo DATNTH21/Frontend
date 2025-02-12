@@ -35,9 +35,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', url));
   }
 
-  // If the user is not logged in, only allow access to login and sign-up
-  if (!session && !['/login', '/signup'].includes(pathname)) {
-    return NextResponse.redirect(new URL('/login', url));
+  if (!session && !['/', '/login', '/signup'].includes(pathname)) {
+    return NextResponse.redirect(new URL('/', url));
   }
 
   // If the user does not have an error and is trying to log out, redirect to home
@@ -59,5 +58,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!unauthorized|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api|svg|assets|public).*)']
+  matcher: [
+    '/((?!unauthorized|doc|we-test|contact|_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)'
+  ]
 };

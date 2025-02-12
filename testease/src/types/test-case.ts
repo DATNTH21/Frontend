@@ -32,7 +32,10 @@ export const TestCaseFormSchema = z.object({
   ),
   expected_result: z.string(),
   status: z.string(),
-  priority: z.enum(['Low', 'Medium', 'High']).default('Medium')
+  priority: z.string(),
+  tester: z.string(),
+  test_date: z.string(),
+  remarks: z.string()
 });
 
 export type TTestcaseForm = z.infer<typeof TestCaseFormSchema>;

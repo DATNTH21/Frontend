@@ -6,6 +6,11 @@ type GlobalStoreProps = {
   editTestCase: TTestcase | undefined;
   openEditTestCaseDialog: (testCase: TTestcase) => void;
   closeEditTestCaseDialog: () => void;
+
+  // doc feature
+  features: ['Blackbox Test', 'Unit Test', 'API Test'];
+  selectedFeature: string;
+  setFeature: (feature: string) => void;
 };
 
 export const useGlobalStore = create<GlobalStoreProps>((set) => ({
@@ -14,5 +19,9 @@ export const useGlobalStore = create<GlobalStoreProps>((set) => ({
   openEditTestCaseDialog: (testCase) => set({ isEditTestCaseOpen: true, editTestCase: testCase }),
   closeEditTestCaseDialog: () => {
     set({ isEditTestCaseOpen: false, editTestCase: undefined });
-  }
+  },
+
+  features: ['Blackbox Test', 'Unit Test', 'API Test'],
+  selectedFeature: 'Blackbox Test',
+  setFeature: (feature) => set({ selectedFeature: feature })
 }));

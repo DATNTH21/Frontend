@@ -6,6 +6,7 @@ import {
   DeleteProjectResponse,
   GetProjectByIdResponse,
   GetProjectByUserResponse,
+  GetProjectOverviewStatistics,
   UpdateProjectDTO,
   UpdateProjectResponse
 } from '@/types/project';
@@ -31,6 +32,12 @@ export const getProjectsByUser = async (searchParam?: string): Promise<GetProjec
 
 export const getProjectById = async (projectId: string): Promise<GetProjectByIdResponse> => {
   return customFetch.get<GetProjectByIdResponse>(`/api/v1/projects/${projectId}`);
+};
+
+export const getProjectStatistics = async (projectId: string): Promise<GetProjectOverviewStatistics> => {
+  return customFetch.get<GetProjectOverviewStatistics>(`/api/v1/projects/${projectId}/statistics`, {
+    next: { revalidate: 1000 * 60 * 5 }
+  });
 };
 
 const projectQueryKey = ['project'];

@@ -23,6 +23,10 @@ import { useScenarioStore } from '@/store/scenario-store';
 import { useScenariosOfUC } from '@/api/scenario/scenario';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/hooks/use-toast';
+import { getAllTestCasesOfScenario } from '@/api/testcase/testcase';
+import { TTestcase } from '@/types/test-case';
+import { exportTestCasesToExcel } from '../file-export/file-export';
+import { useUserConfig } from '@/api/user-config/user-config';
 
 interface DataTableProps<TScenario, TValue> {
   columns: ColumnDef<TScenario, TValue>[];
@@ -37,6 +41,7 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
   const rowSelection = scenarioSelection[params.useCaseId] || {};
   const { data: scenariosResponse, status } = useScenariosOfUC(params.useCaseId);
   const scenarios = scenariosResponse?.data;
+  const exportTemplate = useUserConfig().data?.data?.testCaseExportTemplate || [];
 
   const data = useMemo(
     () =>
@@ -81,15 +86,9 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
     }
   });
 
-  const handleExportTestCase = () => {
-    // scenarioSelection object:
-    // {
-    //   "UC-2": {
-    //       "SC-20": true,
-    //       "SC-21": true
-    //   }
-    // }
+  const handleExportTestCase = async () => {
     console.log('scenarioSelection: ', scenarioSelection);
+    const { data: allTestCaseOfScenarioResponse, status: getTestCaseOfScenarioStatus } = await getAllTestCasesOfScenario(params.scenarioId);
 
     if (!scenarioSelection[params.useCaseId]) {
       toast({
@@ -99,33 +98,52 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
       });
     }
 
-    // if (testCaseStatus == 'pending') {
-    //   toast({
-    //     variant: 'default',
-    //     title: 'Fail To Export Test Case',
-    //     description: 'Fetching test cases in progress, comeback later'
-    //   });
-    // }
+    if (getTestCaseOfScenarioStatus == 'pending') {
+      toast({
+        variant: 'default',
+        title: 'Fail To Export Test Case',
+        description: 'Fetching test cases in progress, comeback later'
+      });
+    }
 
-    // if (testCaseStatus == 'error') {
-    //   toast({
-    //     variant: 'default',
-    //     title: 'Fail To Export Test Case',
-    //     description: 'Error getting test cases of this use case'
-    //   });
-    // }
+    if (getTestCaseOfScenarioStatus == 'error') {
+      toast({
+        variant: 'default',
+        title: 'Fail To Export Test Case',
+        description: 'Error getting test cases of this use case'
+      });
+    }
 
-    // if (
-    //   allTestCasesOfScenarioResponse?.data == null ||
-    //   allTestCasesOfScenarioResponse?.data.length == 0 ||
-    //   !allTestCasesOfScenarioResponse?.data
-    // ) {
-    //   toast({
-    //     variant: 'destructive',
-    //     title: 'Fail To Export Test Case',
-    //     description: 'No test case available for this use case'
-    //   });
-    // }
+    if (
+      allTestCaseOfScenarioResponse == null ||
+      allTestCaseOfScenarioResponse?.length == 0 ||
+      !allTestCaseOfScenarioResponse
+    ) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'No test case available for this use case'
+      });
+    }
+
+    if (!exportTemplate || exportTemplate.length == 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'No export template. Please config the template in the setting'
+      });
+      return;
+    }
+
+    try {
+      exportTestCasesToExcel(allTestCaseOfScenarioResponse, exportTemplate);
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'Something is wrong'
+      });
+    }
   };
 
   return (

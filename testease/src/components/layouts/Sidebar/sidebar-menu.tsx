@@ -24,11 +24,6 @@ export default function AppSidebarMenu({ projectId }: { projectId: string }) {
       label: 'Blackbox test'
     },
     {
-      icon: Puzzle,
-      href: paths.projectDetail.unitTest.getHref(projectId),
-      label: 'Unit test'
-    },
-    {
       icon: ScrollText,
       href: paths.projectDetail.report.getHref(projectId),
       label: 'Report'

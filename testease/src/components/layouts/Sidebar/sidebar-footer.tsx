@@ -14,12 +14,14 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { toast } from '@/hooks/use-toast';
 import wretch from 'wretch';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
-import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
+import { ChevronsUpDown, LogOut, PanelTop, Router, Settings } from 'lucide-react';
 import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { SolarSystem } from '@/components/ui/loading/solar-system';
 import SidebarFooterSkeleton from './sidebar-footer-skeleton';
+import { useRouter } from 'next/navigation';
 
 export default function AppSidebarFooter() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const user = session?.user;
@@ -74,6 +76,10 @@ export default function AppSidebarFooter() {
                 className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
               >
                 <DropdownMenuGroup>
+                  <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/')}>
+                    <PanelTop />
+                    Landing page
+                  </DropdownMenuItem>
                   <DropdownMenuItem className='cursor-pointer'>
                     <Settings />
                     Setting

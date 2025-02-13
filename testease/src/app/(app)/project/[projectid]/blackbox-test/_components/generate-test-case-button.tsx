@@ -15,6 +15,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { TCreateTestcases } from '../_data/schema';
 import { useCreateTestcases } from '@/api/testcase/testcase';
 
+const LoadingButton = ({ message }: { message: string }) => (
+  <Button className='' variant='destructive' disabled>
+    <Spinner variant='light' /> {message}
+  </Button>
+);
+
 export default function GenerateTestCaseButton() {
   const { scenarioSelection } = useScenarioStore();
   const { checkedIds } = useTreeStore();
@@ -25,7 +31,8 @@ export default function GenerateTestCaseButton() {
   const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
 
   const { data: { data: project } = {} } = useProject(params.projectId);
-  const isGenerating = project ? project.status === 'Generating' : true;
+  const isGeneratingScenarios = project ? project.status === 'Generating scenarios' : true;
+  const isGeneratingTests = project ? project.status === 'Generating test cases' : true;
 
   // const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -119,12 +126,16 @@ export default function GenerateTestCaseButton() {
     }
   }
 
-  if (isGenerating) {
-    return (
-      <Button className='' variant='destructive' disabled>
-        <Spinner variant='light' /> Generating {isScenarioSelected ? 'Test Case' : isUCSelected ? 'Scenario' : ''} ...
-      </Button>
-    );
+  const getLoadingState = () => {
+    if (!project?.status) return 'Generating...';
+    if (isGeneratingScenarios) return 'Generating scenarios...';
+    if (isGeneratingTests) return 'Generating test cases...';
+    return null;
+  };
+
+  const loadingMessage = getLoadingState();
+  if (loadingMessage) {
+    return <LoadingButton message={loadingMessage} />;
   }
 
   return (

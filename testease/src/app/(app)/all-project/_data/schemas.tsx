@@ -2,8 +2,13 @@ import { z } from 'zod';
 
 export const projectStatus = [
   {
-    label: 'GENERATING',
-    value: 'Generating',
+    label: 'GENERATING TEST CASES',
+    value: 'Generating test cases',
+    color: 'hsl(var(--primary))'
+  },
+  {
+    label: 'GENERATING SCENARIOS',
+    value: 'Generating scenarios',
     color: 'hsl(var(--primary))'
   },
   {

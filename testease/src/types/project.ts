@@ -8,7 +8,7 @@ export const ProjectSchema = z.object({
   project_id: z.string(),
   name: z.string(),
   description: z.string().optional(),
-  status: z.enum(['Generating', 'Done', 'Seen', 'Failed', 'Default']),
+  status: z.enum(['Generating scenarios', 'Generating test cases', 'Done', 'Seen', 'Failed', 'Default']),
   created_at: z
     .string()
     .transform((val) => new Date(val))
@@ -26,7 +26,7 @@ export type Project = {
   project_id: string;
   name: string;
   description?: string;
-  status: 'Generating' | 'Done' | 'Seen' | 'Failed' | 'Default';
+  status: 'Generating scenarios' | 'Generating test cases' | 'Done' | 'Seen' | 'Failed' | 'Default';
   created_at?: Date;
   updated_at?: Date;
   use_cases?: UseCase[] | null;

@@ -87,6 +87,13 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
       });
       setTiptapOpen(false);
     });
+    socket.on('use-case-failed', (data) => {
+      queryClient.invalidateQueries({ queryKey: ['use-case'] });
+      toast({
+        variant: 'destructive',
+        title: data.message
+      });
+    });
   }, []);
 
   const handleCreateUseCase = () => {

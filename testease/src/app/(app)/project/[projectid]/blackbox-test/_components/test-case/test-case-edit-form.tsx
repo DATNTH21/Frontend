@@ -7,6 +7,7 @@ import { useGlobalStore } from '@/store/global-store';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -17,8 +18,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { Asterisk, X } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useUpdateTestCase } from '@/api/testcase/testcase';
 import { toast } from '@/hooks/use-toast';
@@ -36,7 +38,7 @@ export default function TestCaseEditForm() {
       objective: editTestCase?.objective || '',
       expected_result: editTestCase?.expected_result || '',
       status: editTestCase?.status || '',
-      // priority: editTestCase?.priority || 'Medium',
+      priority: editTestCase?.priority || 'Medium',
       steps:
         editTestCase?.steps?.map((step, index) => ({
           id: `${index}-${Date.now()}`,
@@ -54,7 +56,7 @@ export default function TestCaseEditForm() {
         objective: editTestCase.objective,
         expected_result: editTestCase.expected_result,
         status: editTestCase.status,
-        // priority: editTestCase.priority,
+        priority: editTestCase.priority,
         steps:
           editTestCase.steps?.map((step, index) => ({
             id: `${index}-${Date.now()}`,
@@ -90,6 +92,7 @@ export default function TestCaseEditForm() {
       ...data,
       steps: data.steps.map((step) => step.value)
     };
+    console.log('Transformed Data: ', transformedData);
 
     updateTestCaseMutation.mutate({ id: transformedData._id, data: transformedData });
     closeEditTestCaseDialog();
@@ -117,7 +120,7 @@ export default function TestCaseEditForm() {
             onSubmit={form.handleSubmit(onUpdateTestCase)}
           >
             <div className='flex h-full'>
-              <div className='basis-3/4 overflow-y-auto pr-6 pl-2'>
+              <div className='basis-3/4 overflow-y-auto pr-6'>
                 <div className='space-y-6 py-4'>
                   {/* Name Field */}
                   <FormField

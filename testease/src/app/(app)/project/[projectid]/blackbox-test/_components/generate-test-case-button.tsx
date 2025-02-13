@@ -38,12 +38,31 @@ export default function GenerateTestCaseButton() {
       queryClient.invalidateQueries({ queryKey: ['project'] });
       queryClient.invalidateQueries({ queryKey: ['scenario'] });
     });
+    socket.on('scenario-failed', (data) => {
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
+      toast({
+        variant: 'destructive',
+        title: 'Generate scenarios failed',
+        description: data.message
+      });
+    });
 
     socket.on('test-cases-generated', (data) => {
       console.log('Received testcases:', data);
       queryClient.invalidateQueries({ queryKey: ['project'] });
       queryClient.invalidateQueries({ queryKey: ['testcase'] });
       queryClient.invalidateQueries({ queryKey: ['scenario'] });
+    });
+    socket.on('test-cases-failed', (data) => {
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+      queryClient.invalidateQueries({ queryKey: ['testcase'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
+      toast({
+        variant: 'destructive',
+        title: 'Generate test cases failed',
+        description: data.message
+      });
     });
   }, []);
 

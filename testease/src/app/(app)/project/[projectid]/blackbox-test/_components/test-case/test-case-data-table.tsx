@@ -17,6 +17,7 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 
+import { saveAs } from 'file-saver';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 import { DataTablePagination } from './data-table-pagination';
@@ -34,7 +35,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { useUserConfig } from '@/api/user-config/user-config';
-import { exportTestCasesToExcel } from '../file-export/file-export';
+import wretch from 'wretch';
 
 interface DataTableProps<TTestcase, TValue> {
   columns: ColumnDef<TTestcase, TValue>[];
@@ -57,6 +58,7 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isTestCaseDetailOpen, setTestCaseDetailOpen] = useState(false);
   const [testCaseDetailId, setTestCaseDetailId] = useState<string | undefined>(undefined);
+  const [isExporting, setExporting] = useState(false);
 
   const table = useReactTable({
     data: allTestCaseOfScenario,
@@ -81,7 +83,8 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
     getFacetedUniqueValues: getFacetedUniqueValues()
   });
 
-  const handleExportTestCaseInScenario = () => {
+  const handleExportTestCaseInScenario = async () => {
+    setExporting(true);
     console.log('Test case selection: ', rowSelection);
     if (!rowSelection || Object.keys(rowSelection).length == 0) {
       toast({
@@ -115,13 +118,26 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
     }
 
     try {
-      exportTestCasesToExcel(testCasesToExport, exportTemplate);
+      const response = await wretch('/api/export-test-cases')
+        .headers({
+          Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        .post({ testCases: testCasesToExport, template: exportTemplate });
+
+      const blob = await response.blob();
+      saveAs(blob, 'Test_Cases.xlsx');
+      toast({
+        variant: 'success',
+        title: 'Test Cases downloaded'
+      });
     } catch (error) {
       toast({
         variant: 'destructive',
         title: 'Fail To Export Test Case',
-        description: 'Something is wrong'
+        description: 'Something went wrong'
       });
+    } finally {
+      setExporting(false);
     }
   };
 
@@ -137,7 +153,9 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
             SCENARIO {''} {scenarioId}
           </span>
         </Link>
-        <Button onClick={handleExportTestCaseInScenario}>Export All Test Cases</Button>
+        <Button onClick={handleExportTestCaseInScenario} disabled={isExporting}>
+          {isExporting && <Spinner variant='light' />}Export Test Cases
+        </Button>
       </div>
       <div className='space-y-4'>
         <DataTableToolbar table={table} />

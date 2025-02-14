@@ -17,6 +17,7 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
       <Checkbox
         checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        onClick={(e) => e.stopPropagation()}
         aria-label='Select all'
         className='translate-y-[2px]'
       />
@@ -25,6 +26,7 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onClick={(e) => e.stopPropagation()}
         aria-label='Select row'
         className='translate-y-[2px]'
       />
@@ -54,55 +56,55 @@ export const testCaseColumns: ColumnDef<TTestcase>[] = [
       );
     }
   },
-  {
-    accessorKey: 'priority',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='Priority' />,
-    cell: ({ row }) => {
-      const priority = testCasePriorities.find((priority) => priority.value === row.getValue('priority'));
+  // {
+  //   accessorKey: 'priority',
+  //   header: ({ column }) => <DataTableColumnHeader column={column} title='Priority' />,
+  //   cell: ({ row }) => {
+  //     const priority = testCasePriorities.find((priority) => priority.value === row.getValue('priority'));
 
-      if (!priority) {
-        return null;
-      }
+  //     if (!priority) {
+  //       return null;
+  //     }
 
-      return (
-        <div className='flex items-center'>
-          <Badge variant='outline'>
-            {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
-            <span>{priority.label}</span>
-          </Badge>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    }
-    // sortingFn: (rowA, rowB, columnId) => {
-    //   const { priority: priority1 } = rowA.original;
-    //   const { priority: priority2 } = rowB.original;
+  //     return (
+  //       <div className='flex items-center'>
+  //         <Badge variant='outline'>
+  //           {priority.icon && <priority.icon className='mr-2 h-4 w-4 text-muted-foreground' />}
+  //           <span>{priority.label}</span>
+  //         </Badge>
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   }
+  //   // sortingFn: (rowA, rowB, columnId) => {
+  //   //   const { priority: priority1 } = rowA.original;
+  //   //   const { priority: priority2 } = rowB.original;
 
-    //   return priorityToInt[priority1] - priorityToInt[priority2];
-    // }
-  },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='STATUS' />,
-    cell: ({ row }) => {
-      const status = testCaseStatuses.find((status) => status.value === String(row.getValue('status')).toLowerCase());
-      if (!status) {
-        return null;
-      }
+  //   //   return priorityToInt[priority1] - priorityToInt[priority2];
+  //   // }
+  // },
+  // {
+  //   accessorKey: 'status',
+  //   header: ({ column }) => <DataTableColumnHeader column={column} title='STATUS' />,
+  //   cell: ({ row }) => {
+  //     const status = testCaseStatuses.find((status) => status.value === String(row.getValue('status')).toLowerCase());
+  //     if (!status) {
+  //       return null;
+  //     }
 
-      return (
-        <div className='flex w-[100px] items-center'>
-          {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' color={status.color} />}
-          <span style={{ color: status.color }}>{status.label}</span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    }
-  },
+  //     return (
+  //       <div className='flex w-[100px] items-center'>
+  //         {status.icon && <status.icon className='mr-2 h-4 w-4 text-muted-foreground' color={status.color} />}
+  //         <span style={{ color: status.color }}>{status.label}</span>
+  //       </div>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   }
+  // },
   {
     id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />

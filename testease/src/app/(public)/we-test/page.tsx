@@ -29,7 +29,7 @@ export default function page() {
             transition={{ duration: 1 }}
             className='relative text-[220px] font-bold'
           >
-            <span className='relative z-10 leading-none inline-block'>WETEST</span>
+            <span className='relative z-10 leading-none inline-block'>WeTest</span>
             {/* Reflection */}
             <span className='z-[-1] absolute top-full left-0 w-full text-[220px] font-bold opacity-30 blur-sm transform scale-y-[-1]'>
               WETEST

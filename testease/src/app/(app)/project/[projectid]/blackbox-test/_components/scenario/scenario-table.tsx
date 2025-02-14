@@ -24,8 +24,6 @@ import { useScenariosOfUC } from '@/api/scenario/scenario';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/hooks/use-toast';
 import { getAllTestCasesOfScenario } from '@/api/testcase/testcase';
-import { TTestcase } from '@/types/test-case';
-import { exportTestCasesToExcel } from '../file-export/file-export';
 import { useUserConfig } from '@/api/user-config/user-config';
 
 interface DataTableProps<TScenario, TValue> {
@@ -88,7 +86,8 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
 
   const handleExportTestCase = async () => {
     console.log('scenarioSelection: ', scenarioSelection);
-    const { data: allTestCaseOfScenarioResponse, status: getTestCaseOfScenarioStatus } = await getAllTestCasesOfScenario(params.scenarioId);
+    const { data: allTestCaseOfScenarioResponse, status: getTestCaseOfScenarioStatus } =
+      await getAllTestCasesOfScenario(params.scenarioId);
 
     if (!scenarioSelection[params.useCaseId]) {
       toast({
@@ -136,7 +135,6 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
     }
 
     try {
-      exportTestCasesToExcel(allTestCaseOfScenarioResponse, exportTemplate);
     } catch (error) {
       toast({
         variant: 'destructive',

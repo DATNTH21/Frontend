@@ -53,7 +53,7 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
   console.log('Test Cases: ', allTestCaseOfScenario);
 
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ _id: false });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isTestCaseDetailOpen, setTestCaseDetailOpen] = useState(false);
@@ -80,7 +80,10 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues()
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    initialState: {
+      columnVisibility: { _id: false }
+    }
   });
 
   const handleExportTestCaseInScenario = async () => {
@@ -153,7 +156,11 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
             SCENARIO {''} {scenarioId}
           </span>
         </Link>
-        <Button onClick={handleExportTestCaseInScenario} disabled={isExporting}>
+        <Button
+          onClick={handleExportTestCaseInScenario}
+          disabled={isExporting}
+          className='bg-teal-600 hover:bg-teal-600/80'
+        >
           {isExporting && <Spinner variant='light' />}Export Test Cases
         </Button>
       </div>

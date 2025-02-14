@@ -17,7 +17,7 @@ export default async function Layout({
   return (
     <div className='flex-1 flex flex-col bg-background'>
       {/* Header */}
-      <div className='sticky top-0 z-0 flex justify-between items-center p-4 border-b bg-background'>
+      <div className='sticky top-0 z-10 flex justify-between items-center p-4 border-b bg-background'>
         <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
         <FeatureButtonsList projectId={projectId} />
       </div>

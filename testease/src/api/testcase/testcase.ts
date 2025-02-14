@@ -1,12 +1,18 @@
 import { TCreateTestcases } from '@/app/(app)/project/[projectId]/blackbox-test/_data/schema';
 import { customFetch } from '@/lib/api-client';
-import { DeleteTestCaseResponse, GetAllTestCasesOfScenarioResponse, UpdateTestCaseResponse } from '@/types/test-case';
+import { DeleteTestCaseResponse, GetTestCasesResponse, UpdateTestCaseResponse } from '@/types/test-case';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const testCaseQueryKey = ['testcase'];
 
-export const getAllTestCasesOfScenario = async (scenarioId: string): Promise<GetAllTestCasesOfScenarioResponse> => {
-  return customFetch.get<GetAllTestCasesOfScenarioResponse>(`/api/v1/testcases?scenario_id=${scenarioId}`);
+export const getAllTestCasesOfProject = async (projectId: string): Promise<GetTestCasesResponse> => {
+  return customFetch.get<GetTestCasesResponse>(`/api/v1/testcases?project_id=${projectId}`);
+};
+export const getAllTestCasesOfUseCase = async (useCaseId: string): Promise<GetTestCasesResponse> => {
+  return customFetch.get<GetTestCasesResponse>(`/api/v1/testcases?use_case_id=${useCaseId}`);
+};
+export const getAllTestCasesOfScenario = async (scenarioId: string): Promise<GetTestCasesResponse> => {
+  return customFetch.get<GetTestCasesResponse>(`/api/v1/testcases?scenario_id=${scenarioId}`);
 };
 
 export const createTestCases = async (data: TCreateTestcases): Promise<any> => {
@@ -39,6 +45,20 @@ export const useCreateTestcases = ({
     onError: (error) => {
       onError?.(error);
     }
+  });
+};
+
+export const useTestCasesOfProject = (projectId: string) => {
+  return useQuery({
+    queryKey: [...testCaseQueryKey, projectId],
+    queryFn: () => getAllTestCasesOfProject(projectId)
+  });
+};
+
+export const useTestCasesOfUseCase = (useCaseId: string) => {
+  return useQuery({
+    queryKey: [...testCaseQueryKey, useCaseId],
+    queryFn: () => getAllTestCasesOfUseCase(useCaseId)
   });
 };
 

@@ -140,7 +140,7 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
       <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild>
           <Button className='cursor-pointer'>
-            New Use Case <PlusCircle />
+            <PlusCircle /> New Use Case
           </Button>
         </DialogTrigger>
         <DialogContent className='sm:max-w-[425px]'>

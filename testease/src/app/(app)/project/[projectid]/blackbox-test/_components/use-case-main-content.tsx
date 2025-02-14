@@ -1,20 +1,16 @@
 'use client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTreeStore } from '@/store/tree-store';
-import React, { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ScenarioTable from './scenario/scenario-table';
 import { columns } from './scenario/scenario-columns';
 import { useParams, useRouter } from 'next/navigation';
 import { paths } from '@/lib/routes';
 import { TestCaseDataTable } from './test-case/test-case-data-table';
 import { testCaseColumns } from './test-case/test-case-columns';
-import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { UseCase } from '@/types/use-case';
 import { Button } from '@/components/ui/button';
-import { useTestCasesOfScenario } from '@/api/testcase/testcase';
-import { useScenarioStore } from '@/store/scenario-store';
-import { toast } from '@/hooks/use-toast';
 
 export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }) {
   const router = useRouter();

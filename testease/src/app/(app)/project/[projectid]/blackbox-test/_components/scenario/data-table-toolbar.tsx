@@ -28,7 +28,9 @@ export function DataTableToolbar<TData>({ table, onExportTestCaseButtonClick }: 
         )}
       </div> */}
       <DataTableViewOptions table={table} />
-      <Button onClick={onExportTestCaseButtonClick}>Export Test Cases</Button>
+      <Button onClick={onExportTestCaseButtonClick} className='bg-teal-600 hover:bg-teal-600/80'>
+        Export Test Cases
+      </Button>
     </div>
   );
 }

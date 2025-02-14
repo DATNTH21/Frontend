@@ -23,7 +23,7 @@ const UseCaseTree = ({ useCases }: { useCases: UseCase[] }) => {
       children:
         useCases == undefined || useCases.length == 0 || !useCases
           ? []
-          : useCases.map((useCase, index) => {
+          : useCases.map((useCase) => {
               return {
                 id: useCase.use_case_id,
                 name: useCase.name.trim()

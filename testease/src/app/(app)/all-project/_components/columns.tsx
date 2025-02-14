@@ -41,10 +41,10 @@ export const columns: ColumnDef<Project>[] = [
       }
 
       return (
-        <div className='flex w-[100px] items-center'>
+        <div className='flex items-center'>
           <span style={{ color: status.color }} className='font-semibold flex gap-1 items-center justify-center'>
             {row.getValue('status')}
-            {row.getValue('status') === 'Generating' && <Spinner size='sm' />}
+            {String(row.getValue('status')).startsWith('Generating') && <Spinner size='sm' />}
           </span>
         </div>
       );

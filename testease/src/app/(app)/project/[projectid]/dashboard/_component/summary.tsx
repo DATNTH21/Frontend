@@ -15,10 +15,10 @@ export default function SummarySection({ statistics }: { statistics: ProjectOver
         <div className='space-y-4'>
           {[
             { label: 'Total Scenarios Generated', value: total_scenarios },
-            { label: 'Total Test Cases Generated', value: total_test_cases },
-            { label: 'Bug/Defect Report', value: 30 },
-            { label: 'Test Summary Report', value: 1 },
-            { label: 'Total Reports', value: 31 }
+            { label: 'Total Test Cases Generated', value: total_test_cases }
+            // { label: 'Bug/Defect Report', value: 0 },
+            // { label: 'Test Summary Report', value: 0 },
+            // { label: 'Total Reports', value: 0 }
           ].map((item, index) => (
             <div key={index} className='flex justify-between items-center p-4 bg-sidebar rounded-lg'>
               <span className='text-sm font-medium'>{item.label}</span>

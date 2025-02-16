@@ -14,7 +14,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { toast } from '@/hooks/use-toast';
 import wretch from 'wretch';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
-import { ChevronsUpDown, LogOut, PanelTop, Router, Settings } from 'lucide-react';
+import { ChevronsUpDown, LogOut, PanelTop, Settings } from 'lucide-react';
 import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { SolarSystem } from '@/components/ui/loading/solar-system';
 import SidebarFooterSkeleton from './sidebar-footer-skeleton';

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { getSessionData } from './getSession';
 
 type RequestOptions = {

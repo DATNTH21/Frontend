@@ -14,7 +14,7 @@ interface EditorProps {
 }
 
 const Editor = forwardRef<TipTapEditor | null, EditorProps>((props, ref) => {
-  const { editable = true, editorType, onUpdate, content, className } = props;
+  const { editable = true, editorType, onUpdate, content } = props;
 
   const extensions = getEditorExtensionsByType(editorType);
 

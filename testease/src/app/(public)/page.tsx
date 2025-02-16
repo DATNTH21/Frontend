@@ -8,7 +8,6 @@ import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Separator } from '@/components/ui/separator';
 
 export default function page() {
   const images = [
@@ -133,7 +132,7 @@ export default function page() {
           <h1 className='font-bold tracking-wider text-6xl text-center'>Test with ease.</h1>
         </div>
         <Tabs defaultValue='blackbox' className='w-full border rounded-3xl h-auto p-8'>
-          <TabsList className='grid grid-cols-1 gap-y-2 md:grid-cols-3 md:gap-x-2 lg:grid-cols-3 lg:gap-x-3 p-3 bg-muted dark:bg-muted/30 h-auto rounded-3xl '>
+          <TabsList className='grid grid-cols-1 gap-y-2 md:grid-cols-4 md:gap-x-2 lg:grid-cols-4 lg:gap-x-3 p-3 bg-muted dark:bg-muted/30 h-auto rounded-3xl '>
             <TabsTrigger
               value='blackbox'
               className='data-[state=active]:bg-foreground data-[state=active]:text-background py-3 rounded-2xl text-xl font-semibold data-[state=inactive]:hover:bg-muted'
@@ -151,6 +150,12 @@ export default function page() {
               className='data-[state=active]:bg-foreground data-[state=active]:text-background py-3 rounded-2xl text-xl font-semibold data-[state=inactive]:hover:bg-muted'
             >
               API Testing
+            </TabsTrigger>
+            <TabsTrigger
+              value='ui'
+              className='data-[state=active]:bg-foreground data-[state=active]:text-background py-3 rounded-2xl text-xl font-semibold data-[state=inactive]:hover:bg-muted'
+            >
+              UI Testing
             </TabsTrigger>
           </TabsList>
           <TabsContent value='blackbox' className='mt-8'>
@@ -229,6 +234,35 @@ export default function page() {
                   <Network size={44} className='text-sidebar-active relative z-10' />
                 </div>
                 <h1 className='font-bold text-2xl'>API Testing</h1>
+                <p className='text-foreground/70'>
+                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
+                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
+                  software, ensuring a seamless, bug-free experience.{' '}
+                </p>
+                <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
+                  Learn More <ArrowRight />
+                </Link>
+              </motion.div>
+            </div>
+          </TabsContent>
+          <TabsContent value='ui' className='mt-8'>
+            <div className='w-full flex flex-col lg:flex-row gap-8'>
+              <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
+                <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
+                <Image
+                  src={'/img/screenshot.jpg'}
+                  alt='blackbox'
+                  width={800}
+                  height={400}
+                  className='w-full h-full rounded-3xl'
+                />
+              </motion.div>
+              <motion.div className='basis-1/3 p-8 flex flex-col gap-4 bg-muted dark:bg-muted/30 rounded-3xl'>
+                <div className='w-20 h-20 rounded-full flex justify-center items-center bg-background relative shadow-xl overflow-hidden'>
+                  <div className='absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent rounded-full' />
+                  <Box size={44} className='text-sidebar-active relative z-10' />
+                </div>
+                <h1 className='font-bold text-2xl'>UI Testing</h1>
                 <p className='text-foreground/70'>
                   Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
                   use case input. Save time and improve accuracy by letting AI identify edge cases and validate your

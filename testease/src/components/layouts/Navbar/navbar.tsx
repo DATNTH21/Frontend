@@ -56,8 +56,8 @@ export default function Navbar() {
         <header className='w-full'>
           <nav className='container sticky top-0 h-16 flex flex-col justify-center'>
             <div className='flex justify-between items-center h-8'>
-              <Link href={'/'} className='flex items-center gap-2'>
-                <Image src={'/img/logo.png'} width={24} height={24} alt='logo' className='w-8 h-8' />
+              <Link href={'/'} className='flex items-center'>
+                <Image src={'/svg/logo.svg'} width={24} height={24} alt='logo' className='w-9 h-9' />
                 <p className='font-semibold text-2xl font-sans tracking-wider'>Testease</p>
               </Link>
               <div className='flex items-center gap-2'>
@@ -80,7 +80,7 @@ export default function Navbar() {
                       pathName === '/we-test' ? 'text-primary dark:text-sidebar-active font-bold' : ''
                     }`}
                   >
-                    We Test
+                    WeTest
                   </Button>
                 </Link>
                 <Link href='/contact'>
@@ -141,7 +141,7 @@ export default function Navbar() {
             </div>
           </nav>
         </header>
-        <Separator className='bg-gradient-to-r from-transparent dark:via-primary/80 via-foreground/80 to-transparent' />
+        <Separator className='' />
       </div>
 
       {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}

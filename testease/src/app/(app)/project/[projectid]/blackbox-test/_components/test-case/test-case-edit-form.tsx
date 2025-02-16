@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { TestCaseFormSchema, TestCaseSchema, TTestcase, TTestcaseForm } from '@/types/test-case';
+import { TestCaseFormSchema, TTestcaseForm } from '@/types/test-case';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobalStore } from '@/store/global-store';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';

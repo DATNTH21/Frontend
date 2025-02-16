@@ -14,8 +14,8 @@ export default function Footer() {
       <div className='lg:max-w-[80%] flex flex-col items-center gap-24'>
         <div className='flex flex-col lg:flex-row md:flex-row justify-between items-start gap-12'>
           <div className='basis-2/4 flex flex-col gap-6'>
-            <div className='flex items-center gap-2'>
-              <Image src={'/img/logo.png'} width={24} height={24} alt='logo' className='w-8 h-8' />
+            <div className='flex items-center'>
+              <Image src={'/svg/logo.svg'} width={24} height={24} alt='logo' className='w-9 h-9' />
               <p className='font-semibold text-2xl font-sans tracking-wider'>Testease</p>
             </div>
             <p className='text-foreground/50'>

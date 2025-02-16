@@ -1,13 +1,11 @@
 import { TCreateProjectSchema } from '@/app/(app)/all-project/_data/schemas';
 import { customFetch } from '@/lib/api-client';
 import {
-  CreateProjectDTO,
   CreateProjectResponse,
   DeleteProjectResponse,
   GetProjectByIdResponse,
   GetProjectByUserResponse,
   GetProjectOverviewStatistics,
-  UpdateProjectDTO,
   UpdateProjectResponse
 } from '@/types/project';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

@@ -23,7 +23,7 @@ export const deleteTestCase = async (testcaseId: string): Promise<DeleteTestCase
   return customFetch.delete<DeleteTestCaseResponse>(`/api/v1/testcases/${testcaseId}`);
 };
 
-export const updateTestCase = async (id: string, data: Object): Promise<UpdateTestCaseResponse> => {
+export const updateTestCase = async (id: string, data: object): Promise<UpdateTestCaseResponse> => {
   return customFetch.patch<UpdateTestCaseResponse>(`/api/v1/testcases/${id}`, data);
 };
 
@@ -102,7 +102,7 @@ export const useUpdateTestCase = ({
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ['update-test-case'],
-    mutationFn: ({ id, data }: { id: string; data: Object }) => updateTestCase(id, data),
+    mutationFn: ({ id, data }: { id: string; data: object }) => updateTestCase(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: testCaseQueryKey });
       onSuccess?.();

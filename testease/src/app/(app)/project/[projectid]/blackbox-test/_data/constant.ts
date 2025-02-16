@@ -1,5 +1,4 @@
-import { Spinner } from '@/components/ui/spinner';
-import { ArrowDown, ArrowRight, ArrowUp, CheckCircle, CircleOff, Minus, Timer } from 'lucide-react';
+import { ArrowDown, ArrowUp, CheckCircle, CircleOff, Minus, Timer } from 'lucide-react';
 
 export const testCaseStatuses = [
   {

@@ -15,355 +15,81 @@ import {
 import { DocSwitcher } from './doc-switcher';
 import { SearchForm } from './search-form';
 import { useGlobalStore } from '@/store/global-store';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-// This is sample data.
+// Menu tree
 const data = {
-  'Blackbox Test': [
+  'Testease Core': [
     {
-      title: 'Getting Started',
-      url: '#',
+      title: 'Blackbox testing',
+      url: '/testease-core/blackbox-testing',
       items: [
         {
-          title: 'Installation',
-          url: '#'
+          title: 'Create project',
+          url: '/testease-core/blackbox-testing/create-project'
         },
         {
-          title: 'Project Structure',
-          url: '#'
+          title: 'Generate test cases',
+          url: '/testease-core/blackbox-testing/generate-test-cases'
+        },
+        {
+          title: 'Test cases',
+          url: '/testease-core/blackbox-testing/test-cases'
+        },
+        {
+          title: 'Export test cases',
+          url: '/testease-core/blackbox-testing/export-test-cases'
         }
       ]
     },
     {
-      title: 'Building Your Application',
-      url: '#',
+      title: 'Configuration and management',
+      url: '/testease-core/configuration-and-management',
       items: [
         {
-          title: 'Routing',
-          url: '#'
+          title: 'Dashboard',
+          url: '/testease-core/configuration-and-management/dashboard'
         },
         {
-          title: 'Data Fetching',
-          url: '#'
+          title: 'Project setting',
+          url: '/testease-core/configuration-and-management/project-setting'
         },
         {
-          title: 'Rendering',
-          url: '#'
-        },
-        {
-          title: 'Caching',
-          url: '#'
-        },
-        {
-          title: 'Styling',
-          url: '#'
-        },
-        {
-          title: 'Optimizing',
-          url: '#'
-        },
-        {
-          title: 'Configuring',
-          url: '#'
-        },
-        {
-          title: 'Testing',
-          url: '#'
-        },
-        {
-          title: 'Authentication',
-          url: '#'
-        },
-        {
-          title: 'Deploying',
-          url: '#'
-        },
-        {
-          title: 'Upgrading',
-          url: '#'
-        },
-        {
-          title: 'Examples',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'Architecture',
-      url: '#',
-      items: [
-        {
-          title: 'Accessibility',
-          url: '#'
-        },
-        {
-          title: 'Fast Refresh',
-          url: '#'
-        },
-        {
-          title: 'Next.js Compiler',
-          url: '#'
-        },
-        {
-          title: 'Supported Browsers',
-          url: '#'
-        },
-        {
-          title: 'Turbopack',
-          url: '#'
+          title: 'User setting',
+          url: '/testease-core/configuration-and-management/user-setting'
         }
       ]
     }
   ],
-  'Unit Test': [
+  'WeTest Extension': [
     {
-      title: 'Getting Started',
-      url: '#',
+      title: 'Installation',
+      url: '/wetest-extension/getting-started/installation'
+    },
+    {
+      title: 'Features',
+      url: '/wetest-extension/features',
       items: [
+        { title: 'Unit testing', url: '/wetest-extension/unit-testing' },
         {
-          title: 'Installation',
-          url: '#'
+          title: 'API testing',
+          url: '/wetest-extension/api-testing'
         },
         {
-          title: 'Project Structure',
-          url: '#'
+          title: 'UI Testing',
+          url: '/wetest-extension/ui-testing'
         }
       ]
     },
     {
-      title: 'Building Your Application',
-      url: '#',
+      title: 'Configuration and helpers',
+      url: '/wetest-extension/configuration-and-helpers',
       items: [
+        { title: 'Configuration', url: '/wetest-extension/configuration-and-helpers/configuration' },
         {
-          title: 'Routing',
-          url: '#'
-        },
-        {
-          title: 'Data Fetching',
-          url: '#',
-          isActive: true
-        },
-        {
-          title: 'Rendering',
-          url: '#'
-        },
-        {
-          title: 'Caching',
-          url: '#'
-        },
-        {
-          title: 'Styling',
-          url: '#'
-        },
-        {
-          title: 'Optimizing',
-          url: '#'
-        },
-        {
-          title: 'Configuring',
-          url: '#'
-        },
-        {
-          title: 'Testing',
-          url: '#'
-        },
-        {
-          title: 'Authentication',
-          url: '#'
-        },
-        {
-          title: 'Deploying',
-          url: '#'
-        },
-        {
-          title: 'Upgrading',
-          url: '#'
-        },
-        {
-          title: 'Examples',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'API Reference',
-      url: '#',
-      items: [
-        {
-          title: 'Components',
-          url: '#'
-        },
-        {
-          title: 'File Conventions',
-          url: '#'
-        },
-        {
-          title: 'Functions',
-          url: '#'
-        },
-        {
-          title: 'next.config.js Options',
-          url: '#'
-        },
-        {
-          title: 'CLI',
-          url: '#'
-        },
-        {
-          title: 'Edge Runtime',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'Architecture',
-      url: '#',
-      items: [
-        {
-          title: 'Accessibility',
-          url: '#'
-        },
-        {
-          title: 'Fast Refresh',
-          url: '#'
-        },
-        {
-          title: 'Next.js Compiler',
-          url: '#'
-        },
-        {
-          title: 'Supported Browsers',
-          url: '#'
-        },
-        {
-          title: 'Turbopack',
-          url: '#'
-        }
-      ]
-    }
-  ],
-  'API Test': [
-    {
-      title: 'Getting Started',
-      url: '#',
-      items: [
-        {
-          title: 'Installation',
-          url: '#'
-        },
-        {
-          title: 'Project Structure',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'Building Your Application',
-      url: '#',
-      items: [
-        {
-          title: 'Routing',
-          url: '#'
-        },
-        {
-          title: 'Data Fetching',
-          url: '#',
-          isActive: true
-        },
-        {
-          title: 'Rendering',
-          url: '#'
-        },
-        {
-          title: 'Caching',
-          url: '#'
-        },
-        {
-          title: 'Styling',
-          url: '#'
-        },
-        {
-          title: 'Optimizing',
-          url: '#'
-        },
-        {
-          title: 'Configuring',
-          url: '#'
-        },
-        {
-          title: 'Testing',
-          url: '#'
-        },
-        {
-          title: 'Authentication',
-          url: '#'
-        },
-        {
-          title: 'Deploying',
-          url: '#'
-        },
-        {
-          title: 'Upgrading',
-          url: '#'
-        },
-        {
-          title: 'Examples',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'API Reference',
-      url: '#',
-      items: [
-        {
-          title: 'Components',
-          url: '#'
-        },
-        {
-          title: 'File Conventions',
-          url: '#'
-        },
-        {
-          title: 'Functions',
-          url: '#'
-        },
-        {
-          title: 'next.config.js Options',
-          url: '#'
-        },
-        {
-          title: 'CLI',
-          url: '#'
-        },
-        {
-          title: 'Edge Runtime',
-          url: '#'
-        }
-      ]
-    },
-    {
-      title: 'Architecture',
-      url: '#',
-      items: [
-        {
-          title: 'Accessibility',
-          url: '#'
-        },
-        {
-          title: 'Fast Refresh',
-          url: '#'
-        },
-        {
-          title: 'Next.js Compiler',
-          url: '#'
-        },
-        {
-          title: 'Supported Browsers',
-          url: '#'
-        },
-        {
-          title: 'Turbopack',
-          url: '#'
+          title: 'Helpers',
+          url: '/wetest-extension/configuration-and-helpers/helpers'
         }
       ]
     }
@@ -372,23 +98,36 @@ const data = {
 
 export function DocSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { selectedFeature } = useGlobalStore();
+  const pathName = usePathname();
+  //const urlRoot = `/doc/${selectedFeature.slug}`;
   return (
-    <Sidebar {...props} className='sticky h-[calc(100vh-121px)] bg-background border-none'>
+    <Sidebar {...props} className='sticky bg-background border-none'>
       <SidebarHeader className='bg-background'>
         <DocSwitcher />
         <SearchForm />
       </SidebarHeader>
       <SidebarContent className='bg-background'>
-        {/* We create a SidebarGroup for each parent. */}
-        {data[selectedFeature as keyof typeof data]?.map((item) => (
+        {data[selectedFeature.name as keyof typeof data]?.map((item) => (
           <SidebarGroup key={item.title}>
-            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+            <SidebarGroupLabel>
+              <Link
+                href={`/doc/${item.url}`}
+                className={`${pathName == item.url && 'text-sidebar-active'} text-sm text-foreground`}
+              >
+                {item.title}
+              </Link>
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
+                {item.items?.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a href={item.url}>{item.title}</a>
+                      <Link
+                        href={`/doc/${item.url}`}
+                        className={`${pathName == item.url && 'text-sidebar-active'} text-[#A1A1A1]`}
+                      >
+                        {item.title}
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

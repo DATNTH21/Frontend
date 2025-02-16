@@ -1,6 +1,6 @@
 'use client';
-import { getUser } from '@/api/auth/auth';
-import Sidebar from '@/components/layouts/sidebar';
+// import { getUser } from '@/api/auth/auth';
+// import Sidebar from '@/components/layouts/sidebar';
 
 const SettingPage = () => {
   // const response = await getUser();

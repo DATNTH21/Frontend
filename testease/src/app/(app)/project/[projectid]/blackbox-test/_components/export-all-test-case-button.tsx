@@ -53,6 +53,7 @@ export default function ExportAllTestCaseButton() {
         title: 'Test Cases downloaded'
       });
     } catch (error) {
+      console.log(error);
       toast({
         variant: 'destructive',
         title: 'Fail To Export Test Case',

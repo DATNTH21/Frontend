@@ -61,8 +61,7 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
   const {
     handleSubmit,
     control,
-    formState: { errors, isSubmitting },
-    reset
+    formState: { errors, isSubmitting }
   } = useForm<TUsecaseUpload>({ resolver: zodResolver(UseCaseUploadSchema) });
   const submit = async (data: TUsecaseUpload) => {
     try {
@@ -98,7 +97,7 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
 
   const handleCreateUseCase = () => {
     const content = editorRef.current?.getText();
-    const usecases = content!!
+    const usecases = content!
       .split(SPLIT_STRING)
       .slice(1, -1)
       .filter((usecase) => usecase.trim().length > 200); //filter out too short use cases (probably incorrect use cases)

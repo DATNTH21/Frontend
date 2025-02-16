@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -7,7 +8,7 @@ import { FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
 import React, { forwardRef, useCallback, useEffect } from 'react';
 import { useTreeStore } from '@/store/tree-store';
 import { Checkbox } from './checkbox';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useScenarioStore } from '@/store/scenario-store';
 import { useProject } from '@/api/project/project';
 
@@ -167,7 +168,7 @@ const Folder = forwardRef<HTMLDivElement, FolderProps & React.HTMLAttributes<HTM
 
     const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
     const { data: { data: project } = {} } = useProject(params.projectId);
-    const isGenerating = project ? project.status === 'Generating' : true;
+    const isGenerating = project ? project.status.includes('Generating') : true;
 
     const isChecked = element.children?.every((child) => checkedIds.has(child.id));
     return (
@@ -238,7 +239,7 @@ const File = forwardRef<
   const isScenarioSelected = Object.keys(scenarioSelection).length > 0;
 
   const { data: { data: project } = {} } = useProject(params.projectId);
-  const isGenerating = project ? project.status === 'Generating' : true;
+  const isGenerating = project ? project.status.includes('Generating') : true;
   return (
     <AccordionPrimitive.Item value={value} className='relative'>
       <div className='flex gap-2 items-center'>

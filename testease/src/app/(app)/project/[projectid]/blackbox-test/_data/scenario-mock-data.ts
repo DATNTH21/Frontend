@@ -1,5 +1,3 @@
-import { TScenario } from '@/types/scenario';
-
 export const scenarioMockData = [
   {
     _id: 'SC-1001',

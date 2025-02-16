@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpenCheck, Box, Network, Plus, Puzzle } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Network, Plus, Puzzle } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';

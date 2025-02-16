@@ -18,8 +18,6 @@ import {
 } from '@tanstack/react-table';
 import { DataTableToolbar } from './data-table-toolbar';
 import { DataTablePagination } from './data-table-pagination';
-import { useRouter } from 'next/navigation';
-import { paths } from '@/lib/routes';
 import { Sheet } from '@/components/ui/sheet';
 import BugReportDetails from './bug-report-details';
 import TestReportDetails from './test-report-details';

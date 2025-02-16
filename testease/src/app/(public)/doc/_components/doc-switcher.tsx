@@ -10,11 +10,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { useGlobalStore } from '@/store/global-store';
-import { useRouter } from 'next/navigation';
 
 export function DocSwitcher() {
   const { features, selectedFeature, setFeature } = useGlobalStore();
-  const router = useRouter();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -27,21 +25,20 @@ export function DocSwitcher() {
               <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
                 <GalleryVerticalEnd className='size-4' />
               </div>
-              <span className='font-semibold'>{selectedFeature}</span>
+              <span className='font-semibold'>{selectedFeature.name}</span>
               <ChevronsUpDown className='ml-auto' />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='w-[--radix-dropdown-menu-trigger-width]' align='start'>
             {features.map((feature) => (
               <DropdownMenuItem
-                key={feature}
+                key={feature.name}
                 className='cursor-pointer'
                 onSelect={() => {
                   setFeature(feature);
-                  router.push(`/${feature}`);
                 }}
               >
-                {feature} {feature === selectedFeature && <Check className='ml-auto' />}
+                {feature.name} {feature === selectedFeature && <Check className='ml-auto' />}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

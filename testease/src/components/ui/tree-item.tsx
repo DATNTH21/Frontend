@@ -26,7 +26,7 @@ export const TreeItem = ({ elements, searchValue }: TreeItemProps) => {
                 value={element.id}
                 isSelectable={element.isSelectable}
                 element={element}
-                className={'px-1 flex-1 min-w-0'}
+                className={'px-1 flex-1 min-w-0 max-w-lg'}
               >
                 <span className='ml-1 truncate'>{element.name}</span>
               </File>

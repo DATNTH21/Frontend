@@ -1,13 +1,12 @@
 'use client';
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
-import { Path, useFieldArray, useForm } from 'react-hook-form';
-import { TestCaseFormSchema, TestCaseSchema, TTestcase, TTestcaseForm } from '@/types/test-case';
+import { useEffect } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { TestCaseFormSchema, TTestcaseForm } from '@/types/test-case';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobalStore } from '@/store/global-store';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import {
   AlertDialog,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -18,16 +17,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { PlusCircle, Trash2 } from 'lucide-react';
 import { Asterisk, X } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useUpdateTestCase } from '@/api/testcase/testcase';
 import { toast } from '@/hooks/use-toast';
+import { useUserConfig } from '@/api/user-config/user-config';
 
 export default function TestCaseEditForm() {
   const { editTestCase, closeEditTestCaseDialog, isEditTestCaseOpen } = useGlobalStore();
+  const userConfig = useUserConfig().data?.data;
+  const priorities = userConfig?.priority.map((priority) => priority.name) || ['Low', 'Medium', 'High', 'Critical'];
+  const statuses = userConfig?.status.map((status) => status.name) || ['Done', 'Fail', 'In Progress'];
   console.log('Edit Test Case: ', editTestCase);
+  console.log('User config: ', userConfig);
+  console.log('priorities: ', priorities);
+  console.log('statuses: ', statuses);
 
   const form = useForm<TTestcaseForm>({
     resolver: zodResolver(TestCaseFormSchema),
@@ -36,14 +41,17 @@ export default function TestCaseEditForm() {
       test_case_id: editTestCase?.test_case_id || '',
       name: editTestCase?.name || '',
       objective: editTestCase?.objective || '',
+      pre_condition: editTestCase?.pre_condition,
       expected_result: editTestCase?.expected_result || '',
-      status: editTestCase?.status || '',
-      // priority: editTestCase?.priority || 'Medium',
+      status: editTestCase?.status,
+      priority: editTestCase?.priority,
       steps:
         editTestCase?.steps?.map((step, index) => ({
           id: `${index}-${Date.now()}`,
           value: step
-        })) || []
+        })) || [],
+      tester: editTestCase?.tester || undefined,
+      test_date: editTestCase?.test_date || undefined
     }
   });
 
@@ -54,14 +62,17 @@ export default function TestCaseEditForm() {
         test_case_id: editTestCase.test_case_id,
         name: editTestCase.name,
         objective: editTestCase.objective,
+        pre_condition: editTestCase.pre_condition,
         expected_result: editTestCase.expected_result,
         status: editTestCase.status,
-        // priority: editTestCase.priority,
+        priority: editTestCase.priority,
         steps:
           editTestCase.steps?.map((step, index) => ({
             id: `${index}-${Date.now()}`,
             value: step
-          })) || []
+          })) || [],
+        tester: editTestCase.tester,
+        test_date: editTestCase.test_date
       });
     }
   }, [editTestCase, form.reset]);
@@ -92,6 +103,7 @@ export default function TestCaseEditForm() {
       ...data,
       steps: data.steps.map((step) => step.value)
     };
+    console.log('Transformed Data: ', transformedData);
 
     updateTestCaseMutation.mutate({ id: transformedData._id, data: transformedData });
     closeEditTestCaseDialog();
@@ -149,6 +161,20 @@ export default function TestCaseEditForm() {
                         </FormLabel>
                         <FormControl>
                           <Textarea placeholder='Enter test case objective' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name='pre_condition'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className='flex items-center'>Precondition</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder='Enter preconditions' {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -241,9 +267,11 @@ export default function TestCaseEditForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value='In Progress'>In Progress</SelectItem>
-                          <SelectItem value='Passed'>Passed</SelectItem>
-                          <SelectItem value='Failed'>Failed</SelectItem>
+                          {statuses.map((status, index) => (
+                            <SelectItem key={index} value={status}>
+                              {status}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -265,11 +293,43 @@ export default function TestCaseEditForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value='Low'>Low</SelectItem>
-                          <SelectItem value='Medium'>Medium</SelectItem>
-                          <SelectItem value='High'>High</SelectItem>
+                          {priorities.map((priority, index) => (
+                            <SelectItem key={index} value={priority}>
+                              {priority}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Tester */}
+                <FormField
+                  control={form.control}
+                  name='tester'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center'>Tester</FormLabel>
+                      <FormControl>
+                        <Input placeholder='Enter tester name' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Remarks */}
+                <FormField
+                  control={form.control}
+                  name='remarks'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='flex items-center'>Remarks</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder='Enter remarks' {...field} />
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

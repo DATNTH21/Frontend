@@ -23,7 +23,7 @@ export default function DeleteReportDialog({
   //Add field id as additional argument to server action
   const handleDelete = () => {
     //deleteBugReport.bind(null, field._id);
-    console.log("delete ", report._id);
+    console.log('delete ', report._id);
     setIsOpen(false);
   };
   return (

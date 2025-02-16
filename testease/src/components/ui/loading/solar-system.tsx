@@ -1,4 +1,4 @@
-import styles from "./loading.module.css";
+import styles from './loading.module.css';
 
 export const SolarSystem = () => (
   <div className={styles.spinnerBox}>

@@ -2,21 +2,14 @@
 
 import { ChangeEvent, useState } from 'react';
 import { Table } from '@tanstack/react-table';
-import { X } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
-
-import { testCasePriorities, testCaseStatuses } from '../../_data/constant';
-import { DataTableFacetedFilter } from './data-table-faceted-filter';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
 
 export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0;
   const [value, setValue] = useState('');
 
   const handleChangeInputFilter = (event: ChangeEvent<HTMLInputElement>) => {

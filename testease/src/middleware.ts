@@ -36,7 +36,8 @@ export async function middleware(request: NextRequest) {
   }
 
   // If the user is not logged in, only allow access to login and sign-up
-  if (!session && !['/login', '/signup'].includes(pathname)) {
+  const protectedRoutes = ['/all-project', '/project', '/setting'];
+  if (!session && protectedRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.redirect(new URL('/login', url));
   }
 

@@ -23,6 +23,10 @@ import { useScenarioStore } from '@/store/scenario-store';
 import { useScenariosOfUC } from '@/api/scenario/scenario';
 import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/hooks/use-toast';
+import { useTestCasesOfUseCase } from '@/api/testcase/testcase';
+import { useUserConfig } from '@/api/user-config/user-config';
+import wretch from 'wretch';
+import { saveAs } from 'file-saver';
 
 interface DataTableProps<TScenario, TValue> {
   columns: ColumnDef<TScenario, TValue>[];
@@ -30,13 +34,16 @@ interface DataTableProps<TScenario, TValue> {
 
 export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableProps<TScenario, TValue>) {
   const router = useRouter();
-  const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
+  const params = useParams<{ projectId: string; useCaseId: string }>();
 
   // Use tanstack query to get scenarios data of current use case:
   const { scenarioSelection, setScenarioSelection } = useScenarioStore();
   const rowSelection = scenarioSelection[params.useCaseId] || {};
   const { data: scenariosResponse, status } = useScenariosOfUC(params.useCaseId);
+  const { data: testCaseOfUseCaseResponse } = useTestCasesOfUseCase(params.useCaseId);
   const scenarios = scenariosResponse?.data;
+  const exportTemplate = useUserConfig().data?.data?.testCaseExportTemplate || [];
+  const testCases = testCaseOfUseCaseResponse?.data;
 
   const data = useMemo(
     () =>
@@ -81,51 +88,45 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
     }
   });
 
-  const handleExportTestCase = () => {
-    // scenarioSelection object:
-    // {
-    //   "UC-2": {
-    //       "SC-20": true,
-    //       "SC-21": true
-    //   }
-    // }
-    console.log('scenarioSelection: ', scenarioSelection);
-
-    if (!scenarioSelection[params.useCaseId]) {
+  const handleExportTestCase = async () => {
+    if (testCases == null || testCases?.length == 0 || !testCases) {
       toast({
         variant: 'destructive',
         title: 'Fail To Export Test Case',
-        description: 'Select at least 1 scenario of this use case for exporting test case'
+        description: 'No test case available for this use case'
       });
     }
 
-    // if (testCaseStatus == 'pending') {
-    //   toast({
-    //     variant: 'default',
-    //     title: 'Fail To Export Test Case',
-    //     description: 'Fetching test cases in progress, comeback later'
-    //   });
-    // }
+    if (!exportTemplate || exportTemplate.length == 0) {
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'No export template. Please config the template in the setting'
+      });
+      return;
+    }
 
-    // if (testCaseStatus == 'error') {
-    //   toast({
-    //     variant: 'default',
-    //     title: 'Fail To Export Test Case',
-    //     description: 'Error getting test cases of this use case'
-    //   });
-    // }
+    try {
+      const response = await wretch('/api/export-test-cases')
+        .headers({
+          Accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        .post({ testCases: testCases, template: exportTemplate });
 
-    // if (
-    //   allTestCasesOfScenarioResponse?.data == null ||
-    //   allTestCasesOfScenarioResponse?.data.length == 0 ||
-    //   !allTestCasesOfScenarioResponse?.data
-    // ) {
-    //   toast({
-    //     variant: 'destructive',
-    //     title: 'Fail To Export Test Case',
-    //     description: 'No test case available for this use case'
-    //   });
-    // }
+      const blob = await response.blob();
+      saveAs(blob, 'Test_Cases.xlsx');
+      toast({
+        variant: 'success',
+        title: 'Test Cases downloaded'
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'destructive',
+        title: 'Fail To Export Test Case',
+        description: 'Something is wrong'
+      });
+    }
   };
 
   return (

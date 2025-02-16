@@ -14,8 +14,6 @@ import { Dispatch, SetStateAction } from 'react';
 import { TestCaseConfigOption } from '@/types/user-config';
 
 export default function DeleteFieldDialog({
-  fields,
-  fieldKey,
   setIsOpen
 }: {
   fields: TestCaseConfigOption[];

@@ -9,20 +9,10 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
-import { testCaseStatuses, testCasePriorities } from '../../_data/constant';
-
 import { TestCaseSchema } from '@/types/test-case';
-import { useGlobalStore } from '@/store/global-store';
 import { useState } from 'react';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import DeleteTestCaseDialog from './delete-testcase-dialog';

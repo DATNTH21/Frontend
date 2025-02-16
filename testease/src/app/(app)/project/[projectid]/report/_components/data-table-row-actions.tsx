@@ -29,7 +29,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
   return (
     <>
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        {report.type == "Bug Report" ? (
+        {report.type == 'Bug Report' ? (
           <EditBugReportDialog report={report} setIsOpen={setIsEditOpen} />
         ) : (
           <EditTestReportDialog report={report} setIsOpen={setIsEditOpen} />

@@ -30,6 +30,7 @@ export default async function SidebarHeaderServer({ projectId }: { projectId?: s
         redirect('/all-project');
       }
     } catch (error) {
+      console.log(error);
       redirect('/all-project');
     }
   }

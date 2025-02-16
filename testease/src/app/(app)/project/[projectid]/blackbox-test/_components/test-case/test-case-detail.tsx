@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { SheetClose, SheetContent, SheetFooter, SheetTitle } from '@/components/ui/sheet';
+import { SheetClose, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { useGlobalStore } from '@/store/global-store';
 import { TTestcase } from '@/types/test-case';
 import { Edit, X } from 'lucide-react';
@@ -37,7 +37,7 @@ export default function TestCaseDetail({ setOpen, testCaseId, testCases }: TestC
               variant='ghost'
               onClick={() => {
                 setOpen(false);
-                testCaseId && openEditTestCaseDialog(testCase!!);
+                if (testCaseId) openEditTestCaseDialog(testCase!);
               }}
             >
               <Edit /> Edit

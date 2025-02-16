@@ -15,6 +15,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { TCreateTestcases } from '../_data/schema';
 import { useCreateTestcases } from '@/api/testcase/testcase';
 
+const LoadingButton = ({ message }: { message: string }) => (
+  <Button className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors hover:scale-105' disabled>
+    <Spinner variant='light' /> {message}
+  </Button>
+);
+
 export default function GenerateTestCaseButton() {
   const { scenarioSelection } = useScenarioStore();
   const { checkedIds } = useTreeStore();
@@ -25,7 +31,8 @@ export default function GenerateTestCaseButton() {
   const params = useParams<{ projectId: string; useCaseId: string; scenarioId: string }>();
 
   const { data: { data: project } = {} } = useProject(params.projectId);
-  const isGenerating = project ? project.status === 'Generating' : true;
+  const isGeneratingScenarios = project ? project.status === 'Generating scenarios' : true;
+  const isGeneratingTests = project ? project.status === 'Generating test cases' : true;
 
   // const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -38,12 +45,31 @@ export default function GenerateTestCaseButton() {
       queryClient.invalidateQueries({ queryKey: ['project'] });
       queryClient.invalidateQueries({ queryKey: ['scenario'] });
     });
+    socket.on('scenario-failed', (data) => {
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
+      toast({
+        variant: 'destructive',
+        title: 'Generate scenarios failed',
+        description: data.message
+      });
+    });
 
     socket.on('test-cases-generated', (data) => {
       console.log('Received testcases:', data);
       queryClient.invalidateQueries({ queryKey: ['project'] });
       queryClient.invalidateQueries({ queryKey: ['testcase'] });
       queryClient.invalidateQueries({ queryKey: ['scenario'] });
+    });
+    socket.on('test-cases-failed', (data) => {
+      queryClient.invalidateQueries({ queryKey: ['project'] });
+      queryClient.invalidateQueries({ queryKey: ['testcase'] });
+      queryClient.invalidateQueries({ queryKey: ['scenario'] });
+      toast({
+        variant: 'destructive',
+        title: 'Generate test cases failed',
+        description: data.message
+      });
     });
   }, []);
 
@@ -100,16 +126,24 @@ export default function GenerateTestCaseButton() {
     }
   }
 
-  if (isGenerating) {
-    return (
-      <Button className='' variant='destructive' disabled>
-        <Spinner variant='light' /> Generating {isScenarioSelected ? 'Test Case' : isUCSelected ? 'Scenario' : ''} ...
-      </Button>
-    );
+  const getLoadingState = () => {
+    if (!project?.status) return 'Generating...';
+    if (isGeneratingScenarios) return 'Generating scenarios...';
+    if (isGeneratingTests) return 'Generating test cases...';
+    return null;
+  };
+
+  const loadingMessage = getLoadingState();
+  if (loadingMessage) {
+    return <LoadingButton message={loadingMessage} />;
   }
 
   return (
-    <Button className='' variant='destructive' onClick={handleClick} disabled={!isUCSelected && !isScenarioSelected}>
+    <Button
+      className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors hover:scale-105'
+      onClick={handleClick}
+      disabled={!isUCSelected && !isScenarioSelected}
+    >
       <Sparkles /> {isScenarioSelected ? 'Generate Test Case' : 'Generate Scenario'}
     </Button>
   );

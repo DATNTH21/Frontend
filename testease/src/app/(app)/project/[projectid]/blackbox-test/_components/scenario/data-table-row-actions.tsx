@@ -7,9 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { DropdownMenuSeparator } from '@radix-ui/react-dropdown-menu';
 import { Row } from '@tanstack/react-table';
-import { useParams, useRouter } from 'next/navigation';
 import { ScenarioSchema } from '@/types/scenario';
 import { AlertDialog } from '@/components/ui/alert-dialog';
 import DeleteScenarioDialog from './delete-scenario-dialog';
@@ -20,8 +18,6 @@ interface DataTableRowActionsProps<TData> {
 }
 
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
-  const router = useRouter();
-  const params = useParams<{ projectId: string; useCaseId: string }>();
   const scenario = ScenarioSchema.parse(row.original);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 

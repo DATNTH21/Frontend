@@ -1,4 +1,4 @@
-import { TCreateScenarios } from '@/app/(app)/project/[projectId_temp]/blackbox-test/_data/schema';
+import { TCreateScenarios } from '@/app/(app)/project/[projectId]/blackbox-test/_data/schema';
 import { customFetch } from '@/lib/api-client';
 import { DeleteScenarioResponse, GetAllScenariosOfUCResponse } from '@/types/scenario';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

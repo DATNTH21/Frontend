@@ -1,4 +1,4 @@
-import { TCreateUseCases } from '@/app/(app)/project/[projectId_temp]/blackbox-test/_data/schema';
+import { TCreateUseCases } from '@/app/(app)/project/[projectId]/blackbox-test/_data/schema';
 import { customFetch } from '@/lib/api-client';
 import { GetAllUsecasesResponse } from '@/types/use-case';
 import { useMutation, useQuery } from '@tanstack/react-query';

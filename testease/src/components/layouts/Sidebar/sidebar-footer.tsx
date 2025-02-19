@@ -80,9 +80,9 @@ export default function AppSidebarFooter() {
                     <PanelTop />
                     Landing page
                   </DropdownMenuItem>
-                  <DropdownMenuItem className='cursor-pointer'>
+                  <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/setting')}>
                     <Settings />
-                    Setting
+                    Profile
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

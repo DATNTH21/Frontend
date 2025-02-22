@@ -4,7 +4,6 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import UseCaseTree from './use-case-tree';
 import UseCaseMainContent from './use-case-main-content';
 import { useUsecases } from '@/api/use-case/use-case';
-import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function UseCaseArea({ projectId }: { projectId: string }) {

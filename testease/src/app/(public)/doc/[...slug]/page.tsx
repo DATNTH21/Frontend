@@ -6,6 +6,7 @@ const getDynamicImport = (slugPath: string) => {
   try {
     return dynamic(() => import(`@/app/(public)/doc/_doc/${slugPath}`));
   } catch (error) {
+    console.log(error);
     return null;
   }
 };

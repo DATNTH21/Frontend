@@ -1,8 +1,6 @@
 'use client';
 import Navbar from '@/components/layouts/Navbar/navbar';
-import { Spinner } from '@/components/ui/spinner';
 import Image from 'next/image';
-import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 const AuthLayout = ({
   children

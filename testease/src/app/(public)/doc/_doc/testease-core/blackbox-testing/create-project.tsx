@@ -1,31 +1,8 @@
 import { Separator } from '@/components/ui/separator';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TableOfContents } from '../../../_components/table-of-content';
 import Image from 'next/image';
 
 export default function CreateProject() {
-  const featureTableData = [
-    {
-      feature: 'Blackbox testing',
-      description:
-        'Testease most powerful feature. Blackbox testing supports users with up-to-date AI models power to auto generate test cases from your use cases'
-    },
-    {
-      feature: 'Unit testing',
-      description:
-        'A feature from WeTest (Testease vscode extension) which helps developers auto generate test cases from your code with the power of AI'
-    },
-    {
-      feature: 'API testing',
-      description:
-        'Testease most powerful feature. Blackbox testing supports users with up-to-date AI models power to auto generate test cases from your use cases'
-    },
-    {
-      feature: 'UI testing',
-      description:
-        'Testease most powerful feature. Blackbox testing supports users with up-to-date AI models power to auto generate test cases from your use cases'
-    }
-  ];
   return (
     <div className='flex flex-row'>
       <nav className='hidden lg:block order-last sticky top-28 h-[calc(100vh-112px)] w-56 shrink-0'>

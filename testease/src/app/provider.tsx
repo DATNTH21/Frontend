@@ -9,6 +9,7 @@ import { ThemeProvider as NextThemesProvider } from 'next-themes';
 import { getQueryClient } from '@/lib/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { LoadingProvider } from '@/context/loading-context';
 
 const ThemeProvider = ({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) => {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
@@ -22,7 +23,7 @@ export const AppProvider = ({ children, session }: { children: React.ReactNode; 
         <SessionProvider session={session}>
           <ReactQueryDevtools />
           <ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
-            {children}
+            <LoadingProvider>{children}</LoadingProvider>
           </ThemeProvider>
         </SessionProvider>
       </QueryClientProvider>

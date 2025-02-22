@@ -15,7 +15,7 @@ export default async function Layout({
   const projectId = (await params).projectId;
 
   return (
-    <div className='flex-1 flex flex-col bg-background'>
+    <>
       {/* Header */}
       <div className='sticky top-0 z-10 flex justify-between items-center p-4 border-b bg-background'>
         <h2 className='text-2xl font-bold tracking-tight'>Black Box Testing</h2>
@@ -27,6 +27,6 @@ export default async function Layout({
         <UseCaseArea projectId={projectId} />
         {children}
       </div>
-    </div>
+    </>
   );
 }

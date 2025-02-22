@@ -109,6 +109,19 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
           <h1 className='text-sidebar-active font-bold'>Use Case Description: </h1>
           <p>{data.description}</p>
         </div>
+
+        <div className='flex items-center gap-2 mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case ID: </h1>
+          <p>{data.use_case_id}</p>
+        </div>
+        <div className='flex items-center gap-2 mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case Name: </h1>
+          <p>{data.name}</p>
+        </div>
+        <div className='mb-3'>
+          <h1 className='text-sidebar-active font-bold'>Use Case Description: </h1>
+          <p>{data.description}</p>
+        </div>
       </TabsContent>
 
       <TabsContent value='Scenario' className='p-4'>

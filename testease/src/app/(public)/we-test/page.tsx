@@ -1,13 +1,58 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpenCheck, Network, Plus, Puzzle } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Network, PauseIcon, PlayIcon, Plus, Puzzle } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useEffect, useRef, useState } from 'react';
+import { Progress } from '@/components/ui/progress';
 
 export default function page() {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play(); // Auto-play on page load
+      setIsPlaying(true);
+
+      // Update progress bar
+      const updateProgress = () => {
+        if (videoRef.current) {
+          const percent = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+          setProgress(percent);
+        }
+      };
+
+      videoRef.current.addEventListener('timeupdate', updateProgress);
+      return () => videoRef.current?.removeEventListener('timeupdate', updateProgress);
+    }
+  }, []);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (videoRef.current) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const newTime = (clickX / rect.width) * videoRef.current.duration;
+      videoRef.current.currentTime = newTime;
+    }
+  };
+
   return (
     <div className='flex flex-col gap-36 min-h-[100vh] overflow-hidden relative'>
       <div className='absolute h-screen w-full top-0 left-0 right-0 z-[-1]'></div>
@@ -41,12 +86,14 @@ export default function page() {
             A Testease Visual Studio Code Extension
           </motion.div>
           <div className='flex items-center justify-center gap-4 mt-6'>
-            <Button
-              className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
-              size='lg'
-            >
-              Go to marketplace
-            </Button>
+            <Link href='https://marketplace.visualstudio.com/items?itemName=WeTest.WeTest'>
+              <Button
+                className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
+                size='lg'
+              >
+                Go to marketplace
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </section>
@@ -56,16 +103,13 @@ export default function page() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           viewport={{ once: true, amount: 0.2 }}
-          whileHover={{ rotateX: 10 }}
-          className='p-4 border rounded-2xl w-full bg-background cursor-pointer'
+          className='w-full bg-background cursor-pointer relative'
         >
-          <Image
-            src={'/img/screenshot.jpg'}
-            alt='screenshot'
-            width={1200}
-            height={561}
-            className='w-full aspect-auto rounded-lg border-none'
-          ></Image>
+          <video ref={videoRef} className='w-full h-full rounded-t-2xl' src='/vid/WeTestGuide.mp4' loop muted />
+          <Button size='icon' variant='ghost' className='absolute top-1/2 left-1/2' onClick={togglePlay} asChild>
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          </Button>
+          <Progress className='w-full' value={progress} onClick={handleSeek}></Progress>
         </motion.div>
       </section>
 

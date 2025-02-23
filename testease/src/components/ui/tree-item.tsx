@@ -6,6 +6,7 @@ type TreeItemProps = {
 };
 
 export const TreeItem = ({ elements, searchValue }: TreeItemProps) => {
+  console.log('Elements: ', elements);
   return (
     <ul className='w-full space-y-1'>
       {elements.map((element) => (

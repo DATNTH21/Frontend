@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import UseCaseArea from '../_components/use-case-area';
 import FeatureButtonsList from '../_components/feature-buttons-list';
 

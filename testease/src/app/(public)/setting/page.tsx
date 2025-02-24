@@ -41,15 +41,19 @@ const SettingPage = () => {
       <div className='max-w-[800px] w-full'>
         {user && (
           <div className='grid grid-cols-2 gap-8'>
-            <div className='flex flex-col items-center space-y-4'>
-              <Avatar className='h-64 w-64 rounded-full mt-24 m-auto'>
+            <div className='flex flex-grow items-center justify-center space-y-4'>
+              <Avatar className='h-64 w-64 rounded-full m-auto'>
                 <AvatarImage src={user.image} alt={user.name} className='h-48 w-48 rounded-full' />
                 <AvatarFallback className='rounded-full bg-primary text-primary-foreground text-[100px] p-10'>
                   PH
                 </AvatarFallback>
               </Avatar>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} className='w-full h-screen'>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className='w-full min-h-screen flex flex-col items-center'
+              style={{ paddingTop: 'calc(50vh - 250px)' }}
+            >
               <Tabs defaultValue='user' className='p-4 w-full mb-10'>
                 <div className='w-full border-b relative'>
                   <TabsList className='relative p-0 flex h-fit w-fit'>

@@ -27,6 +27,7 @@ export default function ExportAllTestCaseButton() {
         title: 'Fail To Export Test Case',
         description: 'No test case found'
       });
+      setExporting(false);
       return;
     }
 
@@ -36,6 +37,7 @@ export default function ExportAllTestCaseButton() {
         title: 'Fail To Export Test Case',
         description: 'No export template. Please config the template in the setting'
       });
+      setExporting(false);
       return;
     }
 
@@ -59,6 +61,7 @@ export default function ExportAllTestCaseButton() {
         title: 'Fail To Export Test Case',
         description: 'Something went wrong'
       });
+      setExporting(false);
     } finally {
       setExporting(false);
     }

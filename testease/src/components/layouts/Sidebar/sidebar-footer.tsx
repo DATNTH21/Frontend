@@ -102,7 +102,6 @@ export default function AppSidebarFooter() {
       ) : (
         <SidebarFooterSkeleton />
       )}
-      {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
     </>
   );
 }

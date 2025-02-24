@@ -45,27 +45,15 @@ export const forgotPasswordSchema = z
 
 export const profileSchema = z
   .object({
-    email: z.string().email(),
-    name: z.string(),
-    password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
-    oldPassword: z.string().min(6, { message: 'Old password must be at least 6 characters.' }),
-    newPassword: z.string().min(6, { message: 'New password must be at least 6 characters.' }),
-    confirmPassword: z.string().min(6, { message: 'Confirm password must be at least 6 characters.' }),
-    image: z.string()
+    name: z.string().optional(),
+    oldPassword: z.string().optional(),
+    newPassword: z.string().optional(),
+    confirmPassword: z.string().optional(),
+    image: z.string().optional()
   })
-  .refine((data) => {
-    (
-      data.password === data.oldPassword, {
-        message: "Old passwords don't match",
-        path: ['oldPassword']
-      }
-    ),
-    (
-      data.newPassword === data.confirmPassword, {
-        message: "Passwords don't match",
-        path: ['confirmPassword']
-      }
-    )
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword']
   });
 
 export type TProfileSchema = z.infer<typeof profileSchema>;

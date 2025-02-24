@@ -82,7 +82,7 @@ export default function page() {
           className='p-4 border rounded-2xl w-full bg-background cursor-pointer'
         >
           <Image
-            src={'/img/screenshot.jpg'}
+            src={'/img/screenshot.png'}
             alt='screenshot'
             width={1200}
             height={561}
@@ -163,7 +163,7 @@ export default function page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='blackbox'
                   width={800}
                   height={400}
@@ -192,7 +192,7 @@ export default function page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <motion.div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='blackbox'
                   width={800}
                   height={400}
@@ -221,7 +221,7 @@ export default function page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='blackbox'
                   width={800}
                   height={400}
@@ -250,7 +250,7 @@ export default function page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='blackbox'
                   width={800}
                   height={400}

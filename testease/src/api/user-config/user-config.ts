@@ -6,6 +6,7 @@ import {
   UserConfigOptionResponse
 } from '@/types/user-config';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AnyAaaaRecord } from 'dns';
 
 export const getUserConfig = async (): Promise<GetUserConfigResponse> => {
   return customFetch.get<GetUserConfigResponse>('/api/v1/user-config');
@@ -24,6 +25,12 @@ export const addValueToUserConfig = async (field: {
   console.log('field: ', field);
   return customFetch.post<UserConfigOptionResponse>('/api/v1/user-config/option', field);
 };
+
+// Edit User Profile API
+export const editUserProfile = async (userId: string, data: any) => {
+  return customFetch.patch(`/api/v1/user/${userId}`, data);
+};
+
 const userConfigQueryKey = ['user-config'];
 
 export const useUserConfig = () => {

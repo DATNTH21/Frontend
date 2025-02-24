@@ -42,3 +42,18 @@ export const forgotPasswordSchema = z
     message: "Passwords don't match",
     path: ['confirmPassword']
   });
+
+export const profileSchema = z
+  .object({
+    name: z.string().optional(),
+    oldPassword: z.string().optional(),
+    newPassword: z.string().optional(),
+    confirmPassword: z.string().optional(),
+    image: z.string().optional()
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword']
+  });
+
+export type TProfileSchema = z.infer<typeof profileSchema>;

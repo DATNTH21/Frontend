@@ -27,7 +27,7 @@ const SettingPage = () => {
       const newUserData = {
         name: data?.name,
         password: data?.newPassword
-      }
+      };
       const response = await editUserProfile(user?.id || '', newUserData);
       console.log('res', response);
       toast({ title: 'Profile updated successfully' });
@@ -43,8 +43,10 @@ const SettingPage = () => {
           <div className='grid grid-cols-2 gap-8'>
             <div className='flex flex-col items-center space-y-4'>
               <Avatar className='h-64 w-64 rounded-full mt-24 m-auto'>
-                <AvatarImage src={user.image} alt={user.name} className='h-48 w-48 rounded-full '/>
-                <AvatarFallback className='rounded-full bg-primary text-primary-foreground text-[100px] p-10'>PH</AvatarFallback>
+                <AvatarImage src={user.image} alt={user.name} className='h-48 w-48 rounded-full' />
+                <AvatarFallback className='rounded-full bg-primary text-primary-foreground text-[100px] p-10'>
+                  PH
+                </AvatarFallback>
               </Avatar>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className='w-full h-screen'>

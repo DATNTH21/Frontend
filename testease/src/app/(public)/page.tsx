@@ -82,7 +82,7 @@ export default function page() {
           className='p-4 border rounded-2xl w-full bg-background cursor-pointer'
         >
           <Image
-            src={'/img/screenshot.png'}
+            src={'/img/screenshot.jpg'}
             alt='screenshot'
             width={1200}
             height={561}

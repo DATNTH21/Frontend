@@ -25,6 +25,7 @@ export default function TestPieChart({ statistics }: { statistics: ProjectOvervi
     if (status === 'Passed') fill = '#4CAF50';
     else if (status === 'Failed') fill = '#F44336';
     else if (status === 'In Progress') fill = '#FF9800';
+    else if (status === 'Default') fill = '#886c6c';
     else if (status === 'Untested') fill = '#9E9E9E';
     else fill = randomColor[index % randomColor.length];
 

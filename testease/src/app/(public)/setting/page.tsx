@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,25 +9,12 @@ import { PasswordInput } from '@/app/(auth)/_components/password-input';
 import { TProfileSchema, profileSchema } from '@/app/(auth)/_data/auth-schema';
 import { editUserProfile } from '@/api/user-config/user-config';
 import { toast } from '@/hooks/use-toast';
-import httpMethods from '@/lib/https';
-import { ApiResponse } from '@/types/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 const SettingPage = () => {
   const { data: session } = useSession();
   const user = session?.user;
-  console.log('user', user);
-  const [avatar, setAvatar] = useState(user?.image || '/default-avatar.png');
-
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => setAvatar(reader.result as string);
-      reader.readAsDataURL(file);
-    }
-  };
 
   const {
     register,
@@ -57,7 +43,7 @@ const SettingPage = () => {
           <div className='grid grid-cols-2 gap-8'>
             <div className='flex flex-col items-center space-y-4'>
               <Avatar className='h-64 w-64 rounded-full mt-24 m-auto'>
-                <AvatarImage src={avatar} alt={user.name} className='h-48 w-48 rounded-full '/>
+                <AvatarImage src={user.image} alt={user.name} className='h-48 w-48 rounded-full '/>
                 <AvatarFallback className='rounded-full bg-primary text-primary-foreground text-[100px] p-10'>PH</AvatarFallback>
               </Avatar>
             </div>

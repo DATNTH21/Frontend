@@ -28,6 +28,7 @@ export default function Page() {
       };
 
       videoRef.current.addEventListener('timeupdate', updateProgress);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       return () => videoRef.current?.removeEventListener('timeupdate', updateProgress);
     }
   }, []);

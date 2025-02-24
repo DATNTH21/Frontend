@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -27,12 +28,6 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (isOpen) {
-      sendOtp();
-    }
-  }, [isOpen]);
-
   const sendOtp = async () => {
     try {
       setIsResendDisabled(true);
@@ -51,6 +46,12 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      sendOtp();
+    }
+  }, [isOpen]);
 
   const handleChange = (value: string) => {
     if (!isNaN(Number(value))) {

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { JSX, SVGProps } from 'react';
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/button';

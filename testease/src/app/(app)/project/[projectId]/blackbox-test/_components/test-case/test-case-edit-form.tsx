@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';

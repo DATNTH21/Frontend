@@ -144,7 +144,7 @@ export default function Page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='unit'
                   width={800}
                   height={400}
@@ -173,7 +173,7 @@ export default function Page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <motion.div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='api'
                   width={800}
                   height={400}
@@ -202,7 +202,7 @@ export default function Page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.jpg'}
+                  src={'/img/screenshot.png'}
                   alt='ui'
                   width={800}
                   height={400}

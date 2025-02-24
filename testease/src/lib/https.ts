@@ -18,6 +18,11 @@ const httpMethods = {
     return response as T;
   },
 
+  patch: async <T>(url: string, body: any, headers: Record<string, string> = {}): Promise<T> => {
+    const response = await http.url(url).headers(headers).patch(body);
+    return response as T;
+  },
+
   put: async <T>(url: string, body: any, headers: Record<string, string> = {}): Promise<T> => {
     const response = await http.url(url).headers(headers).put(body);
     return response as T;

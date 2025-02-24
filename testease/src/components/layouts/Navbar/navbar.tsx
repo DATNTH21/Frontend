@@ -118,7 +118,10 @@ export default function Navbar() {
                           <Menu />
                           <span>Project</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className='flex items-center cursor-pointer'>
+                        <DropdownMenuItem
+                          onClick={() => router.push('/setting')}
+                          className='flex items-center cursor-pointer'
+                        >
                           <User />
                           <span>Profile</span>
                         </DropdownMenuItem>

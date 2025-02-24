@@ -51,53 +51,58 @@ export default function AppSidebarFooter() {
     }
   };
 
-  return user ? (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size='lg'
-              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
-            >
-              <Avatar className='h-8 w-8 rounded-full'>
-                <AvatarImage src={user.image} alt={user.name} />
-                <AvatarFallback className='rounded-full bg-primary text-primary-foreground'>PH</AvatarFallback>
-              </Avatar>
-              <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>{user.name}</span>
-                <span className='truncate text-xs'>{user.email}</span>
-              </div>
-              <ChevronsUpDown className='ml-auto size-4' />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align='end'
-            sideOffset={4}
-            className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
-          >
-            <DropdownMenuGroup>
-              <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/')}>
-                <PanelTop />
-                Landing page
-              </DropdownMenuItem>
-              <DropdownMenuItem className='cursor-pointer'>
-                <Settings />
-                Setting
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={handleLogout} className='cursor-pointer'>
-                <LogOut />
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  ) : (
-    <SidebarFooterSkeleton />
+  return (
+    <>
+      {user ? (
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size='lg'
+                  className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+                >
+                  <Avatar className='h-8 w-8 rounded-full'>
+                    <AvatarImage src={user.image} alt={user.name} />
+                    <AvatarFallback className='rounded-full bg-primary text-primary-foreground'>PH</AvatarFallback>
+                  </Avatar>
+                  <div className='grid flex-1 text-left text-sm leading-tight'>
+                    <span className='truncate font-semibold'>{user.name}</span>
+                    <span className='truncate text-xs'>{user.email}</span>
+                  </div>
+                  <ChevronsUpDown className='ml-auto size-4' />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align='end'
+                sideOffset={4}
+                className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
+              >
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/')}>
+                    <PanelTop />
+                    Landing page
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/setting')}>
+                    <Settings />
+                    Profile
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onClick={handleLogout} className='cursor-pointer'>
+                    <LogOut />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      ) : (
+        <SidebarFooterSkeleton />
+      )}
+      {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
+    </>
   );
 }

@@ -53,7 +53,7 @@ export const Extractor = Extension.create<ExtractorOptions>({
           const selectedText = state.doc.textBetween(from, to, ' ');
 
           // Wrap the plain text with the specified character(s)
-          const wrappedText = `${resolvedWrapCharacter}${selectedText}${resolvedWrapCharacter}`;
+          const wrappedText = `${resolvedWrapCharacter}${selectedText}${resolvedWrapCharacter}\n`;
 
           if (dispatch) {
             // Replace the entire selection with the wrapped text

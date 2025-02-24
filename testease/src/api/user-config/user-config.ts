@@ -6,7 +6,6 @@ import {
   UserConfigOptionResponse
 } from '@/types/user-config';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { AnyAaaaRecord } from 'dns';
 
 export const getUserConfig = async (): Promise<GetUserConfigResponse> => {
   return customFetch.get<GetUserConfigResponse>('/api/v1/user-config');

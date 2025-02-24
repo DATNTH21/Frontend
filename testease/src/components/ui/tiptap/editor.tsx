@@ -3,7 +3,7 @@ import { Editor as TipTapEditor, EditorContent, useEditor } from '@tiptap/react'
 import { editorMode, getEditorExtensionsByType } from './extensions';
 import { forwardRef } from 'react';
 import Toolbar from './toolbar/toolbar';
-import BubbleMenu from './toolbar/bubble-menu';
+// import BubbleMenu from './toolbar/bubble-menu';
 
 interface EditorProps {
   editable?: boolean;
@@ -44,7 +44,7 @@ const Editor = forwardRef<TipTapEditor | null, EditorProps>((props, ref) => {
   return (
     <>
       <Toolbar editor={editor} />
-      <BubbleMenu editor={editor} />
+      {/* <BubbleMenu editor={editor} /> */}
 
       {/* Scrollable Editor Content */}
       <div className='flex-1 overflow-hidden border-2 border-primary rounded-lg'>

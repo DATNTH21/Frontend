@@ -16,7 +16,7 @@ import { TCreateTestcases } from '../_data/schema';
 import { useCreateTestcases } from '@/api/testcase/testcase';
 
 const LoadingButton = ({ message }: { message: string }) => (
-  <Button className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors hover:scale-105' disabled>
+  <Button className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors' disabled>
     <Spinner variant='light' /> {message}
   </Button>
 );
@@ -140,7 +140,7 @@ export default function GenerateTestCaseButton() {
 
   return (
     <Button
-      className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors hover:scale-105'
+      className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors'
       onClick={handleClick}
       disabled={!isUCSelected && !isScenarioSelected}
     >

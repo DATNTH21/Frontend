@@ -65,6 +65,7 @@ const OtpDialog: React.FC<OtpDialogProps> = ({ email, isOpen, onClose }) => {
 
       onClose();
       toast({
+        variant: 'success',
         title: 'Success!',
         description: response.message || 'OTP verified successfully.'
       });

@@ -4,7 +4,6 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import UseCaseTree from './use-case-tree';
 import UseCaseMainContent from './use-case-main-content';
 import { useUsecases } from '@/api/use-case/use-case';
-import LoadingOverlay from '@/components/ui/loading/loading-overlay';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function UseCaseArea({ projectId }: { projectId: string }) {
@@ -21,7 +20,11 @@ export default function UseCaseArea({ projectId }: { projectId: string }) {
           {status == 'error' && (
             <div className='flex-1 w-full h-full flex justify-center items-center'>Error fetching use cases</div>
           )}
-          {status == 'pending' && <LoadingOverlay spinner={<Spinner />} coverBody={false} />}
+          {status == 'pending' && (
+            <div className='absolute inset-0 flex justify-center items-center'>
+              <Spinner />
+            </div>
+          )}
           {status == 'success' && <UseCaseMainContent useCases={useCases} />}
         </div>
       </ResizablePanel>

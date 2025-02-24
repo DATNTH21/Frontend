@@ -15,17 +15,20 @@ import { toast } from '@/hooks/use-toast';
 import wretch from 'wretch';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
 import { ChevronsUpDown, LogOut, PanelTop, Settings } from 'lucide-react';
-import LoadingOverlay from '@/components/ui/loading/loading-overlay';
-import { SolarSystem } from '@/components/ui/loading/solar-system';
 import SidebarFooterSkeleton from './sidebar-footer-skeleton';
 import { useRouter } from 'next/navigation';
+import { useLoading } from '@/context/loading-context';
 
 export default function AppSidebarFooter() {
+  const { showLoading, hideLoading } = useLoading();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const user = session?.user;
-  //console.log('Sidebar footer: ', session);
+
+  if (isLoading) {
+    showLoading();
+  } else hideLoading();
 
   const handleLogout = async () => {
     setIsLoading(true);

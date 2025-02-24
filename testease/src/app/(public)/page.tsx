@@ -97,8 +97,13 @@ export default function page() {
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className='w-full'
+          className='w-full relative'
         >
+          {/* Left fade mask */}
+          <div className='absolute left-0 top-0 h-full w-40 bg-gradient-to-r from-background to-transparent z-10' />
+
+          {/* Right fade mask */}
+          <div className='absolute right-0 top-0 h-full w-40 bg-gradient-to-l from-background to-transparent z-10' />
           <Carousel
             opts={{ align: 'start', loop: true, duration: 2000 }}
             plugins={[Autoplay({ delay: 1000 })]}

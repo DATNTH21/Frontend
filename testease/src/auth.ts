@@ -8,7 +8,8 @@ import {
   ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE,
   Providers,
   HttpStatus,
-  ErrorCode
+  ErrorCode,
+  EMAIL_NOT_FOUND_ERROR_MESSAGE
 } from '@/constants/data';
 import { ApiResponse, LoginReponse } from '@/types/auth';
 import { customFetch } from './lib/api-client';
@@ -20,6 +21,10 @@ export class AccountNotVerifiedError extends CredentialsSignin {
 
 export class InvalidLoginError extends CredentialsSignin {
   code = INVALID_LOGIN_ERROR_MESSAGE;
+}
+
+export class AccountNotExistError extends CredentialsSignin {
+  code = EMAIL_NOT_FOUND_ERROR_MESSAGE;
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -60,13 +65,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             expiresAt
           };
         } catch (error: any) {
-          //console.log("Error: ", error);
           const { status, code } = error || {};
-
           if (status === HttpStatus.CONFLICT) {
             if (code === ErrorCode.ACCOUNT_NOT_VERIFIED) {
               throw new AccountNotVerifiedError();
-            } else if (code === ErrorCode.EMAIL_NOT_FOUND || code === ErrorCode.INCORRECT_PASSWORD) {
+            } else if (code === ErrorCode.EMAIL_NOT_FOUND) {
+              throw new AccountNotExistError();
+            } else if (code == ErrorCode.INCORRECT_PASSWORD) {
               throw new InvalidLoginError();
             }
           }

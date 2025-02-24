@@ -1,4 +1,5 @@
 export const INVALID_LOGIN_ERROR_MESSAGE = 'Email or password is incorrect';
+export const EMAIL_NOT_FOUND_ERROR_MESSAGE = "Account doesn't exist";
 export const ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE = 'Account has not been verified';
 
 export enum HttpStatus {

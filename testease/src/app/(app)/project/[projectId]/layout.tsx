@@ -18,7 +18,7 @@ export default async function AppLayout({
   return (
     <SidebarProvider>
       <AppSidebar projectId={projectId} />
-      <SidebarInset className='flex flex-col min-w-0'>
+      <SidebarInset className='flex flex-col min-w-0 z-10'>
         <header className='flex bg-background px-4 py-3 shrink-0 items-center gap-2 border-b justify-between'>
           <SidebarTrigger className='-ml-1' />
           <ModeToggle />

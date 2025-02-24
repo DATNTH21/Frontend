@@ -6,13 +6,17 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import wretch from 'wretch';
 import React from 'react';
-import LoadingOverlay from '@/components/ui/loading/loading-overlay';
-import { SolarSystem } from '@/components/ui/loading/solar-system';
+import { useLoading } from '@/context/loading-context';
 
 export const SignOutForm = () => {
+  const { showLoading, hideLoading } = useLoading();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+
+  if (isLoading) {
+    showLoading();
+  } else hideLoading();
 
   useEffect(() => {
     handleLogOut();
@@ -37,10 +41,5 @@ export const SignOutForm = () => {
     }
   };
 
-  return (
-    <>
-      <h1 className='text-4xl'>Logging out...</h1>
-      {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
-    </>
-  );
+  return <h1 className='text-4xl'>Logging out...</h1>;
 };

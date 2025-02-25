@@ -95,6 +95,7 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
         title: 'Fail To Export Test Case',
         description: 'Select at least 1 test case of this scenario to export'
       });
+      setExporting(false);
       return;
     }
 
@@ -108,6 +109,7 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
         title: 'Fail To Export Test Case',
         description: 'Something is wrong'
       });
+      setExporting(false);
       return;
     }
 
@@ -117,6 +119,7 @@ export function TestCaseDataTable<TValue>({ columns }: DataTableProps<TTestcase,
         title: 'Fail To Export Test Case',
         description: 'No export template. Please config the template in the setting'
       });
+      setExporting(false);
       return;
     }
 

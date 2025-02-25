@@ -95,6 +95,7 @@ export default function ScenarioTable<TScenario, TValue>({ columns }: DataTableP
         title: 'Fail To Export Test Case',
         description: 'No test case available for this use case'
       });
+      return;
     }
 
     if (!exportTemplate || exportTemplate.length == 0) {

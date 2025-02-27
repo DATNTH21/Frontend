@@ -29,7 +29,7 @@ export default function TestCaseEditForm() {
   const { editTestCase, closeEditTestCaseDialog, isEditTestCaseOpen } = useGlobalStore();
   const userConfig = useUserConfig().data?.data;
   const priorities = userConfig?.priority.map((priority) => priority.name) || ['Low', 'Medium', 'High', 'Critical'];
-  const statuses = userConfig?.status.map((status) => status.name) || ['Done', 'Fail', 'In Progress'];
+  const statuses = userConfig?.status.map((status) => status.name) || ['Done', 'Fail', 'In Progress', 'Untested'];
   console.log('Edit Test Case: ', editTestCase);
   console.log('User config: ', userConfig);
   console.log('priorities: ', priorities);

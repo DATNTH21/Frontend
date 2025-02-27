@@ -11,5 +11,10 @@ export const AddValueSchema = z.object({
   value: z.string().min(1, 'Value is required')
 });
 
+export const DeleteValueSchema = z.object({
+  value: z.string().min(1, 'Value is required')
+});
+
 export type TAddValueSchema = z.infer<typeof AddValueSchema>;
+export type TDeleteValueSchema = z.infer<typeof DeleteValueSchema>;
 export type TCreateFieldSchema = z.infer<typeof CreateFieldSchema>;

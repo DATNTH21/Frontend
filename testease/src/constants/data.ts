@@ -20,3 +20,6 @@ export enum Providers {
   Credentials = 'credentials',
   Google = 'google'
 }
+
+export const defaultStatus = ['In Progress', 'Pass', 'Fail'];
+export const defaultPriority = ['Low', 'Medium', 'High', 'Critical'];

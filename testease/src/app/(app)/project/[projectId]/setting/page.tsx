@@ -1,6 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TestCaseField from './_components/testcase-field';
-import { FolderCode, SquareCode } from 'lucide-react';
+import { FolderCode, LayoutPanelTop } from 'lucide-react';
 import TestCaseExportConfiguration from './_components/test-case-export-configuration';
 
 export default function SettingPage() {
@@ -27,8 +27,8 @@ export default function SettingPage() {
             className='group relative py-4 px-8 bg-background text-foreground rounded-none data-[state=active]:shadow-none 
                   data-[state=active]:text-sidebar-active data-[state=active]:font-bold'
           >
-            <SquareCode />
-            &nbsp;Test Case Export
+            <LayoutPanelTop />
+            &nbsp;Test Case Export Template
             {/* Active Indicator */}
             <span
               className='absolute bottom-0 left-0 h-[2px] bg-primary w-full scale-x-0 transition-all duration-300 ease-in-out 

@@ -24,11 +24,7 @@ const FieldTable: React.FC<FieldTableProps> = ({ fields }) => {
               <TableRow key={fieldKey}>
                 <TableCell className='pl-4'>
                   <div className='font-semibold capitalize'>{fieldKey}</div>
-                  <div className='flex'>
-                    {fields[fieldKey].map((option) => (
-                      <div key={option._id}>{option.name}&nbsp;</div>
-                    ))}
-                  </div>
+                  <div className='flex'>{fields[fieldKey].map((option) => option.name).join(', ')}</div>
                 </TableCell>
                 <TableCell className='text-right pr-4'>
                   <ActionCell field={fields[fieldKey]} fieldKey={fieldKey} />

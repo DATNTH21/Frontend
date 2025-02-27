@@ -22,8 +22,8 @@ export default function TestPieChart({ statistics }: { statistics: ProjectOvervi
 
   const chartData = test_cases_by_status.map(({ status, count }, index) => {
     let fill = '';
-    if (status === 'Passed') fill = '#4CAF50';
-    else if (status === 'Failed') fill = '#F44336';
+    if (status === 'Pass') fill = '#4CAF50';
+    else if (status === 'Fail') fill = '#F44336';
     else if (status === 'In Progress') fill = '#FF9800';
     else if (status === 'Untested') fill = '#9E9E9E';
     else fill = randomColor[index % randomColor.length];

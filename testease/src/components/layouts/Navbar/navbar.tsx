@@ -52,7 +52,7 @@ export default function Navbar() {
   };
   return (
     <>
-      <div className='sticky top-0 w-full z-20 bg-background'>
+      <div className='sticky top-0 w-full z-20 backdrop-blur-lg'>
         <header className='w-full'>
           <nav className='container sticky top-0 h-16 flex flex-col justify-center'>
             <div className='flex justify-between items-center h-8'>
@@ -65,7 +65,7 @@ export default function Navbar() {
                   <Button
                     variant='ghost'
                     size='lg'
-                    className={`dark:text-[#ADADAD] text-lg rounded-full transition-all  ${
+                    className={`text-lg rounded-full transition-all  ${
                       pathName === '/doc' ? 'text-primary dark:text-sidebar-active font-bold' : ''
                     }`}
                   >
@@ -76,7 +76,7 @@ export default function Navbar() {
                   <Button
                     variant='ghost'
                     size='lg'
-                    className={`dark:text-[#ADADAD] text-lg rounded-full transition-all ${
+                    className={`text-lg rounded-full transition-all ${
                       pathName === '/we-test' ? 'text-primary dark:text-sidebar-active font-bold' : ''
                     }`}
                   >
@@ -87,7 +87,7 @@ export default function Navbar() {
                   <Button
                     variant='ghost'
                     size='lg'
-                    className={`dark:text-[#ADADAD] text-lg rounded-full transition-all ${
+                    className={`text-lg rounded-full transition-all ${
                       pathName === '/contact' ? 'text-primary dark:text-sidebar-active font-bold ' : ''
                     }`}
                   >

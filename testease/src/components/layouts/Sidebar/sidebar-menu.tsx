@@ -23,11 +23,11 @@ export default function AppSidebarMenu({ projectId }: { projectId: string }) {
       href: paths.projectDetail.blackboxTest.getHref(projectId),
       label: 'Blackbox test'
     },
-    {
-      icon: ScrollText,
-      href: paths.projectDetail.report.getHref(projectId),
-      label: 'Report'
-    },
+    // {
+    //   icon: ScrollText,
+    //   href: paths.projectDetail.report.getHref(projectId),
+    //   label: 'Report'
+    // },
     {
       icon: Settings,
       href: paths.projectDetail.setting.getHref(projectId),

@@ -3,7 +3,7 @@ import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@
 import Link from 'next/link';
 import { paths } from '@/lib/routes';
 import { usePathname } from 'next/navigation';
-import { Box, LayoutDashboard, type LucideIcon, ScrollText, Settings } from 'lucide-react';
+import { Box, LayoutDashboard, type LucideIcon, Settings } from 'lucide-react';
 
 export type SidebarItem = {
   icon: LucideIcon;

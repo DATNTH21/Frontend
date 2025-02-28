@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpenCheck, Network, PauseIcon, PlayIcon, Plus, Puzzle } from 'lucide-react';
+import { ArrowRight, BookOpenCheck, Box, Network, PauseIcon, PlayIcon, Plus, Puzzle } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -145,8 +145,8 @@ export default function Page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.png'}
-                  alt='unit'
+                  src={'/img/features.png'}
+                  alt='blackbox'
                   width={800}
                   height={400}
                   className='w-full h-full rounded-3xl'
@@ -159,9 +159,9 @@ export default function Page() {
                 </div>
                 <h1 className='font-bold text-2xl'>Unit Testing</h1>
                 <p className='text-foreground/70'>
-                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
-                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
-                  software, ensuring a seamless, bug-free experience.{' '}
+                  A core feature of WeTest extension. Save your time by auto generate unit tests from your code with
+                  more than 96% coverage even with complex function, component and algorithm. Unit test also supports
+                  auto mocking.{' '}
                 </p>
                 <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                   Learn More <ArrowRight />
@@ -172,25 +172,23 @@ export default function Page() {
           <TabsContent value='api' className='mt-8'>
             <div className='w-full flex flex-col lg:flex-row gap-8'>
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
-                <motion.div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
+                <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.png'}
-                  alt='api'
+                  src={'/img/features.png'}
+                  alt='blackbox'
                   width={800}
                   height={400}
-                  className='w-full h-auto rounded-3xl'
+                  className='w-full h-full rounded-3xl'
                 />
               </motion.div>
               <motion.div className='basis-1/3 p-8 flex flex-col gap-4 bg-muted dark:bg-muted/30 rounded-3xl'>
                 <div className='w-20 h-20 rounded-full flex justify-center items-center bg-background relative shadow-xl overflow-hidden'>
                   <div className='absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent rounded-full' />
-                  <Puzzle size={44} className='text-sidebar-active relative z-10' />
+                  <Network size={44} className='text-sidebar-active relative z-10' />
                 </div>
-                <h1 className='font-bold text-2xl'>Unit Testing</h1>
+                <h1 className='font-bold text-2xl'>API Testing</h1>
                 <p className='text-foreground/70'>
-                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
-                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
-                  software, ensuring a seamless, bug-free experience.{' '}
+                  Introducing API Testing - A reliable tool to generate api test cases and execute on the REAL apis.{' '}
                 </p>
                 <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                   Learn More <ArrowRight />
@@ -203,23 +201,21 @@ export default function Page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.png'}
-                  alt='ui'
+                  src={'/img/features.png'}
+                  alt='blackbox'
                   width={800}
                   height={400}
-                  className='w-full h-auto rounded-3xl'
+                  className='w-full h-full rounded-3xl'
                 />
               </motion.div>
               <motion.div className='basis-1/3 p-8 flex flex-col gap-4 bg-muted dark:bg-muted/30 rounded-3xl'>
                 <div className='w-20 h-20 rounded-full flex justify-center items-center bg-background relative shadow-xl overflow-hidden'>
                   <div className='absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent rounded-full' />
-                  <Network size={44} className='text-sidebar-active relative z-10' />
+                  <Box size={44} className='text-sidebar-active relative z-10' />
                 </div>
-                <h1 className='font-bold text-2xl'>API Testing</h1>
+                <h1 className='font-bold text-2xl'>UI Testing</h1>
                 <p className='text-foreground/70'>
-                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
-                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
-                  software, ensuring a seamless, bug-free experience.{' '}
+                  Introducing UI Testing. Generate simple test cases for your user interfaces with the power of AI.{' '}
                 </p>
                 <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                   Learn More <ArrowRight />

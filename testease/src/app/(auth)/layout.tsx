@@ -1,14 +1,13 @@
-'use client';
+import Footer from '@/components/layouts/Footer/footer';
 import Navbar from '@/components/layouts/Navbar/navbar';
 import Image from 'next/image';
-import { ErrorBoundary } from 'react-error-boundary';
 const AuthLayout = ({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
   return (
-    <ErrorBoundary fallback={<div>Something went wrong!</div>}>
+    <>
       <Navbar />
       <div className='relative'>
         <div className='flex flex-col'>
@@ -22,7 +21,8 @@ const AuthLayout = ({
           </main>
         </div>
       </div>
-    </ErrorBoundary>
+      <Footer />
+    </>
   );
 };
 

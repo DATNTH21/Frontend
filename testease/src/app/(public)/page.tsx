@@ -8,6 +8,8 @@ import Autoplay from 'embla-carousel-autoplay';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
 export default function page() {
   const images = [
@@ -53,9 +55,9 @@ export default function page() {
           viewport={{ once: true, amount: 0.2 }}
           className='text-center'
         >
-          <Button variant='outline' className='rounded-full text-lg py-4 px-6 border mb-2'>
+          <div className='rounded-full text-lg font-semibold py-1 px-6 border mb-2 inline-flex justify-center items-center'>
             Elevate your testing journey!
-          </Button>
+          </div>
           <h1 className='text-5xl font-bold leading-relaxed'>AI Writes The Test Cases, </h1>
           <h1 className='text-5xl font-bold'>You Call The Shots!</h1>
           <p className='text-lg mt-4 opacity-80'>No more stress, test with ease</p>
@@ -63,12 +65,31 @@ export default function page() {
             <Button
               className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
               size='lg'
+              asChild
             >
-              Start for free
+              <Link href={'/login'}>Start for free</Link>
             </Button>
-            <Button variant='outline' size='lg' className='font-bold text-xl rounded-full py-6'>
-              <Play className='fill-foreground' /> Watch Video
-            </Button>
+
+            <Dialog>
+              <VisuallyHidden.Root>
+                <DialogTitle></DialogTitle>
+              </VisuallyHidden.Root>
+              <DialogTrigger asChild>
+                <Button variant='outline' size='lg' className='font-bold text-xl rounded-full py-6'>
+                  <Play className='fill-foreground' /> Watch Video
+                </Button>
+              </DialogTrigger>
+              <DialogContent className='p-0 pt-11 bg-black min-w-[70vw] min-h-0'>
+                <div className='min-w-[70vw] min-h-[80vh]'>
+                  <iframe
+                    src={'https://www.youtube.com/embed/r_NFx1ksrSw'}
+                    title='Trailer Player'
+                    className='w-full h-full rounded-b-md'
+                    allow='autoplay; fullscreen'
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </motion.div>
       </section>
@@ -195,13 +216,13 @@ export default function page() {
           <TabsContent value='unit' className='mt-8'>
             <div className='w-full flex flex-col lg:flex-row gap-8'>
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
-                <motion.div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
+                <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.png'}
+                  src={'/img/features.png'}
                   alt='blackbox'
                   width={800}
                   height={400}
-                  className='w-full h-auto rounded-3xl'
+                  className='w-full h-full rounded-3xl'
                 />
               </motion.div>
               <motion.div className='basis-1/3 p-8 flex flex-col gap-4 bg-muted dark:bg-muted/30 rounded-3xl'>
@@ -211,9 +232,9 @@ export default function page() {
                 </div>
                 <h1 className='font-bold text-2xl'>Unit Testing</h1>
                 <p className='text-foreground/70'>
-                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
-                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
-                  software, ensuring a seamless, bug-free experience.{' '}
+                  A core feature of WeTest extension. Save your time by auto generate unit tests from your code with
+                  more than 96% coverage even with complex function, component and algorithm. Unit test also supports
+                  auto mocking.{' '}
                 </p>
                 <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                   Learn More <ArrowRight />
@@ -226,11 +247,11 @@ export default function page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.png'}
+                  src={'/img/features.png'}
                   alt='blackbox'
                   width={800}
                   height={400}
-                  className='w-full h-auto rounded-3xl'
+                  className='w-full h-full rounded-3xl'
                 />
               </motion.div>
               <motion.div className='basis-1/3 p-8 flex flex-col gap-4 bg-muted dark:bg-muted/30 rounded-3xl'>
@@ -240,9 +261,7 @@ export default function page() {
                 </div>
                 <h1 className='font-bold text-2xl'>API Testing</h1>
                 <p className='text-foreground/70'>
-                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
-                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
-                  software, ensuring a seamless, bug-free experience.{' '}
+                  Introducing API Testing - A reliable tool to generate api test cases and execute on the REAL apis.{' '}
                 </p>
                 <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                   Learn More <ArrowRight />
@@ -255,7 +274,7 @@ export default function page() {
               <motion.div className='basis-2/3 rounded-3xl flex justify-center items-center relative'>
                 <div className='absolute inset-0 bg-gradient-to-br from-white/10 via-70% via-transparent to-black  rounded-3xl' />
                 <Image
-                  src={'/img/screenshot.png'}
+                  src={'/img/features.png'}
                   alt='blackbox'
                   width={800}
                   height={400}
@@ -269,9 +288,7 @@ export default function page() {
                 </div>
                 <h1 className='font-bold text-2xl'>UI Testing</h1>
                 <p className='text-foreground/70'>
-                  Introducing Blackbox Testing – an AI-powered tool that generates test cases automatically from your
-                  use case input. Save time and improve accuracy by letting AI identify edge cases and validate your
-                  software, ensuring a seamless, bug-free experience.{' '}
+                  Introducing UI Testing. Generate simple test cases for your user interfaces with the power of AI.{' '}
                 </p>
                 <Link href={'#'} className='pt-6 flex items-center text-sidebar-active text-lg gap-1 font-medium'>
                   Learn More <ArrowRight />

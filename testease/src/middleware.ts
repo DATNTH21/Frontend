@@ -30,9 +30,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/unauthorized', url));
   }
 
-  // If the request is for login or sign-up and the user is logged in, redirect to home
+  // If the request is for login or sign-up and the user is logged in, redirect to console
   if ((pathname === '/login' || pathname === '/signup') && session) {
-    return NextResponse.redirect(new URL('/', url));
+    return NextResponse.redirect(new URL('/all-project', url));
   }
 
   // If the user is not logged in, only allow access to login and sign-up

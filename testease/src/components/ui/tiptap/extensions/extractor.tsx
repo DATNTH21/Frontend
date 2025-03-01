@@ -50,7 +50,7 @@ export const Extractor = Extension.create<ExtractorOptions>({
           }
 
           // Extract the selected text as plain text
-          const selectedText = state.doc.textBetween(from, to, ' ');
+          const selectedText = state.doc.textBetween(from, to, '\n');
 
           // Wrap the plain text with the specified character(s)
           const wrappedText = `${resolvedWrapCharacter}${selectedText}${resolvedWrapCharacter}`;

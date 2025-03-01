@@ -1,12 +1,11 @@
 import { TCreateProjectSchema } from '@/app/(app)/all-project/_data/schemas';
 import { customFetch } from '@/lib/api-client';
 import {
-  CreateProjectDTO,
   CreateProjectResponse,
   DeleteProjectResponse,
   GetProjectByIdResponse,
   GetProjectByUserResponse,
-  UpdateProjectDTO,
+  GetProjectOverviewStatistics,
   UpdateProjectResponse
 } from '@/types/project';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -31,6 +30,12 @@ export const getProjectsByUser = async (searchParam?: string): Promise<GetProjec
 
 export const getProjectById = async (projectId: string): Promise<GetProjectByIdResponse> => {
   return customFetch.get<GetProjectByIdResponse>(`/api/v1/projects/${projectId}`);
+};
+
+export const getProjectStatistics = async (projectId: string): Promise<GetProjectOverviewStatistics> => {
+  return customFetch.get<GetProjectOverviewStatistics>(`/api/v1/projects/${projectId}/statistics`, {
+    next: { revalidate: 1000 * 60 * 5 }
+  });
 };
 
 const projectQueryKey = ['project'];

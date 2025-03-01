@@ -102,11 +102,13 @@
     @apply bg-background text-foreground;
   }
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -135,15 +137,15 @@ input::-ms-clear {
 
 /* Tiptap editor classes */
 /* Tasklist styles */
-.prose ul[data-type="taskList"] li {
+.prose ul[data-type='taskList'] li {
   @apply flex items-center gap-x-4 list-disc;
 }
 
-.prose ul[data-type="taskList"] {
+.prose ul[data-type='taskList'] {
   @apply pl-0;
 }
 
-.prose :where(pre):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+.prose :where(pre):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
   background-color: #0d0d0d;
 }
 pre code {
@@ -159,4 +161,13 @@ div.tippy-content {
 }
 .tippy-arrow {
   display: none !important;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

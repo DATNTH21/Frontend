@@ -1,21 +1,20 @@
-import { customFetch } from "@/lib/api-client";
-import { ApiResponse } from "@/types/auth";
+import { customFetch } from '@/lib/api-client';
+import { ApiResponse } from '@/types/auth';
 
 export async function POST(req: Request) {
   try {
-    const { newPassword, confirmNewPassword, infoForgotPassword } =
-      await req.json();
+    const { newPassword, confirmNewPassword, infoForgotPassword } = await req.json();
 
     const headers = {
       Authorization: `Bearer ${infoForgotPassword.resetPasswordToken}`,
-      "X-client-id": infoForgotPassword.userId,
+      'X-client-id': infoForgotPassword.userId
     };
 
     const response = await customFetch.post<ApiResponse<any>>(
-      "/api/v1/auth/reset-password",
+      '/api/v1/auth/reset-password',
       {
         newPassword,
-        confirmNewPassword,
+        confirmNewPassword
       },
       { headers: headers }
     );

@@ -54,7 +54,10 @@ export default function DeleteProjectDialog({
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel onClick={() => setIsOpen(false)}>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={handleDelete} className='bg-destructive text-destructive-foreground'>
+        <AlertDialogAction
+          onClick={handleDelete}
+          className='bg-destructive text-destructive-foreground hover:bg-destructive/80'
+        >
           Delete
         </AlertDialogAction>
       </AlertDialogFooter>

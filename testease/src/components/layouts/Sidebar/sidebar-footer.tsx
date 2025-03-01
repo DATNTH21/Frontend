@@ -14,16 +14,21 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui
 import { toast } from '@/hooks/use-toast';
 import wretch from 'wretch';
 import { DropdownMenuGroup } from '@radix-ui/react-dropdown-menu';
-import { ChevronsUpDown, LogOut, Settings } from 'lucide-react';
-import LoadingOverlay from '@/components/ui/loading/loading-overlay';
-import { SolarSystem } from '@/components/ui/loading/solar-system';
+import { ChevronsUpDown, LogOut, PanelTop, Settings } from 'lucide-react';
 import SidebarFooterSkeleton from './sidebar-footer-skeleton';
+import { useRouter } from 'next/navigation';
+import { useLoading } from '@/context/loading-context';
 
 export default function AppSidebarFooter() {
+  const { showLoading, hideLoading } = useLoading();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const user = session?.user;
-  //console.log('Sidebar footer: ', session);
+
+  if (isLoading) {
+    showLoading();
+  } else hideLoading();
 
   const handleLogout = async () => {
     setIsLoading(true);
@@ -74,9 +79,13 @@ export default function AppSidebarFooter() {
                 className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
               >
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className='cursor-pointer'>
+                  <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/')}>
+                    <PanelTop />
+                    Landing page
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className='cursor-pointer' onClick={() => router.push('/setting')}>
                     <Settings />
-                    Setting
+                    Profile
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -93,7 +102,6 @@ export default function AppSidebarFooter() {
       ) : (
         <SidebarFooterSkeleton />
       )}
-      {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}
     </>
   );
 }

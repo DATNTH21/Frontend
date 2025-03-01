@@ -3,7 +3,7 @@ import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@
 import Link from 'next/link';
 import { paths } from '@/lib/routes';
 import { usePathname } from 'next/navigation';
-import { Box, LayoutDashboard, type LucideIcon, Puzzle, ScrollText, Settings } from 'lucide-react';
+import { Box, LayoutDashboard, type LucideIcon, Settings } from 'lucide-react';
 
 export type SidebarItem = {
   icon: LucideIcon;
@@ -23,16 +23,11 @@ export default function AppSidebarMenu({ projectId }: { projectId: string }) {
       href: paths.projectDetail.blackboxTest.getHref(projectId),
       label: 'Blackbox test'
     },
-    {
-      icon: Puzzle,
-      href: paths.projectDetail.unitTest.getHref(projectId),
-      label: 'Unit test'
-    },
-    {
-      icon: ScrollText,
-      href: paths.projectDetail.report.getHref(projectId),
-      label: 'Report'
-    },
+    // {
+    //   icon: ScrollText,
+    //   href: paths.projectDetail.report.getHref(projectId),
+    //   label: 'Report'
+    // },
     {
       icon: Settings,
       href: paths.projectDetail.setting.getHref(projectId),

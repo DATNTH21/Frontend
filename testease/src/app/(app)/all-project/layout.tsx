@@ -2,7 +2,7 @@ import AppSidebar from '@/components/layouts/Sidebar/sidebar';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 
-export default async function AllProjectLayout({ children }: { children: React.ReactNode }) {
+export default function AllProjectLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />

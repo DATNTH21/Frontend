@@ -21,6 +21,7 @@ import {
   WrapText
 } from 'lucide-react';
 import { Button } from '../../button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../../tooltip';
 
 const getActiveProps = (isActive = false) => {
   const activeProps = {
@@ -174,27 +175,39 @@ export const Extractor = ({ editor }: { editor: Editor }) => {
     return null;
   }
   return (
-    <Button
-      variant='ghost'
-      size='icon'
-      onClick={() => {
-        const isWrapped =
-          editor.state.doc
-            .textBetween(editor.state.selection.from, editor.state.selection.to, ' ')
-            .startsWith(wrapCharacter) &&
-          editor.state.doc
-            .textBetween(editor.state.selection.from, editor.state.selection.to, ' ')
-            .endsWith(wrapCharacter);
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            size='icon'
+            className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors'
+            onClick={() => {
+              const isWrapped =
+                editor.state.doc
+                  .textBetween(editor.state.selection.from, editor.state.selection.to, ' ')
+                  .startsWith(wrapCharacter) &&
+                editor.state.doc
+                  .textBetween(editor.state.selection.from, editor.state.selection.to, ' ')
+                  .endsWith(wrapCharacter);
 
-        if (isWrapped) {
-          editor.chain().focus().unwrapFromCharacter(wrapCharacter).run();
-        } else {
-          editor.chain().focus().wrapWithCharacter(wrapCharacter).run();
-        }
-      }}
-    >
-      <WrapText size={16} />
-    </Button>
+              if (isWrapped) {
+                editor.chain().focus().unwrapFromCharacter(wrapCharacter).run();
+              } else {
+                editor.chain().focus().wrapWithCharacter(wrapCharacter).run();
+              }
+            }}
+          >
+            <WrapText size={16} />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent
+          className='bg-gradient-to-tl from-indigo-500 to-fuchsia-500 transition-colors max-w-28'
+          side='bottom'
+        >
+          <p>Hightlight a use case then click this button to select it for processing.</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

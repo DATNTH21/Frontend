@@ -3,12 +3,12 @@ import {
   Bold,
   BulletList,
   Divider,
-  Heading,
+  // Heading,
   Italic,
   OrderedList,
   Strike,
-  Text,
-  TextAlign,
+  // Text,
+  // TextAlign,
   TodoList,
   Underline,
   Extractor,
@@ -36,13 +36,13 @@ const Toolbar = (props: Props) => {
 
         {activeExtensions[extensionMap.extractor] ? <Extractor editor={editor} /> : null}
 
-        {activeExtensions[extensionMap.heading] ? <Heading editor={editor} /> : null}
+        {/* {activeExtensions[extensionMap.heading] ? <Heading editor={editor} /> : null} */}
 
         {activeExtensions[extensionMap.bold] ? <Bold editor={editor} /> : null}
 
         {activeExtensions[extensionMap.italic] ? <Italic editor={editor} /> : null}
 
-        {activeExtensions[extensionMap.paragraph] ? <Text editor={editor} /> : null}
+        {/* {activeExtensions[extensionMap.paragraph] ? <Text editor={editor} /> : null} */}
 
         {activeExtensions[extensionMap.strike] ? <Strike editor={editor} /> : null}
 
@@ -56,7 +56,7 @@ const Toolbar = (props: Props) => {
 
         {activeExtensions[extensionMap.horizontalRule] ? <Divider editor={editor} /> : null}
 
-        {activeExtensions[extensionMap.textAlign] ? <TextAlign editor={editor} /> : null}
+        {/* {activeExtensions[extensionMap.textAlign] ? <TextAlign editor={editor} /> : null} */}
       </div>
     </div>
   );

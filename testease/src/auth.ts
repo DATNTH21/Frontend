@@ -1,18 +1,19 @@
 /* eslint-disable */
-import NextAuth, { CredentialsSignin } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
-import { jwtDecode } from "jwt-decode";
+import NextAuth, { CredentialsSignin } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
+import { jwtDecode } from 'jwt-decode';
 import {
   INVALID_LOGIN_ERROR_MESSAGE,
   ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE,
   Providers,
   HttpStatus,
   ErrorCode,
-} from "@/constants/data";
-import { ApiResponse, LoginReponse } from "@/types/auth";
-import { customFetch } from "./lib/api-client";
-import httpMethods from "./lib/https";
+  EMAIL_NOT_FOUND_ERROR_MESSAGE
+} from '@/constants/data';
+import { ApiResponse, LoginReponse } from '@/types/auth';
+import { customFetch } from './lib/api-client';
+import httpMethods from './lib/https';
 
 export class AccountNotVerifiedError extends CredentialsSignin {
   code = ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE;
@@ -22,12 +23,16 @@ export class InvalidLoginError extends CredentialsSignin {
   code = INVALID_LOGIN_ERROR_MESSAGE;
 }
 
+export class AccountNotExistError extends CredentialsSignin {
+  code = EMAIL_NOT_FOUND_ERROR_MESSAGE;
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: {
         email: {},
-        password: {},
+        password: {}
       },
       authorize: async (credentials) => {
         const { email, password } = credentials as {
@@ -36,13 +41,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
 
         try {
-          const response = await customFetch.post<ApiResponse<LoginReponse>>(
-            "/api/v1/auth/login",
-            {
-              email,
-              password,
-            }
-          );
+          const response = await customFetch.post<ApiResponse<LoginReponse>>('/api/v1/auth/login', {
+            email,
+            password
+          });
 
           // If the response does not contain the user data, throw an error
           if (!response.data) {
@@ -60,44 +62,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             image: user.image,
             accessToken,
             refreshToken,
-            expiresAt,
+            expiresAt
           };
         } catch (error: any) {
-          //console.log("Error: ", error);
           const { status, code } = error || {};
-
           if (status === HttpStatus.CONFLICT) {
             if (code === ErrorCode.ACCOUNT_NOT_VERIFIED) {
               throw new AccountNotVerifiedError();
-            } else if (
-              code === ErrorCode.EMAIL_NOT_FOUND ||
-              code === ErrorCode.INCORRECT_PASSWORD
-            ) {
+            } else if (code === ErrorCode.EMAIL_NOT_FOUND) {
+              throw new AccountNotExistError();
+            } else if (code == ErrorCode.INCORRECT_PASSWORD) {
               throw new InvalidLoginError();
             }
           }
           throw error;
         }
-      },
+      }
     }),
     Google({
       clientId: process.env.AUTH_GOOGLE_ID as string,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET as string,
-    }),
+      clientSecret: process.env.AUTH_GOOGLE_SECRET as string
+    })
   ],
   pages: {
-    signIn: "/login",
+    signIn: '/login'
   },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === Providers.Google) {
         try {
-          const response = await customFetch.post<ApiResponse<LoginReponse>>(
-            "/api/v1/auth/google/auth",
-            {
-              id_token: account.id_token,
-            }
-          );
+          const response = await customFetch.post<ApiResponse<LoginReponse>>('/api/v1/auth/google/auth', {
+            id_token: account.id_token
+          });
           console.log(response);
 
           // If the response does not contain the user data, throw an error
@@ -118,7 +114,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.refreshToken = refreshToken;
           user.expiresAt = expiresAt;
         } catch (error) {
-          console.error("Failed to call backend API:", error);
+          console.error('Failed to call backend API:', error);
           return false;
         }
       }
@@ -139,18 +135,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return token;
       } else {
         // Subsequent logins, but the `access_token` has expired, try to refresh it
-        if (!token.refreshToken) throw new TypeError("Missing refresh_token");
+        if (!token.refreshToken) throw new TypeError('Missing refresh_token');
 
         try {
           const headers = {
             Authorization: `Bearer ${token.accessToken}`,
-            "x-client-id": token.id,
+            'x-client-id': token.id
           };
 
           const response = await httpMethods.post<ApiResponse<LoginReponse>>(
-            "/api/v1/auth/invoke-new-tokens",
+            '/api/v1/auth/invoke-new-tokens',
             {
-              refreshToken: token.refreshToken,
+              refreshToken: token.refreshToken
             },
             headers
           );
@@ -165,13 +161,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.expiresAt = expiresAt;
           } else {
             // If refresh fails, mark the token as expired and do not try again
-            token.error = "RefreshTokenError";
+            token.error = 'RefreshTokenError';
           }
 
           return token;
         } catch (error: any) {
           console.log(error);
-          token.error = "RefreshTokenError";
+          token.error = 'RefreshTokenError';
           return token;
         }
       }
@@ -187,6 +183,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.refreshToken = token.refreshToken as string;
       session.error = token.error;
       return session;
-    },
-  },
+    }
+  }
 });

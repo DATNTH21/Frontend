@@ -64,7 +64,11 @@ export const useTreeStore = create<TreeState>((set) => ({
         descendantIds.forEach((childId) => (isChecked ? newCheckedIds.add(childId) : newCheckedIds.delete(childId)));
       } else {
         // Toggle a file
-        isChecked ? newCheckedIds.add(element.id) : newCheckedIds.delete(element.id);
+        if (isChecked) {
+          newCheckedIds.add(element.id);
+        } else {
+          newCheckedIds.delete(element.id);
+        }
       }
 
       return { checkedIds: newCheckedIds };

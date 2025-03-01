@@ -11,7 +11,12 @@ import { paths } from '@/lib/routes';
 import { useRouter } from 'next/navigation';
 import LoginGoogleButton from './google-login-button';
 import { toast } from '@/hooks/use-toast';
-import { ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE, INVALID_LOGIN_ERROR_MESSAGE, Providers } from '@/constants/data';
+import {
+  ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE,
+  EMAIL_NOT_FOUND_ERROR_MESSAGE,
+  INVALID_LOGIN_ERROR_MESSAGE,
+  Providers
+} from '@/constants/data';
 import OtpDialog from './otp-dialog';
 import SendOTPDialog from './forgot-password/send-otp-dialog';
 import ConfirmOTPDialog from './forgot-password/confirm-otp-dialog';
@@ -50,55 +55,60 @@ const LoginForm = () => {
     setIsLoading(true);
     setVerificationEmail(data.email);
 
-    console.log('Login data: ', data);
-    // Sign in with credentials using NextAuth
-    const result = await signIn(Providers.Credentials, {
-      email: data.email,
-      password: data.password,
-      redirect: false
-    });
+    try {
+      const result = await signIn(Providers.Credentials, {
+        email: data.email,
+        password: data.password,
+        redirect: false
+      });
 
-    //console.log(result);
+      if (!result) {
+        throw new Error('No response from server');
+      }
 
-    if (result?.code === INVALID_LOGIN_ERROR_MESSAGE) {
-      // Email or password is invalid
+      if (result.code === INVALID_LOGIN_ERROR_MESSAGE) {
+        toast({
+          variant: 'destructive',
+          title: 'Login failed',
+          description: result.code
+        });
+      } else if (result.code === ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE) {
+        toast({
+          variant: 'destructive',
+          title: 'Login failed',
+          description: result.code
+        });
+
+        setIsShowOtpDialog(true);
+        reset();
+      } else if (result.code === EMAIL_NOT_FOUND_ERROR_MESSAGE) {
+        toast({
+          variant: 'destructive',
+          title: 'Login failed',
+          description: result.code
+        });
+
+        reset();
+      } else if (!result.error) {
+        toast({
+          variant: 'success',
+          title: 'Success!',
+          description: 'You have successfully logged in.'
+        });
+
+        router.push('/');
+      } else {
+        throw new Error('Unexpected login error');
+      }
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: 'Login failed',
-        description: result.code
+        description: error.message || 'Something went wrong!'
       });
-    } else if (result?.code === ACCOUNT_NOT_VERIFIED_ERROR_MESSAGE) {
-      // Account not verified
-      toast({
-        variant: 'destructive',
-        title: 'Login failed',
-        description: result.code
-      });
-
-      // Display OTP dialog
-      setIsShowOtpDialog(true);
-
-      // Reset the form
-      reset();
-    } else if (!result?.error) {
-      // Login successful
-      toast({
-        variant: 'success',
-        title: 'Success!',
-        description: 'You have successfully logged in.'
-      });
-
-      // Redirect to the home pages
-      router.push('/');
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Login failed',
-        description: 'Something is wrong!'
-      });
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleOpenForgetPasswordDialog = () => {
@@ -122,7 +132,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className='flex justify-center items-center min-h-screen'>
+    <div className='flex justify-center items-center'>
       <div className='bg-card p-10 rounded-lg shadow-lg max-w-md'>
         <h2 className='text-2xl font-semibold mb-6 text-center'>Account Login</h2>
         <p className='text-gray-500 text-center mb-8'>
@@ -156,7 +166,7 @@ const LoginForm = () => {
           <div className='text-center mt-4'>
             <p className='text-card-foreground'>
               Don&apos;t have an account?{' '}
-              <Link href={paths.auth.register.getHref()} className='text-primary font-semibold'>
+              <Link href={paths.auth.register.getHref()} className='text-sidebar-active font-semibold'>
                 Sign up here
               </Link>
             </p>

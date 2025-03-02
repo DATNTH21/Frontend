@@ -1,6 +1,5 @@
 'use client';
 import mammoth from 'mammoth';
-//import pdfToText from 'react-pdftotext';
 import * as pdfjsLib from 'pdfjs-dist';
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
@@ -82,9 +81,4 @@ const handlePdfFile = async (arrayBuffer: ArrayBuffer): Promise<string> => {
   // Wrap all pages' text in a div
   console.log(pdfText);
   return `<div>${pdfText}</div>`;
-
-  // Using react-pdftotext:
-  // const text = await pdfToText(file);
-  // console.log('file-handler: pdfText: ', text);
-  // return `<p>${text}</p>`;
 };

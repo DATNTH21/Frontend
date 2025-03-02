@@ -15,13 +15,14 @@ import { SolarSystem } from '@/components/ui/loading/solar-system';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
-import { LogOut, Menu, User } from 'lucide-react';
+import { LogOut, Menu, MenuIcon, User } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import wretch from 'wretch';
+import NavbarMobileMenu from './navbar-mobile-menu';
 
 export default function Navbar() {
   const router = useRouter();
@@ -61,7 +62,7 @@ export default function Navbar() {
                 <Image src={'/svg/logo.svg'} width={24} height={24} alt='logo' className='w-9 h-9' />
                 <p className='font-semibold text-2xl font-sans tracking-wider'>Testease</p>
               </Link>
-              <div className='flex items-center gap-2'>
+              <div className='hidden md:flex items-center gap-2'>
                 <Link href='/doc' className=''>
                   <Button
                     variant='ghost'
@@ -141,11 +142,14 @@ export default function Navbar() {
                     </Button>
                   </Link>
                 )}
+                <div className='md:hidden'>
+                  <NavbarMobileMenu />
+                </div>
               </div>
             </div>
           </nav>
         </header>
-        <Separator className='' />
+        <Separator />
       </div>
 
       {isLoading && <LoadingOverlay spinner={<SolarSystem />} />}

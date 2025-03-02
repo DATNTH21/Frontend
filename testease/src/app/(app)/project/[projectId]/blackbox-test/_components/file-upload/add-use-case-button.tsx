@@ -147,7 +147,7 @@ export default function AddUseCaseButton({ projectId }: { projectId: string }) {
           <DialogHeader>
             <DialogTitle>Create Use Case</DialogTitle>
             <DialogDescription>
-              Add your use case description file here, only .docx, .txt, .pdf and .md format are allowed.
+              Add your use case description file here, only .docx, .txt, .pdf format are allowed.
             </DialogDescription>
           </DialogHeader>
           <form id='upload-usecase-form' className='mt-4' onSubmit={handleSubmit(submit)}>

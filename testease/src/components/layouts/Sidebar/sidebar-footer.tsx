@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -26,9 +26,11 @@ export default function AppSidebarFooter() {
   const { data: session } = useSession();
   const user = session?.user;
 
-  if (isLoading) {
-    showLoading();
-  } else hideLoading();
+  useEffect(() => {
+    if (isLoading) {
+      showLoading();
+    } else hideLoading();
+  }, [isLoading]);
 
   const handleLogout = async () => {
     setIsLoading(true);

@@ -66,10 +66,7 @@ export function DocSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathName = usePathname();
 
   return (
-    <Sidebar {...props} className='lg:sticky bg-background border-none'>
-      {/* <SidebarHeader className='bg-background'>
-        <SearchForm />
-      </SidebarHeader> */}
+    <Sidebar {...props} className='md:sticky bg-background border-none'>
       <SidebarContent className='bg-background'>
         {Object.entries(data).map(([featureName, sections]) => (
           <div key={featureName} className='pl-4 pt-4 lg:p-0 mb-6'>

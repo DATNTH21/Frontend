@@ -11,7 +11,7 @@ const PublicLayout = ({
       <SidebarProvider>
         <DocSidebar />
         <SidebarInset>
-          <SidebarTrigger className='lg:hidden ml-4' />
+          <SidebarTrigger className='md:hidden ml-4' />
           <div className='flex-1'>{children}</div>
         </SidebarInset>
       </SidebarProvider>

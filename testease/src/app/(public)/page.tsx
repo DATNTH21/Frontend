@@ -20,7 +20,7 @@ export default function page() {
   ];
 
   return (
-    <div className='flex flex-col gap-36 min-h-[100vh] overflow-hidden relative'>
+    <div className='flex flex-col md:gap-36 gap-24 min-h-[100vh] overflow-hidden relative'>
       <div className='absolute h-[1460px] w-full top-0 left-0 right-0 z-[-1]'>
         <motion.div
           initial={{ x: '-100%', opacity: 0 }}
@@ -47,7 +47,7 @@ export default function page() {
         </motion.div>
       </div>
 
-      <section className='pt-36 container flex items-center justify-center'>
+      <section className='md:pt-36 pt-24 container flex items-center justify-center'>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -55,17 +55,19 @@ export default function page() {
           viewport={{ once: true, amount: 0.2 }}
           className='text-center'
         >
-          <div className='rounded-full text-lg font-semibold py-1 px-6 border mb-2 inline-flex justify-center items-center'>
+          <div className='rounded-full md:text-lg font-semibold py-1 px-6 border mb-2 inline-flex justify-center items-center'>
             Elevate your testing journey!
           </div>
-          <h1 className='text-5xl font-bold leading-relaxed'>AI Writes The Test Cases, </h1>
-          <h1 className='text-5xl font-bold'>You Call The Shots!</h1>
+          <h1 className='md:text-5xl font-bold md:leading-relaxed leading-tight text-2xl'>
+            AI Writes The Test Cases,{' '}
+          </h1>
+          <h1 className='md:text-5xl font-bold md:leading-relaxed leading-tight text-2xl'>You Call The Shots!</h1>
           <p className='text-lg mt-4 opacity-80'>No more stress, test with ease</p>
           <div className='flex items-center justify-center gap-4 mt-6'>
             <Button
-              className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
-              size='lg'
+              className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground md:h-10 md:px-8'
               asChild
+              size='sm'
             >
               <Link href={'/login'}>Start for free</Link>
             </Button>
@@ -75,7 +77,7 @@ export default function page() {
                 <DialogTitle></DialogTitle>
               </VisuallyHidden.Root>
               <DialogTrigger asChild>
-                <Button variant='outline' size='lg' className='font-bold text-xl rounded-full py-6'>
+                <Button variant='outline' size='sm' className='font-bold text-xl rounded-full md:h-10 md:px-8'>
                   <Play className='fill-foreground' /> Watch Video
                 </Button>
               </DialogTrigger>
@@ -135,7 +137,7 @@ export default function page() {
                 <CarouselItem key={index} className='basis-1/2 md:basis-1/4 lg:basis-1/6'>
                   <div
                     key={index}
-                    className='flex sm:flex-col items-center gap-2 justify-center dark:bg-muted/30 bg-muted rounded-2xl py-6'
+                    className='flex flex-col md:flex-row items-center gap-2 justify-center dark:bg-muted/30 bg-muted rounded-2xl py-6'
                   >
                     <Image
                       src={src.img}

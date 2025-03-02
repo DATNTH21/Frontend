@@ -16,7 +16,7 @@ export default function Page() {
 
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.play(); // Auto-play on page load
+      videoRef.current.play();
       setIsPlaying(true);
 
       // Update progress bar
@@ -55,7 +55,7 @@ export default function Page() {
   };
 
   return (
-    <div className='flex flex-col gap-36 min-h-[100vh] overflow-hidden relative'>
+    <div className='flex flex-col md:gap-36 gap-24  min-h-[100vh] overflow-hidden relative'>
       <div className='absolute h-screen w-full top-0 left-0 right-0 z-[-1]'></div>
 
       <section className='pt-16 container flex items-center justify-center'>
@@ -66,31 +66,31 @@ export default function Page() {
           viewport={{ once: true, amount: 0.2 }}
           className='text-center'
         >
-          <div className='w-fit rounded-3xl p-4 mx-auto border border-foreground dark:drop-shadow-[0_0_8px] dark:shadow-primary shadow-inner'>
-            <BookOpenCheck className='text-foreground' size={42} />
+          <div className='w-fit md:rounded-3xl md:p-4 rounded-lg p-2 mx-auto border border-foreground dark:drop-shadow-[0_0_8px] dark:shadow-primary shadow-inner'>
+            <BookOpenCheck className='text-foreground md:text-[42px]' size={24} />
           </div>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
-            className='relative text-[220px] font-bold'
+            className='relative md:text-[220px] text-7xl font-bold'
           >
-            <span className='relative z-10 leading-none inline-block'>WeTest</span>
+            <span className='relative my-6 z-10 leading-none inline-block'>WeTest</span>
             {/* Reflection */}
-            <span className='z-[-1] absolute top-full left-0 w-full text-[220px] font-bold opacity-30 blur-sm transform scale-y-[-1]'>
-              WETEST
+            <span className='z-[-1] absolute top-full left-0 w-full md:text-[220px] text-7xl font-bold opacity-30 blur-sm transform scale-y-[-1]'>
+              WeTest
             </span>
             {/* Glow Effect */}
-            <div className='absolute inset-0 top-6 text-[220px] font-bold dark:bg-primary dark:blur-3xl'></div>
+            <div className='absolute inset-0 md:text-[220px] text-7xl font-bold dark:bg-primary dark:blur-3xl '></div>
           </motion.div>
-          <motion.div className='relative w-fit mx-auto px-6 py-3 font-bold text-lg bg-muted rounded-full border-2 border-foreground'>
+          <motion.div className='relative w-fit mx-auto md:px-6 md:py-3 py-2 px-2 font-bold md:text-lg bg-muted rounded-full border-2 border-foreground'>
             A Testease Visual Studio Code Extension
           </motion.div>
           <div className='flex items-center justify-center gap-4 mt-6'>
             <Link href='https://marketplace.visualstudio.com/items?itemName=WeTest.WeTest'>
               <Button
-                className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6'
-                size='lg'
+                className='bg-foreground text-background font-bold text-xl rounded-full hover:text-primary-foreground py-6 md:h-10 md:px-8'
+                size='sm'
               >
                 Go to marketplace
               </Button>
@@ -107,7 +107,7 @@ export default function Page() {
           className='w-full bg-background cursor-pointer relative'
         >
           <video ref={videoRef} className='w-full h-full rounded-t-2xl' src='/vid/WeTestGuide.mp4' loop muted />
-          <Button size='icon' variant='ghost' className='absolute top-1/2 left-1/2' onClick={togglePlay} asChild>
+          <Button size='icon' variant='ghost' className='absolute top-1/2 translate-x-1/2' onClick={togglePlay} asChild>
             {isPlaying ? <PauseIcon /> : <PlayIcon />}
           </Button>
           <Progress className='w-full' value={progress} onClick={handleSeek}></Progress>

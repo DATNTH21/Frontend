@@ -15,7 +15,7 @@ import { SolarSystem } from '@/components/ui/loading/solar-system';
 import { ModeToggle } from '@/components/ui/mode-toggle';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/hooks/use-toast';
-import { LogOut, Menu, MenuIcon, User } from 'lucide-react';
+import { LogOut, Menu, User } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';

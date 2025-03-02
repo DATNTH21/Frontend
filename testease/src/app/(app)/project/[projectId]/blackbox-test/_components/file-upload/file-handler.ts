@@ -68,7 +68,7 @@ const handlePdfFile = async (arrayBuffer: ArrayBuffer): Promise<string> => {
         if (lastY === item.transform[5] || lastY === undefined) {
           pageText += item.str;
         } else {
-          pageText += '<br>' + item.str;
+          pageText += '\\n<br>' + item.str;
         }
         lastY = item.transform[5];
       }

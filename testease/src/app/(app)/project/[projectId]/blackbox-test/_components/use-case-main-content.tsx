@@ -52,6 +52,8 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
     );
   }
 
+  const description = data.description.split('\\n');
+
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
       <div className='w-full border-b relative'>
@@ -107,7 +109,9 @@ export default function UseCaseMainContent({ useCases }: { useCases: UseCase[] }
         </div>
         <div className='mb-3'>
           <h1 className='text-sidebar-active font-bold'>Use Case Description: </h1>
-          <p>{data.description}</p>
+          {description.map((text, index) => (
+            <p key={index}>{text}</p>
+          ))}
         </div>
       </TabsContent>
 
